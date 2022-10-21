@@ -7,6 +7,7 @@ import { state } from './api'
 interface User {
   session: string,
   name: string,
+  id: string,
 }
 
 declare module 'ws' {
@@ -25,8 +26,8 @@ export const createWsServer = (server: Server) => {
   state.url = url
 
   server.on('upgrade', async (request: IncomingMessage, socket: Socket, head: Buffer) => {
-    const [session, name] = request.headers['sec-websocket-protocol']?.split(', ') ?? ['', '']
-    const user: User = { name: name, session: session }
+    const [session, name, id] = request.headers['sec-websocket-protocol']?.split(', ') ?? ['', '']
+    const user: User = { name: name, session: session, id: id }
     
     if (user.name == '' || user.session == '') {
       socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');

@@ -1,4 +1,4 @@
-import { SESSION } from '../../types/session'
+import { SESSION } from '../../../../types/session'
 import { H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {

@@ -3,7 +3,10 @@
         <!-- left -->
         <div flex="~ col basis-1/2">
             <!-- <iframe border="0" id="preview" flex="grow" w="full" ref="previewRef"></iframe> -->
-            {{ isAdmin }}
+            <span>Is Admin: {{ isAdmin }}</span>
+            <span>
+                Read Only: {{ sessionData?.readOnly }} <UiButton @click="toggleSessionState" w="fit">Toggle State</UiButton>
+            </span>
         </div>
 
 
@@ -12,15 +15,15 @@
             <!-- Tabs -->
             <UiTabGroup flex="basis-1/2" :tabs="['html', 'css', 'js']">
                 <template #tab-1>
-                    <MonacoEditor w="full" h="full" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin }" />
+                    <MonacoEditor w="full" h="full" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
                 </template>
 
                 <template #tab-2>
-                    <MonacoEditor w="full" h="full" v-model="code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin}" />
+                    <MonacoEditor w="full" h="full" v-model="code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
                 </template>
 
                 <template #tab-3>
-                    <MonacoEditor w="full" h="full" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin}" />
+                    <MonacoEditor w="full" h="full" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
                 </template>
             </UiTabGroup>
             <div flex="~ basis-1/2">
@@ -32,7 +35,7 @@
 </template>
 
 <script setup>
-
+const router = useRouter()
 // Session ID & Person Name
 const { params } = useRoute()
 const { session } = params
@@ -46,7 +49,7 @@ const selectedLanguage = ref('html')
 const socket = useSocket()
 
 const sessionData = ref(null)
-const isAdmin = computed( () => sessionData.value?.adminId === userId?.value )
+const isAdmin = computed(() => sessionData.value?.adminId === userId?.value)
 
 // Code with initated values
 const code = ref({
@@ -88,11 +91,16 @@ const updatePreview = useDebounceFn(async () => {
 }, 250)
 
 
-watch(() => socket.value.data, (data) => {
-    const { type, data: receivedData } = JSON.parse(data)
+watch(() => JSON.parse(socket.value.data), async (data) => {
+    const { type, data: receivedData } = data
     if (type == "code") {
         code.value = receivedData
-        console.log(receivedData)
+    } else if (type == "refresh") {
+        sessionData.value = await $fetch(`/api/session/${session}`, {
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        })
     } else {
         console.log(data.value)
     }
@@ -102,7 +110,11 @@ watch(() => socket.value.data, (data) => {
 onMounted(async () => {
     // Send to the web socket server 
     // $socket.send("test")
-    sessionData.value = await $fetch(`/api/session/${session}`)
+    try {
+        sessionData.value = await $fetch(`/api/session/${session}`)
+    } catch (e) {
+        router.push('/')
+    }
 
     updatePreview()
 })
@@ -113,5 +125,15 @@ onMounted(async () => {
 watch(() => code.value, () => updatePreview(), { deep: true })
 
 
+
+
+const toggleSessionState = async () => {
+    await $fetch(`/api/session/${session}/toggleState`, {
+        method: 'POST',
+        headers: {
+            'Cache-Control': 'no-cache'
+        }
+    })
+}
 
 </script>
