@@ -9,7 +9,7 @@
         <!-- right -->
         <div flex="~ col gap-4 basis-1/2" border="l-2 secondary dark:secondaryOp">
             <!-- Tabs -->
-            <UiTabGroup h="full" :tabs="['html', 'css', 'js']">
+            <UiTabGroup flex="basis-1/2" :tabs="['html', 'css', 'js']">
                 <template #tab-1>
                     <MonacoEditor w="full" h="full" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px' }" />
                 </template>
@@ -22,9 +22,8 @@
                     <MonacoEditor w="full" h="full" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px'}" />
                 </template>
             </UiTabGroup>
-            </div>
             <div flex="~ basis-1/2">
-                <iframe h="full" w="full" ref="previewRef" border="l secondary dark:secondaryOp"></iframe>
+                <iframe h="full" w="full" ref="previewRef" border="0"></iframe>
             </div>
         </div>
     </div>
@@ -83,7 +82,7 @@ const updatePreview = useDebounceFn(async () => {
 
 }, 250)
 
-watch( () => $socket.data, (data) => {
+watch(() => $socket.data, (data) => {
     const { type, data: receivedData } = JSON.parse(data.value)
     if (type == "code") {
         code.value = receivedData
@@ -91,11 +90,11 @@ watch( () => $socket.data, (data) => {
 }, { deep: true })
 
 // Update preview on mounted
-onMounted( () => {
+onMounted(() => {
     // Send to the web socket server 
     // $socket.send("test")
 
-    
+
     updatePreview()
 })
 
