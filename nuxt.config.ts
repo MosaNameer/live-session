@@ -25,5 +25,11 @@ export default defineNuxtConfig({
 
     nitro: {
         preset: 'node',
+        storage: {
+            'db': {
+                driver: 'fs',
+                base: './data/db'
+            }
+        }
     },
 })

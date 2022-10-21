@@ -5,7 +5,8 @@ import { AddressInfo, WebSocketServer, type WebSocket } from 'ws';
 import { state } from './api'
 
 interface User {
-  login: string
+  session: string,
+  name: string,
 }
 
 declare module 'ws' {
@@ -24,32 +25,31 @@ export const createWsServer = (server: Server) => {
   state.url = url
 
   server.on('upgrade', async (request: IncomingMessage, socket: Socket, head: Buffer) => {
-    // const [, token] = request.headers['authorization']?.split(' ') ?? [];
-    // if (!token) {
-    //   socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
-    //   socket.destroy();
-    //   return;
-    // }
+    const [session, name] = request.headers['sec-websocket-protocol']?.split(', ') ?? ['', '']
+    const user: User = { name: name, session: session }
+    
+    if (user.name == '' || user.session == '') {
+      socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+      socket.destroy();
+      return;
+    }
 
-    // // check token
-    // const user: User = { login: token };
 
     state.wss.handleUpgrade(request, socket, head, (ws) => {
-      // state.wss.emit('connection', ws, request, user);
-      state.wss.emit('connection', ws, request);
+      state.wss.emit('connection', ws, request, user);
     });
   });
 
-  // state.wss.on('connection', function connection(ws: WebSocket, request: IncomingMessage, user: User) {
-  state.wss.on('connection', function connection(ws: WebSocket, request: IncomingMessage) {
+  state.wss.on('connection', function connection(ws: WebSocket, request: IncomingMessage, user: User) {
+    ws.user = user
 
     ws.on('message', function message(data) {
-      console.log('received: "%s" ', data);
-      ws.send(`pong ${data}`);
+      console.log(`received from ${user.name} `, data);
+      // ws.send(`pong ${data}`);
     });
 
-    console.log('connected: ');
-    ws.send(`hello`);
+    console.log('user connected: ', user.name);
+    // ws.send(`hello`);
   });
 
   console.log(`Websocket Listening ${url}`)

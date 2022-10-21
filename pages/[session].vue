@@ -2,7 +2,8 @@
     <div h="full" flex="~">
         <!-- left -->
         <div flex="~ col basis-1/2">
-            <iframe border="0" id="preview" flex="grow" w="full" ref="previewRef"></iframe>
+            <!-- <iframe border="0" id="preview" flex="grow" w="full" ref="previewRef"></iframe> -->
+            {{ isAdmin }}
         </div>
 
 
@@ -11,15 +12,15 @@
             <!-- Tabs -->
             <UiTabGroup flex="basis-1/2" :tabs="['html', 'css', 'js']">
                 <template #tab-1>
-                    <MonacoEditor w="full" h="full" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px' }" />
+                    <MonacoEditor w="full" h="full" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin }" />
                 </template>
 
                 <template #tab-2>
-                    <MonacoEditor w="full" h="full" v-model="code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px'}" />
+                    <MonacoEditor w="full" h="full" v-model="code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin}" />
                 </template>
 
                 <template #tab-3>
-                    <MonacoEditor w="full" h="full" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px'}" />
+                    <MonacoEditor w="full" h="full" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin}" />
                 </template>
             </UiTabGroup>
             <div flex="~ basis-1/2">
@@ -36,12 +37,16 @@
 const { params } = useRoute()
 const { session } = params
 const name = useCookie('name')
+const userId = useCookie('userId')
 // IFrame Reference
 const previewRef = ref(null)
 // Current Selected Language
 const selectedLanguage = ref('html')
 
-const { $socket } = useNuxtApp()
+const socket = useSocket()
+
+const sessionData = ref(null)
+const isAdmin = computed( () => sessionData.value?.adminId === userId?.value )
 
 // Code with initated values
 const code = ref({
@@ -82,18 +87,22 @@ const updatePreview = useDebounceFn(async () => {
 
 }, 250)
 
-watch(() => $socket.data, (data) => {
-    const { type, data: receivedData } = JSON.parse(data.value)
+
+watch(() => socket.value.data, (data) => {
+    const { type, data: receivedData } = JSON.parse(data)
     if (type == "code") {
         code.value = receivedData
+        console.log(receivedData)
+    } else {
+        console.log(data.value)
     }
 }, { deep: true })
 
 // Update preview on mounted
-onMounted(() => {
+onMounted(async () => {
     // Send to the web socket server 
     // $socket.send("test")
-
+    sessionData.value = await $fetch(`/api/session/${session}`)
 
     updatePreview()
 })

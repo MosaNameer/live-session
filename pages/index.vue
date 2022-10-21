@@ -16,12 +16,27 @@ const router = useRouter()
 const sessionCookie = useCookie('session')
 const nameCookie = useCookie('name')
 
-const join = () => {
+const join = async () => {
     if (session.value && name.value) {
         sessionCookie.value = session.value
         nameCookie.value = name.value
 
-        router.push(`/${session.value}`)
+        try {
+            const data = await $fetch('/api/new-session', {
+                method: 'POST',
+                body: JSON.stringify({
+                    message: session.value,
+                    name: name.value
+                })
+            })
+            router.push(`/${session.value}`)
+
+        } catch(e) {
+            if (confirm("هذه الجلسة موجود هل تريد الانضمام؟")) {
+                router.push(`/${session.value}`)
+            }
+        }
+
     }
 }
 </script>
