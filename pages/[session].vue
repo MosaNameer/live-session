@@ -69,6 +69,10 @@ const updatePreview = useDebounceFn(() => {
     preview.close();
 }, 100)
 
+// Update preview on mounted
+onMounted( () => {
+    updatePreview()
+})
 
 // Listen for writes in editors
 watch(() => code.value, () => updatePreview(), { deep: true })
