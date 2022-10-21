@@ -28,51 +28,49 @@
 </template>
 
 <script setup>
-const previewRef = ref(null)
+// Session ID & Person Name
+const { params } = useRoute()
+const { session } = params
+const name = useCookie('name')
 
+// IFrame Reference
+const previewRef = ref(null)
+// Current Selected Language
+const selectedLanguage = ref('html')
+
+// Code with initated values
 const code = ref({
     html: '<span>Hello World</span><button onclick="hello()">Alert hello</button>',
     css: 'span { color: red; }',
     javascript: 'function hello() {alert("hi")}'
 })
 
+// Languages
 const languages = [
     { name: 'HTML', value: 'html' },
     { name: 'CSS', value: 'css' },
     { name: 'JS', value: 'javascript' },
 ]
 
-const codeMerge = computed(() => {
-    const { html, css, javascript } = code.value
-    return `
-        <style scoped>
-            ${css ?? ''}
-        </style>
-        ${html ?? ''}
-    `
-})
-
-const selectedLanguage = ref('html')
-
-const { params } = useRoute()
-const { session } = params
-const name = useCookie('name')
-
-
+// Update preview
 const updatePreview = useDebounceFn(() => {
-    var preview =  previewRef.value.contentDocument ||  previewRef.value.contentWindow.document;
+    const { html, css, javascript } = code.value
+
+    // Get element of iframe
+    var preview = previewRef.value.contentDocument || previewRef.value.contentWindow.document;
+
     preview.open();
-    preview.write(codeMerge.value);
+    preview.write(`<style scoped>${css ?? ''}</style>${html ?? ''}`);
 
-    let scriptEl = document.createElement('script');
-    const newContent = document.createRange().createContextualFragment(code.value?.javascript);
+    const scriptEl = document.createElement('script');
+    const newContent = document.createRange().createContextualFragment(javascript ?? '');
     scriptEl.append(newContent)
-
     preview.body.appendChild(scriptEl);
     preview.close();
 }, 100)
 
 
-watch( () => code.value, () => updatePreview(), { deep: true })
+// Listen for writes in editors
+watch(() => code.value, () => updatePreview(), { deep: true })
 
 </script>
