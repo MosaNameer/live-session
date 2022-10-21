@@ -17,7 +17,6 @@ const sessionCookie = useCookie('session')
 const nameCookie = useCookie('name')
 
 const join = () => {
-    console.log('asd')
     if (session.value && name.value) {
         sessionCookie.value = session.value
         nameCookie.value = name.value
