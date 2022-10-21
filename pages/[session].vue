@@ -3,9 +3,6 @@
         <!-- left -->
         <div flex="~ col basis-1/2">
             <iframe border="0" id="preview" flex="grow" w="full" ref="previewRef"></iframe>
-            <div h="200px" bg="secondary dark:secondaryOp">
-                {{ logMessages }}
-            </div>
         </div>
 
 
@@ -35,11 +32,12 @@
 const { params } = useRoute()
 const { session } = params
 const name = useCookie('name')
-
 // IFrame Reference
 const previewRef = ref(null)
 // Current Selected Language
 const selectedLanguage = ref('html')
+
+const { $socket } = useNuxtApp()
 
 // Code with initated values
 const code = ref({
@@ -56,7 +54,7 @@ const languages = [
 ]
 
 // Update preview
-const updatePreview = useDebounceFn(() => {
+const updatePreview = useDebounceFn(async () => {
     const { html, css, javascript } = code.value
 
     // Get element of iframe
@@ -71,52 +69,36 @@ const updatePreview = useDebounceFn(() => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
-    
+    await $fetch('/api/code', {
+        method: 'POST',
+        body: JSON.stringify({
+            message: code.value,
+        })
+    })
 
+}, 250)
 
-    // const c = previewRef.value?.contentWindow?.console
-    // console.log(c.log())
-    // if (c) {
-    //     c.log = (...args) => {
-    //         frameConsole.value = args
-    //     }
-    // }
-}, 100)
-
-
-var logBackup = console.log;
-var logMessages = ref([]);
-
+watch( () => $socket.data, (data) => {
+    const { type, data: receivedData } = JSON.parse(data.value)
+    if (type == "code") {
+        code.value = receivedData
+    }
+}, { deep: true })
 
 // Update preview on mounted
 onMounted( () => {
-    
+    // Send to the web socket server 
+    // $socket.send("test")
 
     
-
-    // console.log(previewRef.value.contentWindow.console.log)
-    // previewRef.value?.contentWindow.console.log = function(val) {
-    //     frameConsole.value.appendChild(document.createTextNode(val));
-    // }
-
-    // previewRef.value.contentWindow.console.log = function() {
-    //     logMessages.value.push.apply(logMessages.value, arguments);
-    //     logBackup.apply(console, arguments);
-    // };
-
-   
-
-    // window.addEventListener('message', function(event){
-    //     console.log(event.data)
-    //             //REM: Just appending it to the body.. lazy
-    //     // document.body.appendChild(document.createTextNode(event.data))
-    // }, false);
     updatePreview()
 })
 
 
 
-
 // Listen for writes in editors
 watch(() => code.value, () => updatePreview(), { deep: true })
+
+
+
 </script>

@@ -16,4 +16,14 @@ export default defineNuxtConfig({
         preference: 'system',
         fallback: 'light'
     },
+
+    runtimeConfig: {
+        public: {
+            socketUrl: process.env.SOCKET_URL,
+        }
+    },
+
+    nitro: {
+        preset: 'node',
+    },
 })
