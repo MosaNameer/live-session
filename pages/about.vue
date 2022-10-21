@@ -1,16 +1,14 @@
 <template>
-    <div>
-        
-    asdasdasd
-    <temp>
-    <template #rightpanel>
-        <h1>sadasdasddddddddddddddddd</h1>
-    </template>
-    </temp>
+    <NuxtLayout name="two-sections">
+            
+        asdasdasd
+        <template #rightpanel>
+            <h1>sadasdasddddddddddddddddd</h1>
+        </template>
 
-    </div>
+    </NuxtLayout>
 </template>
 
 <script setup>
-    definePageMeta({  layout: "TwoSections",});
+
 </script>
