@@ -52,7 +52,11 @@ const sessionData = ref(null)
 const isAdmin = computed(() => sessionData.value?.adminId === userId?.value)
 
 // Code with initated values
-const code = ref(null)
+const code = reactive({
+    html: '',
+    css: '',
+    javascript: ''
+})
 
 // Languages
 const languages = [
@@ -62,8 +66,8 @@ const languages = [
 ]
 
 // Update preview
-const updatePreview = useDebounceFn(async () => {
-    const { html, css, javascript } = code.value
+const updatePreview = async () => {
+    const { html, css, javascript } = code
 
     // Get element of iframe
     const preview = previewRef.value.contentDocument || previewRef.value.contentWindow.document;
@@ -77,21 +81,26 @@ const updatePreview = useDebounceFn(async () => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
-}, 250)
+}
 
-const sendCode = useDebounceFn(async () => {
+
+const sendCode = async () => {
     await $fetch('/api/code', {
         method: 'POST',
         body: JSON.stringify({
-            message: code.value,
+            message: code,
         })
     })
-}, 250)
+}
+
+
 
 watch(() => JSON.parse(socket.value.data), async (data) => {
     const { type, data: receivedData } = data
     if (type == "code") {
-        code.value = receivedData
+        code.html = receivedData.html
+        code.css = receivedData.css
+        code.javascript = receivedData.javascript
     } else if (type == "refresh") {
         sessionData.value = await $fetch(`/api/session/${session}`, {
             headers: {
@@ -112,14 +121,16 @@ watch(() => JSON.parse(socket.value.data), async (data) => {
         router.push('/')
     }
     if (sessionData.value?.data.type == "code"){
-        code.value = sessionData.value?.data.data
+        code.html = sessionData.value?.data.data.html
+        code.css = sessionData.value?.data.data.css
+        code.javascript = sessionData.value?.data.data.javascript
         updatePreview()
     }
 
 
 
 // Listen for writes in editors
-watch(() => code.value, () => { updatePreview(), sendCode() }, { deep: true })
+watch(() => code, () => { updatePreview(), sendCode() }, { deep: true })
 
 
 
