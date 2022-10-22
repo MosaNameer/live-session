@@ -37,7 +37,15 @@ export default defineEventHandler(async (event) => {
     slide: "1",
     lesson: 'coding',
     adminId: userId,
-    readOnly: true
+    readOnly: true,
+    data: {
+        type: "code",
+        data: {
+            html: '<span>Hello World</span><button onclick="hello()">Alert hello</button>',
+            css: 'span { color: red; }',
+            javascript: 'function hello() {alert("hi")}'
+        }
+    }
   }
 
   sessions.push(newSession)

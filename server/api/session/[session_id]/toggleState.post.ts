@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
   const session_id = await event.context.params.session_id;
 
     let sessions = await useStorage().getItem('db:sessions') as SESSION[]
-    const sessionId = sessions.findIndex((s: SESSION) => s.id === session_id)
-    sessions[sessionId].readOnly = !sessions[sessionId].readOnly
+    const sessionIndex = sessions.findIndex((s: SESSION) => s.id === session_id)
+    sessions[sessionIndex].readOnly = !sessions[sessionIndex].readOnly
     await useStorage().setItem('db:sessions', sessions)
 
 
@@ -20,9 +20,10 @@ export default defineEventHandler(async (event) => {
         if (ws.readyState === ws.OPEN && ws.user.session === sessionId) {
           ws.send(JSON.stringify({
             type: 'refresh',
+            data: sessions[sessionIndex].readOnly
           }))
         }
     })
     console.log('refreshed all clients')
-    return true
+    return sessions[sessionIndex].readOnly
 })

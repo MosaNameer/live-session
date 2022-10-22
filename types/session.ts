@@ -4,4 +4,5 @@ export type SESSION = {
     lesson: string
     adminId: string
     readOnly: boolean
+    data: any
 }

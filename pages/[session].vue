@@ -52,11 +52,7 @@ const sessionData = ref(null)
 const isAdmin = computed(() => sessionData.value?.adminId === userId?.value)
 
 // Code with initated values
-const code = ref({
-    html: '<span>Hello World</span><button onclick="hello()">Alert hello</button>',
-    css: 'span { color: red; }',
-    javascript: 'function hello() {alert("hi")}'
-})
+const code = ref(null)
 
 // Languages
 const languages = [
@@ -81,15 +77,16 @@ const updatePreview = useDebounceFn(async () => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
+}, 250)
+
+const sendCode = useDebounceFn(async () => {
     await $fetch('/api/code', {
         method: 'POST',
         body: JSON.stringify({
             message: code.value,
         })
     })
-
 }, 250)
-
 
 watch(() => JSON.parse(socket.value.data), async (data) => {
     const { type, data: receivedData } = data
@@ -107,7 +104,6 @@ watch(() => JSON.parse(socket.value.data), async (data) => {
 }, { deep: true })
 
 // Update preview on mounted
-onMounted(async () => {
     // Send to the web socket server 
     // $socket.send("test")
     try {
@@ -115,14 +111,15 @@ onMounted(async () => {
     } catch (e) {
         router.push('/')
     }
-
-    updatePreview()
-})
+    if (sessionData.value?.data.type == "code"){
+        code.value = sessionData.value?.data.data
+        updatePreview()
+    }
 
 
 
 // Listen for writes in editors
-watch(() => code.value, () => updatePreview(), { deep: true })
+watch(() => code.value, () => { updatePreview(), sendCode() }, { deep: true })
 
 
 
