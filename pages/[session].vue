@@ -1,6 +1,9 @@
 <template>
     <NuxtLayout>
         {{ store.getSession }}
+        <ContentRenderer :value="slideRender">
+            <ContentRendererMarkdown :value="slideRender" />
+        </ContentRenderer>
     </NuxtLayout>
 </template>
 
@@ -19,6 +22,7 @@ if (!store.getSession) {
 // Connect to socket
 await store.socketConnect()
 
+const { data: slideRender } = await useAsyncData('page-data', () => queryContent(store.getSession?.slide).findOne())
 
 
 
@@ -26,7 +30,7 @@ await store.socketConnect()
 
 
 // WATCH SOCKET DATA
-watch( () => store.getSocketData, (data) => {
+watch(() => store.getSocketData, (data) => {
     console.log(data)
 }, { deep: true })
 </script>

@@ -58,7 +58,7 @@ export const useSessionStore = defineStore('session-store', {
             
             if (!this.session) return false
 
-            if (!this.session.slide && process.client){
+            if (!this.session.slide){
                 await this.fetchSlides()
                 this.session.slide = this.slides[0]?._path
             }
