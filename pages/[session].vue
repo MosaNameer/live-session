@@ -20,7 +20,7 @@
                         <IconUsers w="24px" />
                     </div>
                 </div>
-                <div flex="~" justify="between" p="4">
+                <div v-if="store.isAdmin" flex="~" justify="between" p="4">
                     <div flex="~ gap-3">
                         <IconArrowUp w="24px" />
                         <IconArrowUp w="24px" />
@@ -36,7 +36,6 @@
 
 
             <div flex="~ col">
-                    <span>{{ store.getSession }}</span>
                 <div flex="~ col " my="4">
                     <div v-for="slide in store.getSlides" :key="slide._path" @click="store.setSlide(slide._path)" cursor="pointer" :class="[store.getCurrentSlide._path == slide._path ? 'bg-blue' : '']">
                         {{ slide.title }}
@@ -46,7 +45,7 @@
                 <div>
                     <!-- getUsers -->
                     <div v-for="user in store.getUsers" :key="user.id" flex="~ col gap-2">
-                        <span>{{ user.name }}</span>
+                        <span>{{ user.name }} - {{ user.online ? 'Online' : 'Offline' }}</span>
                     </div>
                 </div>
             </div>
@@ -90,9 +89,8 @@ if (!store.getSession) {
 await store.socketConnect()
 
 
-setInterval(() => {
-    store.fetchUsers()
-}, 2500)
+// Get users every 5 seconds
+setInterval(() => store.fetchUsers(), 5000)
 
 
 
