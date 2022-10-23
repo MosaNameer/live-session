@@ -1,1 +1,1 @@
-[{"id":"room","slide":null,"lesson":{"name":"My Lesson","value":"/my-lesson"},"adminId":"e6465a65-a6dd-4fb3-bfcb-97032106e731","readOnly":true,"users":[{"name":"HassanAlkhalidi","session":"room","id":"e6465a65-a6dd-4fb3-bfcb-97032106e731"}]}]
+[{"id":"room","slide":"/my-lesson/slide","lesson":{"name":"My Lesson","value":"/my-lesson"},"adminId":"e6465a65-a6dd-4fb3-bfcb-97032106e731","readOnly":true,"users":[{"name":"HassanAlkhalidi","session":"room","id":"e6465a65-a6dd-4fb3-bfcb-97032106e731"}]}]

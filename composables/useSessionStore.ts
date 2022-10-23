@@ -4,14 +4,16 @@ export const useSessionStore = defineStore('session-store', {
     state: () => ({
         socket: null,
         session: null as Session,
-        slides: null
+        slides: null,
+        currentSlide: null,
     }),
     
     getters: {
         getSocket: (state) => state.socket,
         getSession: (state) => state.session,
         getSlides: (state) => state.slides,
-
+        getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
+        
         isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
         // Socket
@@ -56,11 +58,15 @@ export const useSessionStore = defineStore('session-store', {
             const sessionCookie = useCookie('session')
             this.session = await $fetch(`/api/session/${session}`)
             
+            // If session not found, return
             if (!this.session) return false
 
+            // get session slides
+            await this.fetchSlides()
+
+            // If session slide is not set, set it
             if (!this.session.slide){
-                await this.fetchSlides()
-                this.session.slide = this.slides[0]?._path
+                await this.setSlide(this.slides[0]?._path)
             }
 
             sessionCookie.value = session
@@ -71,6 +77,17 @@ export const useSessionStore = defineStore('session-store', {
             this.slides = await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
             }).only(['_path', 'title', 'type']).find()
+        },
+
+        async setSlide(slide){
+            const { params: { session } } = useRoute()
+
+            await $fetch(`/api/session/${session}/set-slide`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    slide: slide
+                })
+            })
         }
     },
 })
