@@ -431,15 +431,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@nuxt/content@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@nuxt/content/-/content-2.2.0.tgz#51bd254333f9a2e19f4b25be3b0cf97963840f66"
-  integrity sha512-+RNRw88XDP6Am4S5MiYaHZJyd7REgBfAvrVI3N+Cl/4F8semHJ/NEDVaK95bZzcgKJMEK7kKFsC9sKdIvw3wWg==
+"@nuxt/content@npm:@nuxt/content-edge@latest":
+  version "2.2.0-27773052.bf6ea4d"
+  resolved "https://registry.yarnpkg.com/@nuxt/content-edge/-/content-edge-2.2.0-27773052.bf6ea4d.tgz#e1204de67e3b1fee7c19b3d3813b1b54d539ca1b"
+  integrity sha512-yhnv8U/I1TYQJ4XnwiFe6hFLyz9hO6aOwesThn3G1j4vgE9HXlCH/xmv2+1b/X/LT/KNQfm/Bo+zUiy18qVdfA==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.12"
     consola "^2.15.3"
     defu "^6.1.0"
-    destr "^1.1.1"
+    destr "^1.2.0"
     detab "^3.0.1"
     html-tags "^3.2.0"
     json5 "^2.2.1"
@@ -457,7 +457,7 @@
     rehype-sort-attributes "^4.0.0"
     remark-emoji "^3.0.2"
     remark-gfm "^3.0.1"
-    remark-mdc "^1.0.7"
+    remark-mdc "^1.0.8"
     remark-parse "^10.0.1"
     remark-rehype "^10.1.0"
     remark-squeeze-paragraphs "^5.0.1"
@@ -640,6 +640,14 @@
     "@nuxt/kit" "^3.0.0-rc.9"
     lodash.template "^4.5.0"
     pathe "^0.3.5"
+
+"@pinia/nuxt@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@pinia/nuxt/-/nuxt-0.4.3.tgz#1cb254ef87faee1524a15ad073516394f3fd6f7c"
+  integrity sha512-pDyThvbOi9ztSPI9RDJG857Knb/mmUdDrDiLXbtLVQ3/l647jKncdP4TiRLnMlObENJjcFPEwHT7OVPq4VhQMw==
+  dependencies:
+    "@nuxt/kit" "^3.0.0-rc.11"
+    pinia ">=2.0.23"
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
@@ -1096,7 +1104,7 @@
     "@vue/compiler-dom" "3.2.41"
     "@vue/shared" "3.2.41"
 
-"@vue/devtools-api@^6.1.4":
+"@vue/devtools-api@^6.1.4", "@vue/devtools-api@^6.4.4":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.4.5.tgz#d54e844c1adbb1e677c81c665ecef1a2b4bb8380"
   integrity sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==
@@ -4304,6 +4312,14 @@ pify@^2.3.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
+pinia@>=2.0.23:
+  version "2.0.23"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.23.tgz#570f5f82160b656b412602789683faa95502d227"
+  integrity sha512-N15hFf4o5STrxpNrib1IEb1GOArvPYf1zPvQVRGOO1G1d74Ak0J0lVyalX/SmrzdT4Q0nlEFjbURsmBmIGUR5Q==
+  dependencies:
+    "@vue/devtools-api" "^6.4.4"
+    vue-demi "*"
+
 pkg-types@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/pkg-types/-/pkg-types-0.3.5.tgz#ea01c7cf28da9e4c5b85de9b250de4b3dc2e9abc"
@@ -4741,7 +4757,7 @@ remark-gfm@^3.0.1:
     micromark-extension-gfm "^2.0.0"
     unified "^10.0.0"
 
-remark-mdc@^1.0.7:
+remark-mdc@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/remark-mdc/-/remark-mdc-1.0.8.tgz#88f79a1de7a1b5e0634e3be979d40dad29cddeb6"
   integrity sha512-pg2KtOem9cZd0PHyPvlamDdk+eXeKAOGq5UzPIa0I7Mqi74lqqprAksjgtrKQpEaDULiLh6Yh48HPcAxdeL5Uw==

@@ -1,12 +1,12 @@
-import { SESSION } from '../../../../types/session'
+import { Session } from '../../../../types/session'
 import { H3Event } from 'h3'
 import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
   const session_id = await event.context.params.session_id;
 
-    let sessions = await useStorage().getItem('db:sessions') as SESSION[]
-    const sessionIndex = sessions.findIndex((s: SESSION) => s.id === session_id)
+    let sessions = await useStorage().getItem('db:sessions') as Session[]
+    const sessionIndex = sessions.findIndex((s: Session) => s.id === session_id)
     sessions[sessionIndex].readOnly = !sessions[sessionIndex].readOnly
     await useStorage().setItem('db:sessions', sessions)
 

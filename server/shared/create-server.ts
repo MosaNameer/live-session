@@ -4,6 +4,8 @@ import { AddressInfo, WebSocketServer, type WebSocket } from 'ws';
 
 import { state } from './api'
 
+import { joinUser } from './join-user'
+
 interface User {
   session: string,
   name: string,
@@ -41,16 +43,16 @@ export const createWsServer = (server: Server) => {
     });
   });
 
-  state.wss.on('connection', function connection(ws: WebSocket, request: IncomingMessage, user: User) {
+  state.wss.on('connection', async function connection(ws: WebSocket, request: IncomingMessage, user: User) {
     ws.user = user
 
     ws.on('message', function message(data) {
       console.log(`received from ${user.name} `, data);
-      // ws.send(`pong ${data}`);
     });
 
-    console.log('user connected: ', user.name);
-    // ws.send(`hello`);
+
+    // Join User
+    console.log(await joinUser(user, ws))
   });
 
   console.log(`Websocket Listening ${url}`)

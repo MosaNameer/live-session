@@ -1,4 +1,5 @@
-import { SESSION } from '../../types/session'
+import { Session } from '../../types/session'
+import { User } from '../../types/user'
 import { H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
@@ -12,7 +13,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const getSessions = async () => {
-    return await useStorage().getItem('db:sessions') as SESSION[]
+    return await useStorage().getItem('db:sessions') as Session[]
   }
 
   let sessions = await getSessions()
@@ -22,7 +23,7 @@ export default defineEventHandler(async (event) => {
     sessions = await getSessions()
   }
   
-  if (sessions.find((s: SESSION) => s.id === message)) {
+  if (sessions.find((s: Session) => s.id === message)) {
     throw createError({
         statusCode: 400,
         statusMessage: 'Bad Request',
@@ -32,20 +33,13 @@ export default defineEventHandler(async (event) => {
 
   const userId = useCookie(event, 'userId')
 
-  const newSession: SESSION = {
+  const newSession: Session = {
     id: message,
     slide: "1",
     lesson: 'coding',
     adminId: userId,
     readOnly: true,
-    data: {
-        type: "code",
-        data: {
-            html: '<span>Hello World</span><button onclick="hello()">Alert hello</button>',
-            css: 'span { color: red; }',
-            javascript: 'function hello() {alert("hi")}'
-        }
-    }
+    users: [] as User[]
   }
 
   sessions.push(newSession)

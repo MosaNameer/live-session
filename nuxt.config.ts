@@ -5,15 +5,20 @@ export default defineNuxtConfig({
         '@enab/components',
         '@unocss/nuxt',
         '@vueuse/nuxt',
-        '@nuxtjs/color-mode',
         'nuxt-monaco-editor',
+        ['@pinia/nuxt', {
+            autoImports: [
+                'defineStore'
+            ]
+        }],
+        '@nuxtjs/color-mode',
         '@nuxt/content',
     ],
 
     colorMode: {
         // preference: 'dark',
         // fallback: 'dark'
-        
+
         preference: 'system',
         fallback: 'light'
     },
@@ -29,7 +34,7 @@ export default defineNuxtConfig({
         storage: {
             'db': {
                 driver: 'fs',
-                base: './data/db'
+                base: './data'
             }
         }
     },
