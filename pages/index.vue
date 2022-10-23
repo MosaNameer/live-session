@@ -33,7 +33,7 @@ const join = async () => {
         return
     }
 
-    const sessionExists = await $fetch(`/api/session/${session}`)
+    const sessionExists = await $fetch(`/api/session/${session.value}`)
     if (!sessionExists) {
         error.value = "الجلسة غير موجودة"
         return

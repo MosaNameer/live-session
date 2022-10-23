@@ -10,8 +10,12 @@
             </div>
 
         </div>
-        <ContentRenderer :value="slideRender">
-            <ContentRendererMarkdown :value="slideRender" />
+
+        <ContentRenderer :value="store.getSlideContent">
+            <template #empty>
+                <p>No content found.</p>
+            </template>
+            <!-- <ContentRendererMarkdown :value="getSlideContent" /> -->
         </ContentRenderer>
     </NuxtLayout>
 </template>
@@ -31,13 +35,10 @@ if (!store.getSession) {
 // Connect to socket
 await store.socketConnect()
 
-const { data: slideRender } = await useAsyncData('slide-renderer-' + store.getSession.slide, () => queryContent(store.getSession?.slide).findOne())
 
 
 
 
 // WATCH SOCKET DATA
-watch(() => store.getSocketData, (data) => {
-    console.log(data)
-}, { deep: true })
+watch(() => store.getSocketData, (data) => store.socketDataReceived(JSON.parse(data)), { deep: true })
 </script>

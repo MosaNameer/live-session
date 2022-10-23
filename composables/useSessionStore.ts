@@ -1,11 +1,12 @@
 import { Session } from "~~/types/session"
+import { SocketDataType } from "~~/types/socket-data"
 
 export const useSessionStore = defineStore('session-store', {
     state: () => ({
         socket: null,
         session: null as Session,
         slides: null,
-        currentSlide: null,
+        slideContent: null,
     }),
     
     getters: {
@@ -13,6 +14,7 @@ export const useSessionStore = defineStore('session-store', {
         getSession: (state) => state.session,
         getSlides: (state) => state.slides,
         getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
+        getSlideContent: (state) => state.slideContent,
         
         isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
@@ -69,6 +71,9 @@ export const useSessionStore = defineStore('session-store', {
                 await this.setSlide(this.slides[0]?._path)
             }
 
+            // set slide content
+            this.setSlideContent()
+
             sessionCookie.value = session
         },
 
@@ -88,6 +93,29 @@ export const useSessionStore = defineStore('session-store', {
                     slide: slide
                 })
             })
+        },
+
+        async setSlideContent(){
+            const { data: slideRender } = await useAsyncData('slide-renderer-' + this.getCurrentSlide._path, () => queryContent(this.getCurrentSlide._path).findOne())
+            this.slideContent = slideRender.value
+        },
+
+
+        // DATA RECEIVED TRANSLATOR
+        async socketDataReceived(socketData: SocketDataType){
+            const { type, data } = socketData
+            switch (type) {
+                case 'statue':
+                    // this.session = data.data
+                    break
+                case 'slide':
+                    this.session.slide = data
+                    this.setSlideContent()
+                    break
+                default:
+                    console.log('unknown data type', data)
+                    break
+            }
         }
     },
 })
