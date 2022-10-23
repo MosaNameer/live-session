@@ -96,8 +96,7 @@ export const useSessionStore = defineStore('session-store', {
         async fetchSlides(){
             this.slides = await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
-            }).only(['_path', 'title', 'type', 'chapter', '_dir']).find()
-            console.log(this.slides)
+            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript']).find()
         },
 
         async setSlide(slide){
@@ -112,8 +111,20 @@ export const useSessionStore = defineStore('session-store', {
         },
 
         async setSlideContent(){
+            // Render markdown
             const { data: slideRender } = await useAsyncData('slide-renderer-' + this.getCurrentSlide._path, () => queryContent(this.getCurrentSlide._path).findOne())
             this.slideContent = slideRender.value
+
+            /******************************/
+            /*  CHECK IF CODE IN SESSION  */
+            /******************************/
+
+            // Render code
+            this.code = {
+                html: this.getCurrentSlide.html ?? '',
+                css: this.getCurrentSlide.css ?? '',
+                javascript: this.getCurrentSlide.javascript ?? '',
+            }
         },
 
 
