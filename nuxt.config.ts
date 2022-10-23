@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxtjs/color-mode',
         'nuxt-monaco-editor',
+        '@nuxt/content',
     ],
 
     colorMode: {
@@ -32,4 +33,8 @@ export default defineNuxtConfig({
             }
         }
     },
+
+    content: {
+        documentDriven: true
+    }
 })
