@@ -87,7 +87,8 @@ export const useSessionStore = defineStore('session-store', {
         async fetchSlides(){
             this.slides = await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
-            }).only(['_path', 'title', 'type']).find()
+            }).only(['_path', 'title', 'type', 'chapter', '_dir']).find()
+            console.log(this.slides)
         },
 
         async setSlide(slide){
