@@ -27,38 +27,48 @@
                         <IconArrowUp w="24px" />
                     </div>
                     <div flex="~ gap-6">
-                        <IconArrowUp transform="~ rotate-270" w="24px" />
-                        <IconArrowUp transform="~ rotate-90" w="24px" />
+                        <IconArrowUp w="24px" />
+                        <IconArrowUp w="24px" />
                     </div>
                 </div>
             </div>
+
+
+
+            <div flex="~ col">
+                    <span>{{ store.getSession }}</span>
+                <div flex="~ col " my="4">
+                    <div v-for="slide in store.getSlides" :key="slide._path" @click="store.setSlide(slide._path)" cursor="pointer" :class="[store.getCurrentSlide._path == slide._path ? 'bg-blue' : '']">
+                        {{ slide.title }}
+                    </div>
+                </div>
+
+                <div>
+                    <!-- getUsers -->
+                    <div v-for="user in store.getUsers" :key="user.id" flex="~ col gap-2">
+                        <span>{{ user.name }}</span>
+                    </div>
+                </div>
+            </div>
+
+            
         </div>
 
 
 
         <!-- Right Panel -->
         <template #rightpanel>
-            <div position="relative" w="full" h="full">
+            <div flex="~ col" position="relative" w="full" h="full">
                 <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
                     <div border="~">TEST 1</div>
                     <div border="~">TEST 1</div>
                 </div>
-                <div flex="~ col">
-                    <span>{{ store.getSession }}</span>
-                    <div flex="~ col " my="4">
-                        <div v-for="slide in store.getSlides" :key="slide._path" @click="store.setSlide(slide._path)" cursor="pointer" :class="[store.getCurrentSlide._path == slide._path ? 'bg-blue' : '']">
-                            {{ slide.title }}
-                        </div>
-                    </div>
-    
-                    <div>
-                        <!-- getUsers -->
-                        <div v-for="user in store.getUsers" :key="user.id" flex="~ col gap-2">
-                            <span>{{ user.name }}</span>
-                        </div>
-                    </div>
-                </div>
 
+                <!-- SLIDE TYPE -->
+                <div flex="grow">
+                    <TypeCodeEditor v-if="store.getCurrentSlide.type == 'CodeEditor'" />
+                </div>
+                
             </div>
         </template>
     </NuxtLayout>

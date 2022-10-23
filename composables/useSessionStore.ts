@@ -9,12 +9,18 @@ export const useSessionStore = defineStore('session-store', {
         slides: null,
         slideContent: null,
 
-        users: [] as User[]
+        users: [] as User[],
+        
+        // SLIDE TYPES
+        code: { html: '<html><body><span>test</span></body></html>', css: 'span{color:red}', javascript: '' },
     }),
     
     getters: {
         getSocket: (state) => state.socket,
+
         getSession: (state) => state.session,
+        isReadOnly: (state) => state.session?.readOnly,
+
         getSlides: (state) => state.slides,
         getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
         getSlideContent: (state) => state.slideContent,
@@ -27,6 +33,9 @@ export const useSessionStore = defineStore('session-store', {
 
         // Users
         getUsers: (state) => state.users,
+
+        // Slide Types
+        getCode: (state) => state.code,
     },
 
     actions: {
@@ -111,7 +120,6 @@ export const useSessionStore = defineStore('session-store', {
 
         async fetchUsers(){
             this.users = await $fetch(`/api/session/${this.session.id}/users`)
-            console.log(this.users)
         },
 
 

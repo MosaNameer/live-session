@@ -1,0 +1,74 @@
+<template>
+    <div h="full" flex="~ col">
+        <!-- Tabs -->
+        <UiTabGroup flex="basis-1/2" :tabs="['html', 'css', 'js']">
+            <template #tab-1>
+                <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+            </template>
+
+            <template #tab-2>
+                <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+            </template>
+
+            <template #tab-3>
+                <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+            </template>
+        </UiTabGroup>
+        
+        <div flex="basis-1/2" bg="primary">
+            <iframe h="full" w="full" ref="previewRef" border="0"></iframe>
+        </div>
+    </div>
+</template>
+
+<script setup>
+// Initiate store
+const store = useSessionStore()
+
+// Preview Panel Reference
+const previewRef = ref(null)
+
+
+const updatePreview = useDebounceFn(async () => {
+    const { html, css, javascript } = store.getCode
+
+    // Get element of iframe
+    const preview = previewRef.value.contentDocument || previewRef.value.contentWindow.document;
+
+    if (!preview) return false
+
+    preview.open();
+    preview.write(`<style>${css ?? ''}</style>${html ?? ''}`);
+
+    const scriptEl = document.createElement('script');
+    const newContent = document.createRange().createContextualFragment(javascript ?? '');
+    scriptEl.append(newContent)
+    preview.body.appendChild(scriptEl);
+    preview.close();
+
+}, 250)
+
+const sendCode = useDebounceFn(async (e) => {
+    const prevents = [16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 44, 45, 91, 92, 93, 112, 113, 114, 115, , 116, 117, 118, 119, 120, 121, 122, 123, 144, 145, 173, 174, 175, 181, 182, 183]
+    if (prevents.includes(e.which)) {
+        console.log('not a letter')
+        return false
+    }
+
+    // if (socket.value.data) {
+    //     const { type, data: receivedData } = JSON.parse(socket.value.data)
+    //     if (code.html == receivedData.html && code.css == receivedData.css && code.javascript == receivedData.javascript) return false
+    // }
+
+    // await $fetch('/api/code', {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         message: code,
+    //     })
+    // })
+}, 250)
+
+
+// Listen for writes in editors
+watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, debounce: 250, maxWait: 1000 })
+</script>
