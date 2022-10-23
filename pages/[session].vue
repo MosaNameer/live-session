@@ -23,8 +23,6 @@ await store.socketConnect()
 
 
 
-console.log(store.getSession)
-
 
 
 // WATCH SOCKET DATA

@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
   const newSession: Session = {
     id: id,
-    slide: 1,
+    slide: null,
     lesson: lesson,
     adminId: adminId,
     readOnly: true,

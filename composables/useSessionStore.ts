@@ -4,11 +4,13 @@ export const useSessionStore = defineStore('session-store', {
     state: () => ({
         socket: null,
         session: null as Session,
+        slides: null
     }),
     
     getters: {
         getSocket: (state) => state.socket,
         getSession: (state) => state.session,
+        getSlides: (state) => state.slides,
 
         isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
@@ -48,16 +50,27 @@ export const useSessionStore = defineStore('session-store', {
             }
         },
         
+
         async sessionConnect(){
             const { params: { session } } = useRoute()
             const sessionCookie = useCookie('session')
             this.session = await $fetch(`/api/session/${session}`)
             
-            if (!this.session.slide){
-                console.log()
+            if (!this.session) return false
+
+            if (!this.session.slide && process.client){
+                await this.fetchSlides()
+                this.session.slide = this.slides[0]?._path
             }
 
             sessionCookie.value = session
+        },
+
+
+        async fetchSlides(){
+            this.slides = await queryContent(this.session?.lesson?.value).where({
+                _type: "markdown"
+            }).only(['_path', 'title', 'type']).find()
         }
     },
 })
