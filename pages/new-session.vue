@@ -9,7 +9,7 @@
                 <select v-model="lesson">
                     <option v-for="l in lessons" :key="l.value" :value="l">{{ l?.name }}</option>
                 </select>
-                <UiButton @click="create()" size="md" color="success" mt="4">دخول</UiButton>
+                <UiButton @click="create()" size="md" color="success" mt="4">إنشاء</UiButton>
 
                 <span text="center sm errorOp dark:error" mt="6">{{ error }}</span>
             </div>
