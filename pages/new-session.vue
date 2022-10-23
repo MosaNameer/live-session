@@ -42,7 +42,10 @@ const create = async () => {
                 lesson: lesson.value,
             })
         })
-        router.push(`/${session.value}`)
+        
+        setTimeout(() => {
+            router.push(`/${session.value}`)
+        }, 1000)
 
     } catch(e) {
         error.value = "حدث خطأ! اما معرف الجلسة موجود او انك لم تدخل جميع المطلوبات."

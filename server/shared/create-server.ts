@@ -5,12 +5,7 @@ import { AddressInfo, WebSocketServer, type WebSocket } from 'ws';
 import { state } from './api'
 
 import { joinUser } from './join-user'
-
-interface User {
-  session: string,
-  name: string,
-  id: string,
-}
+import { User } from '../../types/user'
 
 declare module 'ws' {
   interface WebSocket {

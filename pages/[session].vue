@@ -1,6 +1,6 @@
 <template>
     <NuxtLayout>
-
+        {{ store.getSession }}
     </NuxtLayout>
 </template>
 
@@ -8,13 +8,22 @@
 // Initalize store
 const store = useSessionStore()
 
-// Connect to socket
-store.socketConnect()
-
 // Get session data
-store.sessionConnect()
+await store.sessionConnect()
+
+// If session not exists
+if (!store.getSession) {
+    navigateTo('/')
+}
+
+// Connect to socket
+await store.socketConnect()
 
 
+
+
+
+console.log(store.getSession)
 
 
 

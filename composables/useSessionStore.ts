@@ -49,8 +49,15 @@ export const useSessionStore = defineStore('session-store', {
         },
         
         async sessionConnect(){
-            const session = useCookie('session')
-            this.session = $fetch(`/api/session/${session.value}`)
+            const { params: { session } } = useRoute()
+            const sessionCookie = useCookie('session')
+            this.session = await $fetch(`/api/session/${session}`)
+            
+            if (!this.session.slide){
+                console.log()
+            }
+
+            sessionCookie.value = session
         }
     },
 })
