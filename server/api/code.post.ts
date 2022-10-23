@@ -21,8 +21,10 @@ export default defineEventHandler(async (event) => {
 
   state.wss.clients.forEach((ws) => {
     // @ts-ignore
-    console.log('send: to %o', ws.user.name)
     if (ws.readyState === ws.OPEN && ws.user.session === sessionId && ws.user.id !== userId) {
+      console.log('send: to %o', ws.user.name)
+      ws.send(JSON.stringify(data))
+      data.data.html = data.data.html + " "
       ws.send(JSON.stringify(data))
       messageSent++
     }

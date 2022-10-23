@@ -18,15 +18,15 @@
             <!-- Tabs -->
             <UiTabGroup flex="basis-1/2" :tabs="['html', 'css', 'js']">
                 <template #tab-1>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode()" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
                 </template>
 
                 <template #tab-2>
-                    <MonacoEditor w="full" h="full" v-model="code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
                 </template>
 
                 <template #tab-3>
-                    <MonacoEditor w="full" h="full" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !isAdmin && sessionData?.readOnly }" />
                 </template>
             </UiTabGroup>
             <div flex="~ basis-1/2">
@@ -89,7 +89,18 @@ const updatePreview = useDebounceFn(async () => {
 }, 250)
 
 
-const sendCode = useDebounceFn(async () => {
+const sendCode = useDebounceFn(async (e) => {
+    const prevents = [16,17,18,19,20,27,33,34,35,36,37,38,39,40,44,45,91,92,93,112,113,114,115,,116,117,118,119,120,121,122,123,144,145,173,174,175,181,182,183]
+    if (prevents.includes(e.which)) {
+        console.log('not a letter')
+        return false
+    }
+
+    if (socket.value.data) {
+        const { type, data: receivedData } = JSON.parse(socket.value.data)
+        if (code.html == receivedData.html && code.css == receivedData.css && code.javascript == receivedData.javascript) return false
+    }
+
     await $fetch('/api/code', {
         method: 'POST',
         body: JSON.stringify({
@@ -105,6 +116,7 @@ watch(() => JSON.parse(socket.value.data), async (data) => {
         code.html = receivedData.html
         code.css = receivedData.css
         code.javascript = receivedData.javascript
+        
     } else if (type == "refresh") {
         sessionData.value = await $fetch(`/api/session/${session}`, {
             headers: {
