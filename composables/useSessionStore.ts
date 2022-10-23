@@ -24,6 +24,8 @@ export const useSessionStore = defineStore('session-store', {
         getSlides: (state) => state.slides,
         getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
         getSlideContent: (state) => state.slideContent,
+        hasPrevSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) > 0,
+        hasNextSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) < state.slides.length - 1,
         
         isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
@@ -97,6 +99,18 @@ export const useSessionStore = defineStore('session-store', {
             this.slides = await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
             }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript']).find()
+        },
+
+        async nextSlide(){
+            const index = this.slides.findIndex(s => s._path === this.session?.slide)
+            const nextSlide = this.slides[index - 1]
+            if (nextSlide) await this.setSlide(nextSlide._path)
+        },
+
+        async prevSlide(){
+            const index = this.slides.findIndex(s => s._path === this.session?.slide)
+            const prevSlide = this.slides[index + 1]
+            if (prevSlide) await this.setSlide(prevSlide._path)
         },
 
         async setSlide(slide){

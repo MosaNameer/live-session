@@ -1,7 +1,7 @@
 <template>
     <div h="full" flex="~ col">
         <!-- Tabs -->
-        <UiTabGroup flex="basis-1/2" :tabs="['html', 'css', 'js']">
+        <UiTabGroup flex="grow" :tabs="['html', 'css', 'js']">
             <template #tab-1>
                 <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
             </template>
@@ -15,7 +15,11 @@
             </template>
         </UiTabGroup>
         
-        <div flex="basis-1/2" bg="primary">
+        <div position="relative" flex="basis-1/2" bg="primary">
+            <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
+                <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
+            </div>
+            
             <iframe h="full" w="full" ref="previewRef" border="0"></iframe>
         </div>
     </div>
@@ -71,4 +75,8 @@ const sendCode = useDebounceFn(async (e) => {
 
 // Listen for writes in editors
 watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, debounce: 250, maxWait: 1000 })
+
+
+
+
 </script>
