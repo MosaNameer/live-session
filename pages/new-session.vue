@@ -6,24 +6,21 @@
                 <span text="center sm primaryOp dark:primary" mb="6">{{ userIdCookie }}</span>
 
                 <UiInput v-model="session" size="md" label="معرف الجلسة" />
-                <UiInput v-model="name" size="md" label="الأسم" />
-                <div flex="~">
-                    <span flex="basis-2/3">{{lesson}}</span>
-                    <UiDropdown flex="basis-1/3" v-model="lesson" :list="lessons" size="md" />
-                </div>
-                <UiButton @click="join()" size="md" color="success" mt="4">دخول</UiButton>
+                <select v-model="lesson">
+                    <option v-for="l in lessons" :key="l.value" :value="l">{{ l?.name }}</option>
+                </select>
+                <UiButton @click="create()" size="md" color="success" mt="4">دخول</UiButton>
+
+                <span text="center sm errorOp dark:error" mt="6">{{ error }}</span>
             </div>
         </div>
     </NuxtLayout>
 </template>
 
 <script setup>
-const session = ref('')
-const name = ref('')
 const router = useRouter()
-const sessionCookie = useCookie('session')
-const nameCookie = useCookie('name')
 const userIdCookie = useCookie('userId')
+const session = ref(null)
 
 const { data: lessonsNavs } = await useAsyncData('navigation', () => fetchContentNavigation())
 const lessons = computed( () => lessonsNavs.value.map(lesson => ({
@@ -32,28 +29,23 @@ const lessons = computed( () => lessonsNavs.value.map(lesson => ({
 })))
 const lesson = ref(null)
 
+const error = ref(null)
 
-const join = async () => {
-    if (session.value && name.value) {
-        sessionCookie.value = session.value
-        nameCookie.value = name.value
 
-        try {
-            const data = await $fetch('/api/new-session', {
-                method: 'POST',
-                body: JSON.stringify({
-                    message: session.value,
-                    name: name.value
-                })
+const create = async () => {
+    try {
+        const data = await $fetch('/api/new-session', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: session.value,
+                adminId: userIdCookie.value,
+                lesson: lesson.value,
             })
-            router.push(`/${session.value}`)
+        })
+        router.push(`/${session.value}`)
 
-        } catch(e) {
-            if (confirm("هذه الجلسة موجود هل تريد الانضمام؟")) {
-                router.push(`/${session.value}`)
-            }
-        }
-
+    } catch(e) {
+        error.value = "حدث خطأ! اما معرف الجلسة موجود او انك لم تدخل جميع المطلوبات."
     }
 }
 </script>
