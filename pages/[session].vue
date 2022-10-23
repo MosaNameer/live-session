@@ -9,6 +9,13 @@
                 </div>
             </div>
 
+            <div>
+                <!-- getUsers -->
+                <div v-for="user in store.getUsers" :key="user.id" flex="~ col gap-2">
+                    <span>{{user.name}}</span>
+                </div>
+            </div>
+
         </div>
 
         <ContentRenderer :value="store.getSlideContent">
@@ -36,6 +43,9 @@ if (!store.getSession) {
 await store.socketConnect()
 
 
+setInterval(() => {
+    store.fetchUsers()
+}, 2500)
 
 
 

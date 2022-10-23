@@ -1,5 +1,6 @@
 import { Session } from "~~/types/session"
 import { SocketDataType } from "~~/types/socket-data"
+import { User } from "~~/types/user"
 
 export const useSessionStore = defineStore('session-store', {
     state: () => ({
@@ -7,6 +8,8 @@ export const useSessionStore = defineStore('session-store', {
         session: null as Session,
         slides: null,
         slideContent: null,
+
+        users: [] as User[]
     }),
     
     getters: {
@@ -21,6 +24,9 @@ export const useSessionStore = defineStore('session-store', {
         // Socket
         getSocketState: (state) => state.socket?.status,
         getSocketData: (state) => state.socket?.data,
+
+        // Users
+        getUsers: (state) => state.users,
     },
 
     actions: {
@@ -87,7 +93,7 @@ export const useSessionStore = defineStore('session-store', {
         async setSlide(slide){
             const { params: { session } } = useRoute()
 
-            await $fetch(`/api/session/${session}/set-slide`, {
+            await $fetch(`/api/session/${session}/slide`, {
                 method: 'POST',
                 body: JSON.stringify({
                     slide: slide
@@ -99,6 +105,14 @@ export const useSessionStore = defineStore('session-store', {
             const { data: slideRender } = await useAsyncData('slide-renderer-' + this.getCurrentSlide._path, () => queryContent(this.getCurrentSlide._path).findOne())
             this.slideContent = slideRender.value
         },
+
+
+
+        async fetchUsers(){
+            this.users = await $fetch(`/api/session/${this.session.id}/users`)
+            console.log(this.users)
+        },
+
 
 
         // DATA RECEIVED TRANSLATOR
