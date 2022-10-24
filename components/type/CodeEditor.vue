@@ -71,15 +71,10 @@ const sendCode = useDebounceFn(async (e) => {
 // Listen for writes in editors
 watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 250, maxWait: 1000 })
 
+// For force render code editor 
 const forceRender = async () => {
-    // Remove MyComponent from the DOM
     codeRender.value = false;
-
-    // Wait for the change to get flushed to the DOM
     await nextTick();
-
-    // Add the component back in
     codeRender.value = true;
 }
-
 </script>
