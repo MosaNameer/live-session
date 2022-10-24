@@ -16,6 +16,7 @@ export const useSessionStore = defineStore('session-store', {
         
         // SLIDE TYPES
         code: { html: '<html><body><span>test</span></body></html>', css: 'span{color:red}', javascript: '' },
+        codeForceRender: true
     }),
     
     getters: {
@@ -42,9 +43,8 @@ export const useSessionStore = defineStore('session-store', {
 
         // Slide Types
         getCode: (state) => state.code,
-        // getMyCode: (state) => state.session?.slidesData.find(s => s.slide === state.session?.slide)?.storage.find(s => s.userId === useCookie('userId')?.value)?.data,
-        // getUserCode: (state) => (user_id: string) => state.session?.slidesData.find(s => s.slide === state.session?.slide)?.storage.find(s => s.userId === user_id)?.data,
         getProdcastedCode: (state) => state.session?.prodcastedData,
+        getCodeForceRender: (state) => state.codeForceRender,
     },
 
     actions: {
@@ -147,6 +147,7 @@ export const useSessionStore = defineStore('session-store', {
                 switch (type) {
                     case 'CodeEditor':
                         this.code = {...prodcastedData}
+                        this.codeForceRender = false
                         break;
                 }
             }
@@ -156,6 +157,7 @@ export const useSessionStore = defineStore('session-store', {
                 switch (type) {
                     case 'CodeEditor':
                         this.code = this.getCurrentSlide
+                        this.codeForceRender = false
                         break;
                 }
             }
@@ -211,6 +213,7 @@ export const useSessionStore = defineStore('session-store', {
             this.code.html = code?.html
             this.code.css = code?.css
             this.code.javascript = code?.javascript
+            this.codeForceRender = false
         },
 
 
@@ -234,6 +237,7 @@ export const useSessionStore = defineStore('session-store', {
                     break
                 case 'code':
                     this.code = data
+                    this.codeForceRender = false
                     break
                 case 'admin':
                     console.log(data)

@@ -53,8 +53,6 @@ const updatePreview = useDebounceFn(async () => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
-    await forceRender()
-
 }, 250)
 
 const sendCode = useDebounceFn(async (e) => {
@@ -71,10 +69,14 @@ const sendCode = useDebounceFn(async (e) => {
 // Listen for writes in editors
 watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 250, maxWait: 1000 })
 
-// For force render code editor 
-const forceRender = async () => {
-    codeRender.value = false;
-    await nextTick();
-    codeRender.value = true;
-}
+watch(() => store.getCodeForceRender, async (value) => {
+    if (value == false) {
+        // For force render code editor 
+        codeRender.value = false;
+        await nextTick();
+        codeRender.value = true;
+        store.codeForceRender = true
+    }
+})
+
 </script>
