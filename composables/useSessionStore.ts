@@ -146,7 +146,7 @@ export const useSessionStore = defineStore('session-store', {
             if (prodcastedData){
                 switch (type) {
                     case 'CodeEditor':
-                        this.code = prodcastedData
+                        this.code = {...prodcastedData}
                         break;
                 }
             }
