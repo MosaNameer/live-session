@@ -54,9 +54,10 @@
         <!-- Right Panel -->
         <template #rightpanel>
             <div flex="~ col" position="relative" w="full" h="full">
-                <div v-if="store.isAdmin" position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
-                    <div @click="store.toggleReadOnly" cursor="pointer" border="~" p="2">{{ store.isReadOnly ? "READ ONLY" : "READ WRITE" }}</div>
-                    <div @click="store.toggleProdcast" cursor="pointer" border="~" p="2">{{ store.isProdcast ? "PRODCASTING" : "NOT PRODCASTING" }}</div>
+                <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
+                    <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~" p="2">{{ store.isReadOnly ? "READ ONLY" : "READ WRITE" }}</div>
+                    <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~" p="2">{{ store.isProdcast ? "PRODCASTING" : "NOT PRODCASTING" }}</div>
+                    <div v-if="store.getSession?.type == 'CodeEditor'" @click="() => store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~" p="2">Restore Prodcasted Code</div>
                 </div>
 
                 <!-- SLIDE TYPE -->
