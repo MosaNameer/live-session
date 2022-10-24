@@ -35,7 +35,7 @@ const store = useSessionStore()
 const previewRef = ref(null)
 const codeRender = ref(true)
 
-const updatePreview = useDebounceFn(async () => {
+const updatePreview = async () => {
     const { html, css, javascript } = { ...store.getCode }
 
 
@@ -53,7 +53,7 @@ const updatePreview = useDebounceFn(async () => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
-}, 100)
+}
 
 const sendCode = useDebounceFn(async (e) => {
     const prevents = [16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 44, 45, 91, 92, 93, 112, 113, 114, 115, , 116, 117, 118, 119, 120, 121, 122, 123, 144, 145, 173, 174, 175, 181, 182, 183]
@@ -67,7 +67,7 @@ const sendCode = useDebounceFn(async (e) => {
 
 
 // Listen for writes in editors
-watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 250, maxWait: 1000 })
+watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 100, maxWait: 1000 })
 
 watch(() => store.getCodeForceRender, async (value) => {
     if (value == false) {
