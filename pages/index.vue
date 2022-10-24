@@ -3,7 +3,7 @@
         <div flex="~" w="screen" h="screen" items="center" justify="center" dir="rtl">
             <div w="md" flex="~ col gap-6">
                 <span text="center 5xl primaryOp dark:primary" mb="6">ElitesLiveSessions</span>
-                <UiInput v-model="session" size="md" label="معرف الجلسة" />
+                <UiInput v-model="sessionCookie" size="md" label="معرف الجلسة" />
                 <UiInput v-model="nameCookie" size="md" label="معرف الدخول" />
                 <UiButton @click="join()" size="md" color="success" mt="4">دخول</UiButton>
 
@@ -19,9 +19,9 @@
 </template>
 
 <script setup>
-const session = ref('')
 const router = useRouter()
 const nameCookie = useCookie('name')
+const sessionCookie = useCookie('session')
 
 const onlyEnglish = (str) => /^[A-Za-z0-9]*$/.test(str)
 
@@ -33,12 +33,12 @@ const join = async () => {
         return
     }
 
-    const sessionExists = await $fetch(`/api/session/${session.value}`)
+    const sessionExists = await $fetch(`/api/session/${sessionCookie?.value}`)
     if (!sessionExists) {
         error.value = "الجلسة غير موجودة"
         return
     }
 
-    router.push(`/${session.value}`)
+    router.push(`/${sessionCookie.value}`)
 }
 </script>

@@ -97,7 +97,7 @@ export const useSessionStore = defineStore('session-store', {
             // set slide content
             this.setSlideContent()
 
-            sessionCookie.value = session
+            sessionCookie.value = session as string
         },
 
 
