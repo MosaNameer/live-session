@@ -21,6 +21,8 @@ export const useSessionStore = defineStore('session-store', {
     
     getters: {
         getSocket: (state) => state.socket,
+        getSocketState: (state) => state.socket?.status,
+        getSocketData: (state) => state.socket?.data,
 
         getSession: (state) => state.session,
         isReadOnly: (state) => state.session?.readOnly,
@@ -34,9 +36,6 @@ export const useSessionStore = defineStore('session-store', {
         hasNextSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) < state.slides.length - 1,
         
 
-        // Socket
-        getSocketState: (state) => state.socket?.status,
-        getSocketData: (state) => state.socket?.data,
 
         // Users
         getUsers: (state) => state.users,
