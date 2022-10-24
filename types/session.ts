@@ -1,7 +1,15 @@
 import { User } from './user'
 export interface Session {
     id: string,
-    slide: number | null,
+    slide: string | null,
+    slidesData: {
+        slide: string,
+        storage: {
+            userId: string,
+            data: string,
+        }[] 
+    }[],
+    prodcastedData: any,
     lesson: string,
     adminId: string,
     readOnly: boolean,

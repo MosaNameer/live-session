@@ -42,6 +42,9 @@ export const useSessionStore = defineStore('session-store', {
 
         // Slide Types
         getCode: (state) => state.code,
+        // getMyCode: (state) => state.session?.slidesData.find(s => s.slide === state.session?.slide)?.storage.find(s => s.userId === useCookie('userId')?.value)?.data,
+        // getUserCode: (state) => (user_id: string) => state.session?.slidesData.find(s => s.slide === state.session?.slide)?.storage.find(s => s.userId === user_id)?.data,
+        getProdcastedCode: (state) => state.session?.prodcastedData,
     },
 
     actions: {
@@ -136,12 +139,25 @@ export const useSessionStore = defineStore('session-store', {
             /******************************/
             /*  CHECK IF CODE IN SESSION  */
             /******************************/
+            const type = this.getCurrentSlide.type
+            const prodcastedData = this.session?.prodcastedData
 
-            // Render code
-            this.code = {
-                html: this.getCurrentSlide.html ?? '',
-                css: this.getCurrentSlide.css ?? '',
-                javascript: this.getCurrentSlide.javascript ?? '',
+            // GET CURRENT VALUES FROM STORAGE
+            if (prodcastedData){
+                switch (type) {
+                    case 'CodeEditor':
+                        this.code = prodcastedData
+                        break;
+                }
+            }
+            
+            // SET DEFAULT VALUES
+            else {
+                switch (type) {
+                    case 'CodeEditor':
+                        this.code = this.getCurrentSlide
+                        break;
+                }
             }
         },
 
@@ -168,6 +184,36 @@ export const useSessionStore = defineStore('session-store', {
         },
 
 
+        async storeCode(){
+            const { params: { session } } = useRoute()
+            await $fetch(`/api/session/${session}/store-code`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    data: this.code
+                })
+            })
+        },
+        async getUserCode(user_id){
+            const { params: { session } } = useRoute()
+            const code = await $fetch(`/api/session/${session}/get-code`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    user_id: user_id
+                })
+            })
+            this.setCode(code ?? this.session?.prodcastedData ?? {
+                html: this.getCurrentSlide.html,
+                css: this.getCurrentSlide.css,
+                javascript: this.getCurrentSlide.javascript
+            })
+        },
+        async setCode(code: any){
+            this.code.html = code?.html
+            this.code.css = code?.css
+            this.code.javascript = code?.javascript
+        },
+
+
 
         // DATA RECEIVED TRANSLATOR
         async socketDataReceived(socketData: SocketDataType){
@@ -185,6 +231,12 @@ export const useSessionStore = defineStore('session-store', {
                     break
                 case 'prodcast':
                     this.session.prodcast = data
+                    break
+                case 'code':
+                    this.code = data
+                    break
+                case 'admin':
+                    console.log(data)
                     break
                 default:
                     console.log('unknown data type', data)

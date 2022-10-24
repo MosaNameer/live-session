@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
   let sessions = await useStorage().getItem('db:sessions') as Session[]
   const session = sessions.find((s: Session) => s.id === session_id)
   session.slide = slide
+  session.prodcastedData = null
   await useStorage().setItem('db:sessions', sessions)
 
 

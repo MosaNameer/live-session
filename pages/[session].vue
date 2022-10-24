@@ -5,17 +5,21 @@
             <span text="xl primaryOp dark:primary" mb="6">{{ store.getCurrentSlide.title }}</span>
 
             <!-- CONTENT -->
-            <div v-if="selectedTab == 'settings'">
+            <div v-show="selectedTab === 'settings'">
                 Settings
             </div>
 
-            <Users v-else-if="selectedTab == 'users'" />
+            <div v-show="selectedTab === 'users'">
+                <Users />
+            </div>
 
-            <ContentRenderer v-else :value="store.getSlideContent">
-                <template #empty>
-                    <p>No content found.</p>
-                </template>
-            </ContentRenderer>
+            <div v-show="selectedTab == null">
+                <ContentRenderer :value="store.getSlideContent">
+                    <template #empty>
+                        <p>No content found.</p>
+                    </template>
+                </ContentRenderer>
+            </div>
 
             <br /><br />
 
@@ -50,7 +54,7 @@
         <!-- Right Panel -->
         <template #rightpanel>
             <div flex="~ col" position="relative" w="full" h="full">
-                <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
+                <div v-if="store.isAdmin" position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
                     <div @click="store.toggleReadOnly" cursor="pointer" border="~" p="2">{{ store.isReadOnly ? "READ ONLY" : "READ WRITE" }}</div>
                     <div @click="store.toggleProdcast" cursor="pointer" border="~" p="2">{{ store.isProdcast ? "PRODCASTING" : "NOT PRODCASTING" }}</div>
                 </div>

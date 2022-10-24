@@ -40,7 +40,9 @@ export default defineEventHandler(async (event) => {
     adminId: adminId,
     readOnly: true,
     prodcast: false,
-    users: [] as User[]
+    users: [] as User[],
+    slidesData: [],
+    prodcastedData: null,
   }
 
   // add new session to sessions

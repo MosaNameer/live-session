@@ -14,12 +14,12 @@
                 <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
             </template>
         </UiTabGroup>
-        
+
         <div position="relative" flex="basis-1/2" bg="primary">
             <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
                 <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
             </div>
-            
+
             <iframe h="full" w="full" ref="previewRef" border="0"></iframe>
         </div>
     </div>
@@ -34,7 +34,8 @@ const previewRef = ref(null)
 
 
 const updatePreview = useDebounceFn(async () => {
-    const { html, css, javascript } = store.getCode
+    const { html, css, javascript } = {...store.getCode}
+
 
     // Get element of iframe
     const preview = previewRef.value.contentDocument || previewRef.value.contentWindow.document;
@@ -50,6 +51,7 @@ const updatePreview = useDebounceFn(async () => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
+
 }, 250)
 
 const sendCode = useDebounceFn(async (e) => {
@@ -59,22 +61,12 @@ const sendCode = useDebounceFn(async (e) => {
         return false
     }
 
-    // if (socket.value.data) {
-    //     const { type, data: receivedData } = JSON.parse(socket.value.data)
-    //     if (code.html == receivedData.html && code.css == receivedData.css && code.javascript == receivedData.javascript) return false
-    // }
-
-    // await $fetch('/api/code', {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //         message: code,
-    //     })
-    // })
+    store.storeCode()
 }, 250)
 
 
 // Listen for writes in editors
-watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, debounce: 250, maxWait: 1000 })
+watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 250, maxWait: 1000 })
 
 
 
