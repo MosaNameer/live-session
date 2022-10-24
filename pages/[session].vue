@@ -57,7 +57,7 @@
                 <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
                     <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~" p="2">{{ store.isReadOnly ? "READ ONLY" : "READ WRITE" }}</div>
                     <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~" p="2">{{ store.isProdcast ? "PRODCASTING" : "NOT PRODCASTING" }}</div>
-                    <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~" p="2">Restore Prodcasted Code</div>
+                    <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~" p="2">Restore Prodcasted Code</div>
                 </div>
 
                 <!-- SLIDE TYPE -->

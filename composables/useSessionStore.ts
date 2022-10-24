@@ -111,13 +111,17 @@ export const useSessionStore = defineStore('session-store', {
         async nextSlide(){
             const index = this.slides.findIndex(s => s._path === this.session?.slide)
             const nextSlide = this.slides[index - 1]
-            if (nextSlide) await this.setSlide(nextSlide._path)
+            if (nextSlide) {
+                await this.setSlide(nextSlide._path)
+            }
         },
 
         async prevSlide(){
             const index = this.slides.findIndex(s => s._path === this.session?.slide)
             const prevSlide = this.slides[index + 1]
-            if (prevSlide) await this.setSlide(prevSlide._path)
+            if (prevSlide) {
+                await this.setSlide(prevSlide._path)
+            }
         },
 
         async setSlide(slide){
@@ -156,7 +160,9 @@ export const useSessionStore = defineStore('session-store', {
             else {
                 switch (type) {
                     case 'CodeEditor':
-                        this.code = this.getCurrentSlide
+                        this.code.html = this.getCurrentSlide.html
+                        this.code.css = this.getCurrentSlide.css
+                        this.code.javascript = this.getCurrentSlide.javascript
                         this.codeForceRender = false
                         break;
                 }
@@ -194,6 +200,10 @@ export const useSessionStore = defineStore('session-store', {
                     data: this.code
                 })
             })
+
+            if (this.isProdcast){
+                this.session.prodcastedData = this.code
+            }
         },
         async getUserCode(user_id){
             const { params: { session } } = useRoute()
@@ -227,6 +237,7 @@ export const useSessionStore = defineStore('session-store', {
                     break
                 case 'slide':
                     this.session.slide = data
+                    this.session.prodcastedData = null
                     this.setSlideContent()
                     break
                 case 'read-only':
@@ -237,6 +248,7 @@ export const useSessionStore = defineStore('session-store', {
                     break
                 case 'code':
                     this.code = data
+                    this.session.prodcastedData = data
                     this.codeForceRender = false
                     break
                 case 'admin':
