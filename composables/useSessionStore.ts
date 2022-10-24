@@ -5,9 +5,12 @@ import { User } from "~~/types/user"
 export const useSessionStore = defineStore('session-store', {
     state: () => ({
         socket: null,
+
         session: null as Session,
+
         slides: null,
         slideContent: null,
+
 
         users: [] as User[],
         
@@ -20,6 +23,8 @@ export const useSessionStore = defineStore('session-store', {
 
         getSession: (state) => state.session,
         isReadOnly: (state) => state.session?.readOnly,
+        isProdcast: (state) => state.session?.prodcast,
+        isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
         getSlides: (state) => state.slides,
         getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
@@ -27,7 +32,6 @@ export const useSessionStore = defineStore('session-store', {
         hasPrevSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) > 0,
         hasNextSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) < state.slides.length - 1,
         
-        isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
         // Socket
         getSocketState: (state) => state.socket?.status,
@@ -149,6 +153,22 @@ export const useSessionStore = defineStore('session-store', {
 
 
 
+        async toggleReadOnly(){
+            const { params: { session } } = useRoute()
+            await $fetch(`/api/session/${session}/toggle-read`, {
+                method: 'POST'
+            })
+        },
+
+        async toggleProdcast(){
+            const { params: { session } } = useRoute()
+            await $fetch(`/api/session/${session}/toggle-prodcast`, {
+                method: 'POST'
+            })
+        },
+
+
+
         // DATA RECEIVED TRANSLATOR
         async socketDataReceived(socketData: SocketDataType){
             const { type, data } = socketData
@@ -159,6 +179,12 @@ export const useSessionStore = defineStore('session-store', {
                 case 'slide':
                     this.session.slide = data
                     this.setSlideContent()
+                    break
+                case 'read-only':
+                    this.session.readOnly = data
+                    break
+                case 'prodcast':
+                    this.session.prodcast = data
                     break
                 default:
                     console.log('unknown data type', data)

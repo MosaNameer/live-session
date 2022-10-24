@@ -39,6 +39,7 @@ export default defineEventHandler(async (event) => {
     lesson: lesson,
     adminId: adminId,
     readOnly: true,
+    prodcast: false,
     users: [] as User[]
   }
 

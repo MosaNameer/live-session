@@ -51,8 +51,8 @@
         <template #rightpanel>
             <div flex="~ col" position="relative" w="full" h="full">
                 <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
-                    <div border="~">TEST 1</div>
-                    <div border="~">TEST 1</div>
+                    <div @click="store.toggleReadOnly" cursor="pointer" border="~" p="2">{{ store.isReadOnly ? "READ ONLY" : "READ WRITE" }}</div>
+                    <div @click="store.toggleProdcast" cursor="pointer" border="~" p="2">{{ store.isProdcast ? "PRODCASTING" : "NOT PRODCASTING" }}</div>
                 </div>
 
                 <!-- SLIDE TYPE -->

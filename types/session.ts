@@ -5,5 +5,6 @@ export interface Session {
     lesson: string,
     adminId: string,
     readOnly: boolean,
+    prodcast: boolean,
     users: User[],
 }
