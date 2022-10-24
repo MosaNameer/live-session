@@ -1,19 +1,21 @@
 <template>
     <div h="full" flex="~ col">
         <!-- Tabs -->
-        <UiTabGroup flex="grow" :tabs="['html', 'css', 'js']">
-            <template #tab-1>
-                <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
-            </template>
+        <div v-if="codeRender" flex="grow">
+            <UiTabGroup h="full" :tabs="['html', 'css', 'js']">
+                <template #tab-1>
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+                </template>
 
-            <template #tab-2>
-                <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
-            </template>
+                <template #tab-2>
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+                </template>
 
-            <template #tab-3>
-                <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
-            </template>
-        </UiTabGroup>
+                <template #tab-3>
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ theme: 'vs-dark', fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+                </template>
+            </UiTabGroup>
+        </div>
 
         <div position="relative" flex="basis-1/2" bg="primary">
             <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
@@ -31,10 +33,10 @@ const store = useSessionStore()
 
 // Preview Panel Reference
 const previewRef = ref(null)
-
+const codeRender = ref(true)
 
 const updatePreview = useDebounceFn(async () => {
-    const { html, css, javascript } = {...store.getCode}
+    const { html, css, javascript } = { ...store.getCode }
 
 
     // Get element of iframe
@@ -51,6 +53,7 @@ const updatePreview = useDebounceFn(async () => {
     preview.body.appendChild(scriptEl);
     preview.close();
 
+    await forceRender()
 
 }, 250)
 
@@ -68,7 +71,15 @@ const sendCode = useDebounceFn(async (e) => {
 // Listen for writes in editors
 watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 250, maxWait: 1000 })
 
+const forceRender = async () => {
+    // Remove MyComponent from the DOM
+    codeRender.value = false;
 
+    // Wait for the change to get flushed to the DOM
+    await nextTick();
 
+    // Add the component back in
+    codeRender.value = true;
+}
 
 </script>
