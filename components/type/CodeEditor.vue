@@ -40,7 +40,7 @@ const updatePreview = useDebounceFn(async () => {
 
 
     // Get element of iframe
-    const preview = previewRef.value.contentDocument || previewRef.value.contentWindow.document;
+    const preview = previewRef.value?.contentDocument || previewRef.value?.contentWindow?.document;
 
     if (!preview) return false
 

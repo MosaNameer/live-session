@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
     // send to users
     state.wss.clients.forEach((ws) => {
-      if (ws.readyState === ws.OPEN && ws.user.session === session_id) {
+      if (ws.readyState === ws.OPEN && ws.user.session === session_id && ws.user.id !== user_id) {
         ws.send(SocketData({
           type: 'code',
           data: data
