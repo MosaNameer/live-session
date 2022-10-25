@@ -14,9 +14,14 @@ export const useSessionStore = defineStore('session-store', {
 
         users: [] as User[],
         
-        // SLIDE TYPES
+        /* SLIDE TYPES */
+        // CODE
         code: { html: '<html><body><span>test</span></body></html>', css: 'span{color:red}', javascript: '' },
-        codeForceRender: true
+        codeForceRender: true,
+
+        // QUESTION
+        questions: [],
+
     }),
     
     getters: {
@@ -40,10 +45,15 @@ export const useSessionStore = defineStore('session-store', {
         // Users
         getUsers: (state) => state.users,
 
-        // Slide Types
+        /* Slide Types */
+        // CODE
         getCode: (state) => state.code,
         getProdcastedCode: (state) => state.session?.prodcastedData,
         getCodeForceRender: (state) => state.codeForceRender,
+
+        // QUESTION
+        getQuestions: (state) => state.questions,
+        
     },
 
     actions: {
@@ -104,7 +114,7 @@ export const useSessionStore = defineStore('session-store', {
         async fetchSlides(){
             this.slides = await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
-            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript']).find()
+            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript', 'questions']).find()
         },
 
         async nextSlide(){
@@ -152,6 +162,9 @@ export const useSessionStore = defineStore('session-store', {
                         this.code = {...prodcastedData}
                         this.codeForceRender = false
                         break;
+                    case 'Question':
+                        this.questions = {...prodcastedData}
+                        break;
                 }
             }
             
@@ -159,10 +172,13 @@ export const useSessionStore = defineStore('session-store', {
             else {
                 switch (type) {
                     case 'CodeEditor':
-                        this.code.html = this.getCurrentSlide.html
-                        this.code.css = this.getCurrentSlide.css
-                        this.code.javascript = this.getCurrentSlide.javascript
+                        this.code.html = this.getCurrentSlide?.html
+                        this.code.css = this.getCurrentSlide?.css
+                        this.code.javascript = this.getCurrentSlide?.javascript
                         this.codeForceRender = false
+                        break;
+                    case 'Question':
+                        this.questions = this.getCurrentSlide?.questions
                         break;
                 }
             }
