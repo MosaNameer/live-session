@@ -17,12 +17,11 @@
         </div>
 
         <div v-if="question.type =='text'">
-            <textarea></textarea>
+            <textarea v-model.lazy="question.choice"></textarea>
         </div>
     </div>
 </template>
 
 <script setup>
 const props = defineProps(['question'])
-
 </script>

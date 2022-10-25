@@ -21,4 +21,9 @@ const store = useSessionStore()
 const questions = store?.getQuestions
 
 const selectedQuestion = ref(0)
+
+
+watch(() => questions, () => {
+    store.storeQuestions(questions)
+}, {deep: true})
 </script>

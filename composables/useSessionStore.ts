@@ -37,6 +37,11 @@ export const useSessionStore = defineStore('session-store', {
         getSlides: (state) => state.slides,
         getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
         getSlideContent: (state) => state.slideContent,
+        getSlideData(){
+            return () => this.getSession?.slidesData
+                ?.find(s => s.slide === this.getCurrentSlide?._path).storage
+                ?.find(user => user.userId == useCookie('userId')?.value)?.data
+        },
         hasPrevSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) > 0,
         hasNextSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) < state.slides.length - 1,
         
@@ -178,7 +183,11 @@ export const useSessionStore = defineStore('session-store', {
                         this.codeForceRender = false
                         break;
                     case 'Question':
-                        this.questions = this.getCurrentSlide?.questions
+                        const userQuestions = this.getSlideData()
+                        if (userQuestions)
+                            this.questions = userQuestions
+                        else
+                            this.questions = this.getCurrentSlide?.questions
                         break;
                 }
             }
@@ -239,6 +248,17 @@ export const useSessionStore = defineStore('session-store', {
             this.code.css = code?.css
             this.code.javascript = code?.javascript
             this.codeForceRender = false
+        },
+
+
+        async storeQuestions(){
+            const { params: { session } } = useRoute()
+            await $fetch(`/api/session/${session}/store-question`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    data: this.questions
+                })
+            })
         },
 
 
