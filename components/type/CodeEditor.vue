@@ -22,7 +22,7 @@
                 <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
             </div>
 
-            <iframe h="full" w="full" ref="previewRef" border="0"></iframe>
+            <iframe h="full" w="full" ref="previewRef" border="0" bg-white></iframe>
         </div>
     </div>
 </template>

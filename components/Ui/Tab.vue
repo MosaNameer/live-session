@@ -1,7 +1,7 @@
 <template>
-    <div cursor="pointer" text="center md" w="max" font="medium" px="4px" py="12px" :class="[
+    <div cursor="pointer" text="center md" w="max" min-w="60px" font="medium" px="4px" py="12px" :class="[
         active
-        ? 'bg-primary dark:primary dark:text-white text-white border-2 border-secondary'
+        ? 'bg-tertiary dark:tertiary dark:text-white text-white'
         : 'bg-transparent',
 
         'text-white hover:text-whitesec dark:text-white dark:hover:text-whitesec'

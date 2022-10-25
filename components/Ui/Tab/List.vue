@@ -1,5 +1,5 @@
 <template>
-    <div border="rounded-xl" justify="center" p="1" flex="~ gap-1" :class="{ 'flex-col w-96' : col }">
+    <div flex="~ gap-1" :class="{ 'flex-col w-96' : col }">
         <slot />
     </div>
 </template>
