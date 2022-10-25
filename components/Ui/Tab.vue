@@ -1,11 +1,11 @@
 <template>
-    <div cursor="pointer" text="center md" w="max" font="medium" p="x-4" py="9px" :class="[
+    <div cursor="pointer" text="center md" w="max" font="medium" px="4px" py="12px" :class="[
         active
-        ? 'bg-secondary dark:bg-secondaryOp dark:text-primary text-primaryOp dark:border-w-20'
+        ? 'bg-primary dark:primary dark:text-white text-white border-2 border-secondary'
         : 'bg-transparent',
 
-        'text-secondaryOp hover:text-primaryOp dark:text-secondary dark:hover:text-primary'
-    ]" border="rounded-[10px]">
+        'text-white hover:text-whitesec dark:text-white dark:hover:text-whitesec'
+    ]">
         <slot />
     </div>
 </template>

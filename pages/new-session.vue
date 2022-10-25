@@ -7,11 +7,12 @@
 
                 <UiInput v-model="session" label="معرف الجلسة" />
 
-                <select v-model="lesson">
-                    <option v-for="l in lessons" :key="l.value" :value="l">{{ l?.name }}</option>
-                </select>
+                <UiDropdown v-model="lesson" placeholder="الدرس" :options="lessons">
+                </UiDropdown>
+                <h1>{{ lesson }}</h1>
                 
                 <UiButton @click="create()" mt="4">إنشاء</UiButton>
+
 
                 <span text="center sm errorOp dark:error" mt="6">{{ error }}</span>
             </div>

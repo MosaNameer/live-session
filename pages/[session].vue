@@ -2,8 +2,8 @@
     <Suspense>
         <NuxtLayout name="two-sections">
             <div flex="~ col" w="full" p="4" position="relative">
-                <span text="lg tertiaryOp dark:tertiary">{{ store.getCurrentSlide.chapter }}</span>
-                <span text="xl primaryOp dark:primary" mb="6">{{ store.getCurrentSlide.title }}</span>
+                <span text="lg whitesec dark:whitesec">{{ store.getCurrentSlide.chapter }}</span>
+                <span text="xl white dark:white" mb="6">{{ store.getCurrentSlide.title }}</span>
 
                 <!-- CONTENT -->
                 <div v-show="selectedTab === 'settings'">
@@ -25,22 +25,22 @@
                 <br /><br />
 
                 <div flex="~ col" position="absolute" left="0" bottom="0" w="full">
-                    <div flex="~" justify="between" bg="secondary dark:secondaryOp" p="y-2 x-4">
+                    <div flex="~" justify="between" text="white" bg="secondary dark:secondaryOp" p="y-2 x-4">
                         <span>{{ store.getSession?.id }}</span>
                         <div flex="~ gap-2">
                             <span>{{ store.getUsers?.length }}</span>
-                            <IconUsers w="24px" />
+                            <Icon name="ic:round-people-alt" />
                         </div>
                     </div>
-                    <div v-if="store.isAdmin" flex="~" justify="between" p="4">
+                    <div v-if="store.isAdmin" flex="~" justify="between" p="4" bg="tertiary" text="white 2xl">
                         <div flex="~ gap-3">
-                            <span cursor="pointer">Full Screen</span>
-                            <span @click="selectTab('settings')" cursor="pointer">Settings</span>
-                            <span @click="selectTab('users')" cursor="pointer">Users</span>
+                            <span text="hover:whitesec" cursor="pointer"><Icon name="ic:twotone-fullscreen"/></span>
+                            <span text="hover:whitesec" @click="selectTab('settings')" cursor="pointer"><Icon name="ic:baseline-settings"/></span>
+                            <span text="hover:whitesec" @click="selectTab('users')" cursor="pointer"><Icon name="ic:round-supervisor-account"/></span>
                         </div>
                         <div flex="~ gap-6">
-                            <span :class="{ 'text-error': store.hasNextSlide }" @click="store.nextSlide()" cursor="pointer">Left</span>
-                            <span :class="{ 'text-error': store.hasPrevSlide }" @click="store.prevSlide()" cursor="pointer">Right</span>
+                            <span text="hover:whitesec" :class="{ 'text-error': store.hasNextSlide }" @click="store.nextSlide()" cursor="pointer"><Icon name="ic:baseline-arrow-circle-left"/></span>
+                            <span text="hover:whitesec" :class="{ 'text-error': store.hasPrevSlide }" @click="store.prevSlide()" cursor="pointer"><Icon name="ic:baseline-arrow-circle-right"/></span>
                         </div>
                     </div>
                 </div>
@@ -55,11 +55,11 @@
             <!-- Right Panel -->
             <template #rightpanel>
                 <div flex="~ col" position="relative" w="full" h="full">
-                    <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp">
-                        <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~" p="2">{{ store.isReadOnly ? "READ ONLY" : "READ WRITE" }}</div>
-                        <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~" p="2">{{ store.isProdcast ? "PRODCASTING" : "NOT PRODCASTING" }}</div>
-                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~" p="2">Restore Prodcasted Code</div>
-                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript})" cursor="pointer" border="~" p="2">Initial Code</div>
+                    <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp" text-white>
+                        <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~ secondary" p="2"><Icon :name="store.isReadOnly ? 'ic:baseline-edit-off' : 'ic:baseline-edit'"/></div>
+                        <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~ secondary" p="2"><Icon :name="store.isProdcast ? 'mdi:broadcast-off' : 'mdi:broadcast'"/></div>
+                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~ secondary" p="2"><Icon name="material-symbols:settings-backup-restore"/></div>
+                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript})" cursor="pointer" border="~ secondary" p="2" py="10px"><Icon name="material-symbols:restore-page-rounded"/></div>
                     </div>
 
                     <!-- SLIDE TYPE -->

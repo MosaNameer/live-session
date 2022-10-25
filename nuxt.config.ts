@@ -77,6 +77,9 @@ export default defineNuxtConfig({
           ],
         theme: {
             colors: {
+                "whitesec": {
+                    "DEFAULT": "#d4b2f7"
+                },
                 "primary": {
                     "DEFAULT": "#0F0E17"
                 },
