@@ -54,12 +54,12 @@
 
             <!-- Right Panel -->
             <template #rightpanel>
-                <div flex="~ col" position="relative" w="full" h="full">
+                <div flex="~ col" position="relative" w="full" h="full" bg="secondary dark:secondaryOp">
                     <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp" text-white>
-                        <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~ secondary" p="2"><Icon :name="store.isReadOnly ? 'ic:baseline-edit-off' : 'ic:baseline-edit'"/></div>
-                        <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~ secondary" p="2"><Icon :name="store.isProdcast ? 'mdi:broadcast-off' : 'mdi:broadcast'"/></div>
-                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~ secondary" p="2"><Icon name="material-symbols:settings-backup-restore"/></div>
-                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript})" cursor="pointer" border="~ secondary" p="2" py="10px"><Icon name="material-symbols:restore-page-rounded"/></div>
+                        <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon :name="store.isReadOnly ? 'ic:baseline-edit-off' : 'ic:baseline-edit'"/></div>
+                        <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon :name="store.isProdcast ? 'mdi:broadcast-off' : 'mdi:broadcast'"/></div>
+                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon name="material-symbols:settings-backup-restore"/></div>
+                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript})" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon name="material-symbols:restore-page-rounded"/></div>
                     </div>
 
                     <!-- SLIDE TYPE -->
