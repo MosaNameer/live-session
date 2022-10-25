@@ -11,6 +11,8 @@
                 : 'bg-whitesec'
             ]" flex="~" items="center" justify="center" w="10" h="10" text="xl" cursor="pointer">{{ index }}</span>
         </div>
+
+        <Question :question="questions[selectedQuestion]" />
     </div>
 </template>
 
