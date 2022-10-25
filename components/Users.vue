@@ -8,13 +8,18 @@
                 <span w="2.5" h="2.5" rounded="full" :class="[user.online ? 'bg-success' : 'bg-whitesec']"></span>
             </div>
 
-            <div text="sm" flex="~ gap-1" items="center">
+            <div v-if="store.isAdmin" text="sm" flex="~ gap-1" items="center">
                 <span @click="store.getUserCode(user.id)" text-whitesec cursor="pointer" v-if="store.getCurrentSlide.type == 'CodeEditor'">[SHOW CODE]</span>
-                <span @click="() => {}" text-whitesec cursor="pointer" v-if="store.getCurrentSlide.type == 'Question'">[SHOW ANSWERS]</span>
+                <!-- <span @click="() => {}" text-whitesec cursor="pointer" v-if="store.getCurrentSlide.type == 'Question'">[SHOW ANSWERS]</span> -->
                 <span @click="() => {}" text-whitesec cursor="pointer" v-if="store.getCurrentSlide.type == 'Question'">
                     {{store.getCorrectQuestionsByUserId(user.id)?.filter(q => q.choice?.length > 0 ?? q.choice)?.length}}
                     /
                     {{ store.getQuestions?.length }}
+
+                    (
+                        {{store.getCorrectQuestionsByUserId(user.id)?.filter(q => q.result)?.length}} correct answers
+                        and {{store.getCorrectQuestionsByUserId(user.id)?.filter(q => q.type=="text")?.length}} not auto correct
+                    )
                 </span>
             </div>
 
