@@ -16,13 +16,13 @@
                 </template>
             </UiTabGroup>
         </div>
-
+ 
         <div position="relative" flex="basis-1/2" bg="primary">
             <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
                 <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
             </div>
 
-            <iframe h="full" w="full" ref="previewRef" border="0" bg-white></iframe>
+            <iframe overflow-scroll h="full" w="full" ref="previewRef" border="0" bg-white></iframe>
         </div>
     </div>
 </template>
