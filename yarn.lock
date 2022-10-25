@@ -4073,10 +4073,10 @@ nuxt-icon@^0.1.7:
     "@iconify/vue" "^4.0.0"
     "@nuxt/kit" "^3.0.0-rc.10"
 
-nuxt-monaco-editor@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/nuxt-monaco-editor/-/nuxt-monaco-editor-1.0.3.tgz#b82be002ca74494aeefcc499fe836ae78cd7fe6e"
-  integrity sha512-AhGzgYSvI9L9TaJ30wyxFoeuHkSx2t1klmtQx0urmILaPWzBvVoUdVynkT3TodrQydCipvJWohSxQbbTNrxNTw==
+nuxt-monaco-editor@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/nuxt-monaco-editor/-/nuxt-monaco-editor-1.0.4.tgz#91c313787c57474a544750151a62da4ee95b7c1f"
+  integrity sha512-e4b9FLM0eksTXthesQV5/31JRF8rrodpFG16lIScB8wz8s5dICzwqL9GSI4i6qzaQWW0ZeTYs4P+lL5kQYazFg==
   dependencies:
     "@nuxt/kit" "^3.0.0-rc.12"
     vite-plugin-static-copy "^0.9.0"
