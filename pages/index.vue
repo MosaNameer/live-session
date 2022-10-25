@@ -6,13 +6,11 @@
                 <UiInput v-model="sessionCookie" label="معرف الجلسة" />
                 <UiInput v-model="nameCookie" label="معرف الدخول" />
                 <UiButton @click="join()" mt="4">دخول</UiButton>
-
                 <span v-if="error" text="center sm errorOp dark:error" mt="4">{{ error }}</span>
 
                 <div h="1px" w="full" bg="secondary dark:secondaryOp" my="4"></div>
 
                 <UiButton to="/new-session" mt="4">انشاء جلسة جديدة</UiButton>
-
             </div>
         </div>
     </NuxtLayout>
