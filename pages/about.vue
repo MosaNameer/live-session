@@ -19,4 +19,22 @@ const test1 = () => {
 const test2 = () => {
     code.value = `<div>test 2</div>`
 }
+
+onMounted(() => {
+    const monaco = useMonaco()
+    monaco.editor.defineTheme("custom-theme", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [
+            { token: "comment", foreground: "ffa500", fontStyle: "italic underline" },
+            { token: "keyword", foreground: "ff0000", fontStyle: "bold" },
+            { token: "number", foreground: "098658" },
+            { token: "regexp", foreground: "800080" }
+        ],
+        colors: {
+            "editor.background": "#000000"
+        }
+    })
+    monaco.editor.setTheme("custom-theme")
+})
 </script>
