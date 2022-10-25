@@ -2,8 +2,8 @@
     <Suspense>
         <NuxtLayout name="two-sections">
             <div flex="~ col" w="full" p="4" position="relative">
-                <span text="lg tertiaryOp dark:tertiary">{{ store.getCurrentSlide.chapter }}</span>
-                <span text="xl primaryOp dark:primary" mb="6">{{ store.getCurrentSlide.title }}</span>
+                <span text="lg tertiaryOp dark:tertiary">{{ store.getCurrentSlide?.chapter }}</span>
+                <span text="xl primaryOp dark:primary" mb="6">{{ store.getCurrentSlide?.title }}</span>
 
                 <!-- CONTENT -->
                 <div v-show="selectedTab === 'settings'">
