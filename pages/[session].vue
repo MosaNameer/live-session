@@ -14,15 +14,13 @@
                     <Users />
                 </div>
 
-                <div v-show="selectedTab == null">
+                <div v-show="selectedTab == null" overflow="y-auto" mb="30">
                     <ContentRenderer :value="store.getSlideContent">
                         <template #empty>
                             <p>No content found.</p>
                         </template>
                     </ContentRenderer>
                 </div>
-
-                <br /><br />
 
                 <div flex="~ col" position="absolute" left="0" bottom="0" w="full">
                     <div flex="~" justify="between" text="white" bg="secondary dark:secondaryOp" p="y-2 x-4">
@@ -34,20 +32,26 @@
                     </div>
                     <div v-if="store.isAdmin" flex="~" justify="between" p="4" bg="tertiary" text="white 2xl">
                         <div flex="~ gap-3">
-                            <span text="hover:whitesec" cursor="pointer"><Icon name="ic:twotone-fullscreen"/></span>
-                            <span text="hover:whitesec" @click="selectTab('settings')" cursor="pointer"><Icon name="ic:baseline-settings"/></span>
-                            <span text="hover:whitesec" @click="selectTab('users')" cursor="pointer"><Icon name="ic:round-supervisor-account"/></span>
+                            <span text="hover:whitesec" cursor="pointer">
+                                <Icon name="ic:twotone-fullscreen" />
+                            </span>
+                            <span text="hover:whitesec" @click="selectTab('settings')" cursor="pointer">
+                                <Icon name="ic:baseline-settings" />
+                            </span>
+                            <span text="hover:whitesec" @click="selectTab('users')" cursor="pointer">
+                                <Icon name="ic:round-supervisor-account" />
+                            </span>
                         </div>
                         <div flex="~ gap-6">
-                            <span text="hover:whitesec" :class="{ 'text-error': store.hasNextSlide }" @click="store.nextSlide()" cursor="pointer"><Icon name="ic:baseline-arrow-circle-left"/></span>
-                            <span text="hover:whitesec" :class="{ 'text-error': store.hasPrevSlide }" @click="store.prevSlide()" cursor="pointer"><Icon name="ic:baseline-arrow-circle-right"/></span>
+                            <span text="hover:whitesec" :class="{ 'text-error': store.hasNextSlide }" @click="store.nextSlide()" cursor="pointer">
+                                <Icon name="ic:baseline-arrow-circle-left" />
+                            </span>
+                            <span text="hover:whitesec" :class="{ 'text-error': store.hasPrevSlide }" @click="store.prevSlide()" cursor="pointer">
+                                <Icon name="ic:baseline-arrow-circle-right" />
+                            </span>
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
 
 
@@ -56,23 +60,31 @@
             <template #rightpanel>
                 <div flex="~ col" position="relative" w="full" h="full" bg="secondary dark:secondaryOp">
                     <div position="absolute" right="0" flex="~" bg="secondary dark:secondaryOp" text-white>
-                        <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon :name="store.isReadOnly ? 'ic:baseline-edit-off' : 'ic:baseline-edit'"/></div>
-                        <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon :name="store.isProdcast ? 'mdi:broadcast-off' : 'mdi:broadcast'"/></div>
-                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon name="material-symbols:settings-backup-restore"/></div>
-                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript})" cursor="pointer" border="~ secondary" px="4px" py="12px"><Icon name="material-symbols:restore-page-rounded"/></div>
+                        <div v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" border="~ secondary" px="4px" py="12px">
+                            <Icon :name="store.isReadOnly ? 'ic:baseline-edit-off' : 'ic:baseline-edit'" />
+                        </div>
+                        <div v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" border="~ secondary" px="4px" py="12px">
+                            <Icon :name="store.isProdcast ? 'mdi:broadcast-off' : 'mdi:broadcast'" />
+                        </div>
+                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.setCode(store.getSession?.prodcastedData)" cursor="pointer" border="~ secondary" px="4px" py="12px">
+                            <Icon name="material-symbols:settings-backup-restore" />
+                        </div>
+                        <div v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({ html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript })" cursor="pointer" border="~ secondary" px="4px" py="12px">
+                            <Icon name="material-symbols:restore-page-rounded" />
+                        </div>
                     </div>
 
                     <!-- SLIDE TYPE -->
                     <div flex="grow">
                         <TypeCodeEditor v-if="store.getCurrentSlide.type == 'CodeEditor'" />
+                        <TypeQuestion v-if="store.getCurrentSlide.type == 'Question'" />
                     </div>
-
                 </div>
             </template>
         </NuxtLayout>
 
         <template #fallback>
-            Loading...
+            <div>Loading...</div>
         </template>
     </Suspense>
 </template>

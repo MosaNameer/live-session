@@ -5,7 +5,7 @@
             <button @click="test2">test 2</button>
             {{code}}
         </div>
-        <MonacoEditor h="full" v-model="code" lang="html" :options="{ fontSize: '20px' }" />
+        <MonacoEditor h="full" v-model="code" lang="html" :options="{ fontSize: '20px', minimap: {enabled: false}}" />
     </div>
 </template>
 
@@ -19,6 +19,5 @@ const test1 = () => {
 const test2 = () => {
     code.value = `<div>test 2</div>`
 }
-
 
 </script>
