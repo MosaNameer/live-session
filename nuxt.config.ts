@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     ssr: false,
 
     modules: [
-        '@enab/components',
+        'nuxt-icon',
         '@unocss/nuxt',
         '@vueuse/nuxt',
         'nuxt-monaco-editor',
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
         // fallback: 'dark'
 
         preference: 'system',
-        fallback: 'light'
+        fallback: 'dark'
     },
 
     runtimeConfig: {
@@ -43,5 +43,83 @@ export default defineNuxtConfig({
 
     content: {
         documentDriven: true
-    }
+    },
+    unocss: {
+        autoImport: true,
+        uno: true,
+        attributify: {
+            ignoreAttributes: ["label"]
+        },
+        typography: true,
+        webFonts: {
+            provider: "google",
+            fonts: {
+            sansSerif: ["Tajawal:300,400,500,700"]
+            }
+        },
+    
+        shortcuts: [],
+        rules: [],
+
+        preflights: [
+            {
+              getCSS: ({ theme }) => `
+                    * {
+                      padding: 0;
+                      margin: 0;
+                      font-family: ${theme["fontFamily"]["sansSerif"]};
+                    }
+                    body {
+                        overflow: hidden;
+                    }
+                  `
+            }
+          ],
+        theme: {
+            colors: {
+                "primary": {
+                    "DEFAULT": "#0F0E17"
+                },
+                "primaryOp": {
+                    "DEFAULT": "#0F0E17"
+                },
+                "secondary": {
+                    "DEFAULT": "#2C2657"
+                },
+                "secondaryOp": {
+                    "DEFAULT": "#2C2657"
+                },
+                "tertiary": {
+                    "DEFAULT": "#120B16"
+                },
+                "tertiaryOp": {
+                    "DEFAULT": "#120B16"
+                },
+                "success": {
+                    "DEFAULT": "#43F580"
+                },
+                "successOp": {
+                    "DEFAULT": "#43F580"
+                },
+                "error": {
+                    "DEFAULT": "#E94B41"
+                },
+                "errorOp": {
+                    "DEFAULT": "#E85147"
+                },
+                "warning": {
+                    "DEFAULT": "#EFBB34"
+                },
+                "warningOp": {
+                    "DEFAULT": "#FFD155"
+                },
+                "info": {
+                    "DEFAULT": "#298DFE"
+                },
+                "infoOp": {
+                    "DEFAULT": "#3393FF"
+                }
+            },
+          }
+      },
 })

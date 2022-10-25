@@ -2,14 +2,16 @@
     <NuxtLayout>
         <div flex="~" w="screen" h="screen" items="center" justify="center" dir="rtl">
             <div w="md" flex="~ col gap-6">
-                <span text="center 5xl primaryOp dark:primary">ElitesLiveSessions</span>
-                <span text="center sm primaryOp dark:primary" mb="6">{{ userIdCookie }}</span>
+                <span text="center 5xl white dark:white">ElitesLiveSessions</span>
+                <span text="center sm white dark:white" mb="6">{{ userIdCookie }}</span>
 
-                <UiInput v-model="session" size="md" label="معرف الجلسة" />
+                <UiInput v-model="session" label="معرف الجلسة" />
+
                 <select v-model="lesson">
                     <option v-for="l in lessons" :key="l.value" :value="l">{{ l?.name }}</option>
                 </select>
-                <UiButton @click="create()" size="md" color="success" mt="4">إنشاء</UiButton>
+                
+                <UiButton @click="create()" mt="4">إنشاء</UiButton>
 
                 <span text="center sm errorOp dark:error" mt="6">{{ error }}</span>
             </div>
