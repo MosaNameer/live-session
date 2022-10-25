@@ -1,5 +1,5 @@
 <template>
-    <div flex="~ gap-1" :class="{ 'flex-col w-96' : col }">
+    <div flex="~" :class="{ 'flex-col w-96' : col }">
         <slot />
     </div>
 </template>
