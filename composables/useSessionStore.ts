@@ -21,6 +21,7 @@ export const useSessionStore = defineStore('session-store', {
 
         // QUESTION
         questions: [],
+        correctQuestions: [],
 
     }),
     
@@ -58,6 +59,8 @@ export const useSessionStore = defineStore('session-store', {
 
         // QUESTION
         getQuestions: (state) => state.questions,
+        getCorrectQuestions: (state) => state.correctQuestions,
+        getCorrectQuestionsByUserId: (state) => (userId: string) => state.correctQuestions.find(q => q.userId === userId)?.data,
         
     },
 
@@ -259,6 +262,22 @@ export const useSessionStore = defineStore('session-store', {
                     data: this.questions
                 })
             })
+        },
+
+        async fetchCorrectQuestions(){
+            if (this.getCurrentSlide?.type !== 'Question') return false
+
+            const { params: { session } } = useRoute()
+            const corrects = await $fetch(`/api/session/${session}/correct-question`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    slide: this.getCurrentSlide._path,
+                })
+            })
+
+            console.log(corrects)
+
+            this.correctQuestions = corrects
         },
 
 

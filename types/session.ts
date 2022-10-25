@@ -6,7 +6,7 @@ export interface Session {
         slide: string,
         storage: {
             userId: string,
-            data: string,
+            data: any,
         }[] 
     }[],
     prodcastedData: any,

@@ -10,3 +10,11 @@ export const getUser = async (event) => {
 
     return null
 }
+
+export const getUserById = (id) => {
+    state.wss.clients.forEach((ws) => {
+        if (ws.readyState === ws.OPEN && ws.user.id === id) {
+            return ws.user as User
+        }
+    })
+}
