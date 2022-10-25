@@ -4,15 +4,15 @@
         <div v-if="codeRender" flex="grow">
             <UiTabGroup h="full" :tabs="['html', 'css', 'js']">
                 <template #tab-1>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false}}" />
                 </template>
 
                 <template #tab-2>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false} }" />
                 </template>
 
                 <template #tab-3>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false} }" />
                 </template>
             </UiTabGroup>
         </div>
