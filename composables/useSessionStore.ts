@@ -17,7 +17,6 @@ export const useSessionStore = defineStore('session-store', {
         /* SLIDE TYPES */
         // CODE
         code: { html: '<html><body><span>test</span></body></html>', css: 'span{color:red}', javascript: '' },
-        codeForceRender: true,
 
         // QUESTION
         questions: [],
@@ -57,7 +56,6 @@ export const useSessionStore = defineStore('session-store', {
         // CODE
         getCode: (state) => state.code,
         getProdcastedCode: (state) => state.session?.prodcastedData,
-        getCodeForceRender: (state) => state.codeForceRender,
 
         // QUESTION
         getQuestions: (state) => state.questions,
@@ -171,7 +169,6 @@ export const useSessionStore = defineStore('session-store', {
                 switch (type) {
                     case 'CodeEditor':
                         this.code = {...prodcastedData}
-                        this.codeForceRender = false
                         break;
                     case 'Question':
                         this.questions = {...prodcastedData}
@@ -186,7 +183,6 @@ export const useSessionStore = defineStore('session-store', {
                         this.code.html = this.getCurrentSlide?.html
                         this.code.css = this.getCurrentSlide?.css
                         this.code.javascript = this.getCurrentSlide?.javascript
-                        this.codeForceRender = false
                         break;
                     case 'Question':
                         const userQuestions = this.getSlideData()
@@ -232,7 +228,7 @@ export const useSessionStore = defineStore('session-store', {
             })
 
             if (this.isProdcast){
-                this.session.prodcastedData = this.code
+                this.session.prodcastedData = {...this.code}
             }
         },
         async getUserCode(user_id){
@@ -250,10 +246,11 @@ export const useSessionStore = defineStore('session-store', {
             })
         },
         async setCode(code: any){
-            this.code.html = code?.html
-            this.code.css = code?.css
-            this.code.javascript = code?.javascript
-            this.codeForceRender = false
+            this.code = {...code}
+        },
+
+        restoreCode(){
+            this.code = {...this.session?.prodcastedData}
         },
 
 
@@ -302,9 +299,8 @@ export const useSessionStore = defineStore('session-store', {
                     this.session.prodcast = data
                     break
                 case 'code':
-                    this.code = data
-                    this.session.prodcastedData = data
-                    this.codeForceRender = false
+                    this.code = {...data}
+                    this.session.prodcastedData = {...data}
                     break
                 case 'admin':
                     console.log(data)

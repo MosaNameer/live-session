@@ -1,7 +1,7 @@
 <template>
     <div h="full" flex="~ col">
         <!-- Tabs -->
-        <div v-if="codeRender" flex="grow">
+        <div flex="grow">
             <UiTabGroup h="full" :tabs="['html', 'css', 'js']">
                 <template #tab-1>
                     <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false}}" />
@@ -33,7 +33,6 @@ const store = useSessionStore()
 
 // Preview Panel Reference
 const previewRef = ref(null)
-const codeRender = ref(true)
 
 const updatePreview = async () => {
     const { html, css, javascript } = { ...store.getCode }
@@ -68,15 +67,5 @@ const sendCode = useDebounceFn(async (e) => {
 
 // Listen for writes in editors
 watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 100, maxWait: 1000 })
-
-watch(() => store.getCodeForceRender, async (value) => {
-    if (value == false) {
-        // For force render code editor 
-        codeRender.value = false;
-        await nextTick();
-        codeRender.value = true;
-        store.codeForceRender = true
-    }
-})
 
 </script>
