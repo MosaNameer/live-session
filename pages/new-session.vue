@@ -46,11 +46,8 @@ const create = async () => {
             })
         })
         
-        setTimeout(() => {
-            router.push(`/${session.value}`)
-            // navigateTo(`/${session.value}`)
-        }, 1000)
-
+        router.push(`/${session.value}`)
+        
     } catch(e) {
         error.value = "حدث خطأ! اما معرف الجلسة موجود او انك لم تدخل جميع المطلوبات."
     }
