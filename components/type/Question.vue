@@ -6,7 +6,8 @@
                 <div>Name: {{store.getUserById(user.userId)?.name}} - Points: {{user.points}}</div>
                 <div v-for="question in user.data" :key="`${user.userId}-${question.question}`" flex="~ gap-2">
                     <span>Question: {{question.question}}</span>
-                    <span>Result: {{question.result}}</span>
+                    <span v-if="question.type == 'text'">Plain: {{question.choice}}</span>
+                    <span v-else>Result: {{question.result}}</span>
                 </div>
             </div>
         </div>
