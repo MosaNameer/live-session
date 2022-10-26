@@ -288,8 +288,8 @@ export const useSessionStore = defineStore('session-store', {
                     // this.session = data.data
                     break
                 case 'slide':
-                    this.session.slide = data
-                    this.session.prodcastedData = null
+                    this.session.slide = data.slide
+                    this.session.prodcastedData = data.prodcastedData
                     this.setSlideContent()
                     break
                 case 'read-only':

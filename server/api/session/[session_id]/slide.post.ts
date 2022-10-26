@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   let sessions = await useStorage().getItem('db:sessions') as Session[]
   const session = sessions.find((s: Session) => s.id === session_id)
   session.slide = slide
-  session.prodcastedData = null
+  session.prodcastedData = session?.slidesData?.find(s => s.slide === slide)?.storage?.find(u => u.userId === session?.adminId)?.data ?? null
   await useStorage().setItem('db:sessions', sessions)
 
 
@@ -26,11 +26,17 @@ export default defineEventHandler(async (event) => {
     if (ws.readyState === ws.OPEN && ws.user.session === session_id) {
       ws.send(SocketData({
         type: 'slide',
-        data: slide
+        data: {
+          slide: slide,
+          prodcastedData: session?.prodcastedData
+        }
       }))
     }
   })
   
   console.log('set for all clients')
-  return slide
+  return {
+    slide: slide,
+    prodcastedData: session?.prodcastedData
+  }
 })

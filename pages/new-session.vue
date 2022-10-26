@@ -2,19 +2,23 @@
     <NuxtLayout>
         <div flex="~" w="screen" h="screen" items="center" justify="center" dir="rtl">
             <div w="md" flex="~ col gap-6">
-                <span text="center 5xl white dark:white">ElitesLiveSessions</span>
-                <span text="center sm white dark:white" mb="6">{{ userIdCookie }}</span>
+                <span text="center 5xl white dark:white" mb="6">ElitesLiveSessions</span>
 
                 <UiInput v-model="session" label="معرف الجلسة" />
 
                 <UiDropdown v-model="lesson" placeholder="الدرس" :options="lessons">
                 </UiDropdown>
-                <h1>{{ lesson }}</h1>
+                
+                <span v-if="error" text="center sm errorOp dark:error" mt="6">{{ error }}</span>
+
+                <!-- <h1>{{ lesson }}</h1> -->
                 
                 <UiButton @click="create()" mt="4">إنشاء</UiButton>
 
 
-                <span text="center sm errorOp dark:error" mt="6">{{ error }}</span>
+                <div h="1px" w="full" bg="secondary dark:secondaryOp" my="4"></div>
+
+                <UiButton to="/" mt="4">الدخول الى جلسة موجودة</UiButton>
             </div>
         </div>
     </NuxtLayout>
