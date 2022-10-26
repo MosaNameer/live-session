@@ -11,14 +11,14 @@
         </div>
 
         <div v-if="question?.type =='one'">
-            <div v-for="answer in question?.answers" :key="`one-${store?.questionsUserId}-${question.question}-${answer.title}-${index}`">
+            <div v-for="(answer, index) in question?.answers" :key="`one-${store?.questionsUserId}-${question.question}-${answer.title}-${index}`">
                 <label>{{answer.title}}</label>
                 <input v-if="!store.isAdmin" :name="question.question" v-model="question.choice" :value="answer.title" type="radio">
             </div>
             <span v-if="userId !== store?.questionsUserId" bg="whitesec">{{ question.choice }}</span>
         </div>
 
-        <div v-if="question?.type =='text'" :key="`text-${store?.questionsUserId}-${question.question}-${index}`">
+        <div v-if="question?.type =='text'" :key="`text-${store?.questionsUserId}-${question.question}`">
             <textarea v-if="!store.isAdmin" v-model.lazy="question.choice"></textarea>
             <p v-else>{{ question.choice }}</p>
         </div>

@@ -51,6 +51,7 @@ export const useSessionStore = defineStore('session-store', {
 
         // Users
         getUsers: (state) => state.users,
+        getUserById: (state) => (id: string) => state.users.find(u => u.id === id),
 
         /* Slide Types */
         // CODE

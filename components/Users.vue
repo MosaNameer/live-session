@@ -28,6 +28,11 @@
                     </span>
                 </div>
             </div>
+            <div v-else text="sm" flex="~ gap-2" items="center">
+                <span @click="store.getUserCode(userId)" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'CodeEditor'">[SHOW CODE]</span>
+                <span @click="store.questionsUserId = user.id" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'Question' && user">[RETURN]</span>
+
+            </div>
 
 
         </div>
@@ -41,11 +46,13 @@ const userId = useCookie('userId')
 // Get users, correctQuestions every 5 seconds
 setInterval(() => {
     store.fetchUsers()
-    store.fetchCorrectQuestions()
+    if (store.isAdmin) store.fetchCorrectQuestions()
 }, 5000)
 
 await store.fetchUsers()
-await store.fetchCorrectQuestions()
+
+if (store.isAdmin) await store.fetchCorrectQuestions()
+
 
 
 // For code editor type

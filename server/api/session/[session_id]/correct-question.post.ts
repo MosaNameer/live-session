@@ -31,26 +31,28 @@ export default defineEventHandler(async (event) => {
     // })
     return []
   }
-  
+
   storage?.forEach(user => {
     const questions = user.data
     questions?.forEach(question => {
-        // Multiple
-        if (question.type == "multiple") {
-          // If every answer is correct
-          question.result = question.answers.every((answer, index) => {
-            return answer.correct == (Boolean(question.choice[index]))
-          })
-        }
+      // Multiple
+      if (question.type == "multiple") {
+        // If every answer is correct
+        question.result = question.answers.every((answer, index) => {
+          return answer.correct == (Boolean(question.choice[index]))
+        })
+      }
 
-        // One
-        if (question.type == "one") {
-          const rightAnswer = question.answers.find(answer => answer.correct)
-          question.result = question.choice === rightAnswer.title
-        }
+      // One
+      if (question.type == "one") {
+        const rightAnswer = question.answers.find(answer => answer.correct)
+        question.result = question.choice === rightAnswer.title
+      }
     });
+    
+    user.points = questions?.filter(q => q.result).length || 0
   })
-  
+
 
   return storage
 })

@@ -1,6 +1,21 @@
 <template>
     <div v-if="store.isAdmin && userId == store.questionsUserId">
-        YOU CAN"T ANSWER QUESTIONS
+        <div v-if="store.getCorrectQuestions?.length > 0" flex="~ col gap-2">
+            <div v-for="user in store.getCorrectQuestions" :key="user.userId" flex="~ col gap-1" text-whitesec>
+                <div>Name: {{store.getUserById(user.userId)?.name}} - Points: {{user.points}}</div>
+                <div v-for="question in user.data" :key="`${user.userId}-${question.question}`" flex="~ gap-2">
+                    <span>Question: {{question.question}}</span>
+                    <span>Result: {{question.result}}</span>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            Where is your students bro?
+        </div>
+
+        <!-- <div v-for="question in store.getCorrectQuestions" :key="`admin-questions-${store?.questionsUserId}-${question.question}-${index}`">
+            {{ question }}
+        </div> -->
     </div>
     <div v-else flex="~ col" h="full" bg="primary">
         <!-- <h1 text="white">{{selectedQuestion+1}} / {{questions?.length}}</h1> -->
@@ -20,7 +35,7 @@
             </span>
         </div>
         
-        <Question :question="store.getMyCorrectQuestion?.[selectedQuestion]" />
+        <Question :question="store.getMyCorrectQuestion?.[selectedQuestion] ?? questions[selectedQuestion]" />
     </div>
 </template>
 
