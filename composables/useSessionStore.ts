@@ -22,6 +22,7 @@ export const useSessionStore = defineStore('session-store', {
         // QUESTION
         questions: [],
         correctQuestions: [],
+        questionsUserId: useCookie('userId')?.value,
 
     }),
     
@@ -40,7 +41,7 @@ export const useSessionStore = defineStore('session-store', {
         getSlideContent: (state) => state.slideContent,
         getSlideData(){
             return () => this.getSession?.slidesData
-                ?.find(s => s.slide === this.getCurrentSlide?._path).storage
+                ?.find(s => s.slide === this.getCurrentSlide?._path)?.storage
                 ?.find(user => user.userId == useCookie('userId')?.value)?.data
         },
         hasPrevSlide: (state) => state.slides.findIndex(s => s._path === state.session?.slide) > 0,
@@ -60,7 +61,8 @@ export const useSessionStore = defineStore('session-store', {
         // QUESTION
         getQuestions: (state) => state.questions,
         getCorrectQuestions: (state) => state.correctQuestions,
-        getCorrectQuestionsByUserId: (state) => (userId: string) => state.correctQuestions.find(q => q.userId === userId)?.data,
+        getCorrectQuestionsByUserId: (state) => (userId: string) => state.correctQuestions?.find(q => q.userId === userId)?.data,
+        getMyCorrectQuestion: (state) => state.correctQuestions?.find(q => q.userId === state.questionsUserId)?.data,
         
     },
 
@@ -154,7 +156,7 @@ export const useSessionStore = defineStore('session-store', {
 
         async setSlideContent(){
             // Render markdown
-            const { data: slideRender } = await useAsyncData('slide-renderer-' + this.getCurrentSlide._path, () => queryContent(this.getCurrentSlide._path).findOne())
+            const { data: slideRender } = await useAsyncData('slide-renderer-' + this.getCurrentSlide?._path, () => queryContent(this.getCurrentSlide?._path).findOne())
             this.slideContent = slideRender.value
 
             /******************************/
@@ -274,8 +276,6 @@ export const useSessionStore = defineStore('session-store', {
                     slide: this.getCurrentSlide._path,
                 })
             })
-
-            console.log(corrects)
 
             this.correctQuestions = corrects
         },

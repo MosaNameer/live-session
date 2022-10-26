@@ -26,6 +26,7 @@ export const createWsServer = (server: Server) => {
     const [session, name, id] = request.headers['sec-websocket-protocol']?.split(', ') ?? ['', '']
     const user: User = { name: name, session: session, id: id }
     
+    
     if (user.name == '' || user.session == '') {
       socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
       socket.destroy();
