@@ -9,9 +9,9 @@
             </div>
 
             <div v-if="store.isAdmin" text="sm" flex="~ gap-2" items="center">
-                <span @click="store.getUserCode(user.id)" text-whitesec cursor="pointer" v-if="store.getCurrentSlide.type == 'CodeEditor'">[SHOW CODE]</span>
-                <span @click="store.questionsUserId = user.id" text-whitesec cursor="pointer" v-if="store.getCurrentSlide.type == 'Question'">[SHOW]</span>
-                <div @click="() => {}" text-whitesec flex="~ col" cursor="pointer" v-if="store.getCurrentSlide.type == 'Question'">
+                <span @click="store.getUserCode(user.id)" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'CodeEditor'">[SHOW CODE]</span>
+                <span @click="store.questionsUserId = user.id" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'Question'">[SHOW]</span>
+                <div @click="() => {}" text-whitesec flex="~ col" cursor="pointer" v-if="store.getCurrentSlide?.type == 'Question'">
                     <span>
                         {{store.getCorrectQuestionsByUserId(user.id)?.filter(q => q.choice?.length > 0 ?? q.choice)?.length}}
                         /

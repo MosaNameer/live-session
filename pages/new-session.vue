@@ -48,6 +48,7 @@ const create = async () => {
         
         setTimeout(() => {
             router.push(`/${session.value}`)
+            // navigateTo(`/${session.value}`)
         }, 1000)
 
     } catch(e) {

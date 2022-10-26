@@ -68,8 +68,8 @@
 
                     <!-- SLIDE TYPE -->
                     <div flex="grow">
-                        <TypeCodeEditor v-if="store.getCurrentSlide.type == 'CodeEditor'" />
-                        <TypeQuestion v-if="store.getCurrentSlide.type == 'Question'" />
+                        <TypeCodeEditor v-if="store.getCurrentSlide?.type == 'CodeEditor'" />
+                        <TypeQuestion v-if="store.getCurrentSlide?.type == 'Question'" />
                     </div>
                 </div>
             </template>
@@ -92,6 +92,9 @@ await store.sessionConnect()
 if (!store.getSession) {
     navigateTo('/')
 }
+
+// set slide content
+await store.setSlideContent()
 
 // Connect to socket
 await store.socketConnect()

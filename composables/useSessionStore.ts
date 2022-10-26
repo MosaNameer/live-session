@@ -37,7 +37,7 @@ export const useSessionStore = defineStore('session-store', {
         isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
         getSlides: (state) => state.slides,
-        getCurrentSlide: (state) => state.slides.find(s => s._path === state.session?.slide),
+        getCurrentSlide: (state) => state.slides?.find(s => s._path === state.session?.slide) ?? state.slides[0],
         getSlideContent: (state) => state.slideContent,
         getSlideData(){
             return () => this.getSession?.slidesData
@@ -162,7 +162,7 @@ export const useSessionStore = defineStore('session-store', {
             /******************************/
             /*  CHECK IF CODE IN SESSION  */
             /******************************/
-            const type = this.getCurrentSlide.type
+            const type = this.getCurrentSlide?.type
             const prodcastedData = this.session?.prodcastedData
 
             // GET CURRENT VALUES FROM STORAGE
