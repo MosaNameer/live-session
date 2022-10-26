@@ -1,4 +1,5 @@
 <template>
+    {{ userId == store.questionsUserId}}
     <div v-if="store.isAdmin && userId == store.questionsUserId">
         <div v-if="store.getCorrectQuestions?.length > 0" flex="~ col gap-2">
             <div v-for="user in store.getCorrectQuestions" :key="user.userId" flex="~ col gap-1" text-whitesec>
@@ -17,7 +18,7 @@
             {{ question }}
         </div> -->
     </div>
-    <div v-else flex="~ col" h="full" bg="primary">
+    <div v-else-if="!store.isAdmin && !store.isReadOnly" flex="~ col" h="full" bg="primary">
         <!-- <h1 text="white">{{selectedQuestion+1}} / {{questions?.length}}</h1> -->
         <div flex="~ gap-2">
             <span 
@@ -36,6 +37,11 @@
         </div>
         
         <Question :question="store.getMyCorrectQuestion?.[selectedQuestion] ?? questions[selectedQuestion]" />
+    </div>
+
+    <!-- Either stopped or not started yet -->
+    <div v-else>
+        Sorry you can't complete answers.
     </div>
 </template>
 
