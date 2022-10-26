@@ -19,7 +19,7 @@
             {{ question }}
         </div> -->
     </div>
-    <div v-else-if="!store.isAdmin && !store.isReadOnly" flex="~ col" h="full" bg="primary">
+    <div v-else-if="(!store.isAdmin && !store.isReadOnly) || store.isAdmin" flex="~ col" h="full" bg="primary">
         <!-- <h1 text="white">{{selectedQuestion+1}} / {{questions?.length}}</h1> -->
         <div flex="~ gap-2">
             <span 

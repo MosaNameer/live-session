@@ -23,7 +23,7 @@
             <p v-else>{{ question.choice }}</p>
         </div>
 
-        <div text-whitesec v-if="question?.type !== 'text'">Question Result = {{ Boolean(question?.result) }}</div>
+        <div text-whitesec v-if="question?.type !== 'text' && store.isAdmin">Question Result = {{ Boolean(question?.result) }}</div>
     </div>
 </template>
 
