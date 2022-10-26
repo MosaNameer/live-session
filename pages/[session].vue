@@ -68,8 +68,10 @@
 
                     <!-- SLIDE TYPE -->
                     <div flex="grow">
-                        <TypeCodeEditor v-if="store.getCurrentSlide?.type == 'CodeEditor'" />
-                        <TypeQuestion v-if="store.getCurrentSlide?.type == 'Question'" />
+                        <Transition>
+                            <TypeCodeEditor v-if="store.getCurrentSlide?.type == 'CodeEditor'" />
+                            <TypeQuestion v-else-if="store.getCurrentSlide?.type == 'Question'" />
+                        </Transition>
                     </div>
                 </div>
             </template>
@@ -115,3 +117,19 @@ const selectTab = (tab) => {
     else selectedTab.value = tab
 }
 </script>
+
+<style scoped>
+.v-enter-active {
+  transition: all 0.15s ease-in-out;
+}
+
+.v-leave-active {
+  transition: all 0.15s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+</style>
