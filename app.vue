@@ -263,3 +263,12 @@ monaco.editor.defineTheme("custom-theme", {
 })
 monaco.editor.setTheme("custom-theme")
 </script>
+
+<style>
+.nuxt-content h1 { 
+    color:white;
+}
+.nuxt-content p {
+    color:#d4b2f7;
+}
+</style>

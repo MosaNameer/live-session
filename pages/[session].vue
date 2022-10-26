@@ -15,7 +15,7 @@
                 </div>
 
                 <div v-show="selectedTab == null" overflow="y-auto" mb="30">
-                    <ContentRenderer :value="store.getSlideContent">
+                    <ContentRenderer class="nuxt-content" :value="store.getSlideContent">
                         <template #empty>
                             <p>No content found.</p>
                         </template>
@@ -61,7 +61,7 @@
                 <div flex="~ col" position="relative" w="full" h="full" bg="primary dark:primary">
                     <div position="absolute" right="0" flex="~" bg="primary dark:primary" text-white>
                         <div text="hover:whitesec" v-if="store.isAdmin" @click="store.toggleReadOnly" cursor="pointer" px="4px" py="12px"><Icon :name="store.isReadOnly ? 'ic:baseline-edit-off' : 'ic:baseline-edit'"/></div>
-                        <div text="hover:whitesec" v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" px="4px" py="12px"><Icon :name="store.isProdcast ? 'mdi:broadcast-off' : 'mdi:broadcast'"/></div>
+                        <div text="hover:whitesec" v-if="store.isAdmin" @click="store.toggleProdcast" cursor="pointer" px="4px" py="12px"><Icon :name="store.isProdcast ? 'mdi:broadcast' : 'mdi:broadcast-off'"/></div>
                         <div text="hover:whitesec" v-if="store.getCurrentSlide?.type == 'CodeEditor' && store.getProdcastedCode && !store.isProdcast" @click="store.restoreCode()" cursor="pointer" px="4px" py="12px"><Icon name="material-symbols:settings-backup-restore"/></div>
                         <div text="hover:whitesec" v-if="store.getCurrentSlide?.type == 'CodeEditor'" @click="store.setCode({html: store.getCurrentSlide?.html, css: store.getCurrentSlide?.css, javascript: store.getCurrentSlide?.javascript})" cursor="pointer" px="4px" py="12px"><Icon name="material-symbols:restore-page-rounded"/></div>
                     </div>
@@ -115,3 +115,4 @@ const selectTab = (tab) => {
     else selectedTab.value = tab
 }
 </script>
+
