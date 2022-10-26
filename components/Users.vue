@@ -8,9 +8,12 @@
                 <span w="2.5" h="2.5" rounded="full" :class="[user.online ? 'bg-success' : 'bg-whitesec']"></span>
             </div>
 
-            <div v-if="store.isAdmin" text="sm" flex="~ gap-2" items="center">
+            <div v-if="store.isAdmin && user.id !== userId" text="sm" flex="~ gap-2" items="center">
+                <!-- CODE -->
                 <span @click="store.getUserCode(user.id)" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'CodeEditor'">[SHOW CODE]</span>
-                <span @click="store.questionsUserId = user.id" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'Question'">[SHOW]</span>
+                
+                <!-- QUESTION -->
+                <span @click="store.questionsUserId = user.id" text-whitesec cursor="pointer" v-if="store.getCurrentSlide?.type == 'Question' && user">[SHOW]</span>
                 <div @click="() => {}" text-whitesec flex="~ col" cursor="pointer" v-if="store.getCurrentSlide?.type == 'Question'">
                     <span>
                         {{store.getCorrectQuestionsByUserId(user.id)?.filter(q => q.choice?.length > 0 ?? q.choice)?.length}}
@@ -34,7 +37,7 @@
 <script setup>
 // Initalize store
 const store = useSessionStore()
-
+const userId = useCookie('userId')
 // Get users, correctQuestions every 5 seconds
 setInterval(() => {
     store.fetchUsers()
