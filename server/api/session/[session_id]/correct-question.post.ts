@@ -19,10 +19,10 @@ export default defineEventHandler(async (event) => {
 
   let sessions = await useStorage().getItem('db:sessions') as Session[]
   const session = sessions.find((s: Session) => s.id === session_id)
-
+  
   /******** SLIDES DATA  **********/
   // Which slide to store data for
-  let storage = session.slidesData.find((s) => s.slide === session.slide)?.storage
+  let storage = session?.slidesData.find((s) => s.slide === session.slide)?.storage
   if (!storage) {
     // throw createError({
     //   statusCode: 400,
