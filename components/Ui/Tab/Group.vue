@@ -1,7 +1,7 @@
 <template>
     <div :class="{'flex flex-row gap-2' : col}">
         <UiTabList :col="col">
-            <UiTab :active="selected == index + 1" v-for="(tab, index) in tabs" :key="tab" @click="selected = index + 1">
+            <UiTab :active="selected == index + 1" v-for="(tab, index) in tabs" :key="tab" @click="() => {selected = index + 1, $emit('selected', selected)}">
                 {{ tab }}
             </UiTab>
         </UiTabList>
@@ -33,4 +33,8 @@ const props = defineProps({
 });
 
 const selected = ref(props.selected + 1);
+
+watch(() => props.selected, (val) => {
+    selected.value = val;
+});
 </script>

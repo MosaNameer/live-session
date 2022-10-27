@@ -2,7 +2,7 @@
     <div h="full" flex="~ col">
         <!-- Tabs -->
         <div flex="grow">
-            <UiTabGroup h="full" :tabs="['html', 'css', 'js']">
+            <UiTabGroup h="full" :tabs="['html', 'css', 'js']" :selected="store.selectedTab" @selected="store.sendSelectedTab($event)">
                 <template #tab-1>
                     <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false}}" />
                 </template>
@@ -68,4 +68,9 @@ const sendCode = useDebounceFn(async (e) => {
 // Listen for writes in editors
 watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 100, maxWait: 1000 })
 
+// watch(() => selectedTab.value, (index) => {
+//     if (store.isProdcast){
+//         // selectedTab.value = index
+//     }
+// })
 </script>

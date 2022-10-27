@@ -17,6 +17,7 @@ export const useSessionStore = defineStore('session-store', {
         /* SLIDE TYPES */
         // CODE
         code: { html: '<html><body><span>test</span></body></html>', css: 'span{color:red}', javascript: '' },
+        selectedTab: 0,
 
         // QUESTION
         questions: [],
@@ -253,6 +254,19 @@ export const useSessionStore = defineStore('session-store', {
             this.code = {...this.session?.prodcastedData}
         },
 
+        async sendSelectedTab(tab){
+            if (this.isProdcast){
+                const { params: { session } } = useRoute()
+                
+                await $fetch(`/api/session/${session}/tab-code`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        data: tab
+                    })
+                })
+            }
+        },
+
 
         async storeQuestions(){
             const { params: { session } } = useRoute()
@@ -301,6 +315,9 @@ export const useSessionStore = defineStore('session-store', {
                 case 'code':
                     this.code = {...data}
                     this.session.prodcastedData = {...data}
+                    break
+                case 'tab-code':
+                    this.selectedTab = data
                     break
                 case 'admin':
                     console.log(data)
