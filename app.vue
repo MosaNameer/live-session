@@ -286,4 +286,10 @@ body {
 .nuxt-content p {
     color:#d4b2f7;
 }
+.nuxt-content span {
+    color:#d4b2f7;
+}
+.nuxt-content {
+    color:#d4b2f7;
+}
 </style>

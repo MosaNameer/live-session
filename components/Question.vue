@@ -1,12 +1,11 @@
 <template>
-    <div>
-        {{question?.question}}
-        {{question?.type}}
+    <div class="nuxt-content">
+        <p text-lg>{{question?.question}} ({{question?.type}})</p>
         <div v-if="question?.type =='multiple'">
-            <div v-for="(answer, index) in question?.answers" :key="`multiple-${store?.questionsUserId}-${question.question}-${answer.title}-${index}`">
-                <label>{{answer.title}}</label>
+            <div v-for="(answer, index) in question?.answers" :key="`multiple-${store?.questionsUserId}-${question.question}-${answer.title}-${index}`" :bg="question.choice[index] ? 'secondary' : ''" cursor-pointer p-4 my-2 border="1px secondary">
+                <label >{{answer.title}}</label>
                 <input v-if="!store.isAdmin" :name="question.question" v-model="question.choice[index]" :value="answer.title" type="checkbox">
-                <span v-else bg="whitesec">{{ Boolean(question.choice[index]) }}</span>
+                <Icon v-else :name="Boolean(question.choice[index]) ? 'ion:checkmark-round' : 'fa6-solid:xmark'" :text="Boolean(question.choice[index]) ? 'success' : 'error'" />
             </div>
         </div>
 
@@ -19,11 +18,11 @@
         </div>
 
         <div v-if="question?.type =='text'" :key="`text-${store?.questionsUserId}-${question.question}`">
-            <textarea v-if="!store.isAdmin" v-model.lazy="question.choice"></textarea>
+            <textarea text="sm whitesec" bg="primary focus:secondary" class="focus:outline-none focus:ring-2 focus:ring-secondary" w-full rows="4" p-2 border="secondary" placeholder="answer here" v-if="!store.isAdmin" v-model.lazy="question.choice"></textarea>
             <p v-else>{{ question.choice }}</p>
         </div>
 
-        <div text-whitesec v-if="question?.type !== 'text' && store.isAdmin">Question Result = {{ Boolean(question?.result) }}</div>
+        <div text-whitesec v-if="question?.type !== 'text' && store.isAdmin">Question Result = <Icon :name="Boolean(question?.result) ? 'ion:checkmark-round' : 'fa6-solid:xmark'" :text="Boolean(question?.result) ? 'success' : 'error'" /></div>
     </div>
 </template>
 

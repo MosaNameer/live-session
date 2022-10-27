@@ -7,11 +7,11 @@
                     <span text="xl white dark:white" mb="6">{{ store.getCurrentSlide?.title }}</span>
 
                     <!-- CONTENT -->
-                    <div v-show="selectedTab === 'settings'">
+                    <div class="nuxt-content" v-show="selectedTab === 'settings'">
                         Settings
                     </div>
 
-                    <div v-show="selectedTab === 'users'">
+                    <div class="nuxt-content" v-show="selectedTab === 'users'">
                         <Users />
                     </div>
 
