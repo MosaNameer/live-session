@@ -113,7 +113,7 @@ await store.socketConnect()
 
 
 
-const content = store.getSlideContent
+const content = computed(() => store.getSlideContent)
 
 
 // WATCH SOCKET DATA
