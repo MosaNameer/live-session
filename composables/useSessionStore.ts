@@ -37,7 +37,7 @@ export const useSessionStore = defineStore('session-store', {
         isAdmin: (state) => state.session?.adminId == useCookie('userId')?.value,
 
         getSlides: (state) => state.slides,
-        getCurrentSlide: (state) => state.slides?.find(s => s._path === state.session?.slide) ?? state.slides[0],
+        getCurrentSlide: (state) => state.slides?.find(s => s._path === state.session?.slide) ?? state.slides?.[0],
         getSlideContent: (state) => state.slideContent,
         getSlideData(){
             return () => this.getSession?.slidesData
@@ -172,7 +172,8 @@ export const useSessionStore = defineStore('session-store', {
                         this.code = {...prodcastedData}
                         break;
                     case 'Question':
-                        this.questions = {...prodcastedData}
+                        this.questions = prodcastedData
+                        await this.fetchCorrectQuestions()
                         break;
                 }
             }
@@ -187,10 +188,13 @@ export const useSessionStore = defineStore('session-store', {
                         break;
                     case 'Question':
                         const userQuestions = this.getSlideData()
-                        if (userQuestions)
+                        if (userQuestions){
                             this.questions = userQuestions
-                        else
+                        }
+                        else {
                             this.questions = this.getCurrentSlide?.questions
+                        }
+                        await this.fetchCorrectQuestions()
                         break;
                 }
             }
@@ -304,7 +308,8 @@ export const useSessionStore = defineStore('session-store', {
                 case 'slide':
                     this.session.slide = data.slide
                     this.session.prodcastedData = data.prodcastedData
-                    this.setSlideContent()
+                    // this.session = data.session
+                    await this.setSlideContent()
                     break
                 case 'read-only':
                     this.session.readOnly = data

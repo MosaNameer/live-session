@@ -4,19 +4,19 @@
         <div flex="grow">
             <UiTabGroup h="full" :tabs="['html', 'css', 'js']" :selected="store.selectedTab" @selected="store.sendSelectedTab($event)">
                 <template #tab-1>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false}}" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
                 </template>
 
                 <template #tab-2>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false} }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
                 </template>
 
                 <template #tab-3>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: {enabled: false} }" />
+                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
                 </template>
             </UiTabGroup>
         </div>
- 
+
         <div position="relative" flex="basis-1/2" bg="primary">
             <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
                 <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>

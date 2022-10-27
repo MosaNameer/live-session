@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
         type: 'slide',
         data: {
           slide: slide,
+          // session: session,
           prodcastedData: session?.prodcastedData
         }
       }))

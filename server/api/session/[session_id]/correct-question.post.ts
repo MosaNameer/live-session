@@ -33,13 +33,13 @@ export default defineEventHandler(async (event) => {
   }
 
   storage?.forEach(user => {
-    const questions = user.data
+    const questions = user?.data
     questions?.forEach(question => {
       // Multiple
       if (question.type == "multiple") {
         // If every answer is correct
         question.result = question.answers.every((answer, index) => {
-          return answer.correct == (Boolean(question.choice[index]))
+          return answer.correct == (Boolean(question.choice?.[index]))
         })
       }
 
