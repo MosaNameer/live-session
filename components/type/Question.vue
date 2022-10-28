@@ -43,10 +43,11 @@
         {{ store.getQuestions?.[selectedQuestion] }}
         <br />
         <br /> -->
-            {{questions}}
+            {{questions?.[selectedQuestion]}}
             <br />
             <!-- {{store.getQuestions?.[selectedQuestion]}} -->
-            <Question v-if="questions?.[selectedQuestion]" :question="questions?.[selectedQuestion]" />
+            <Question v-if="questions?.[selectedQuestion]?.question && !store.isAdmin" :question="questions?.[selectedQuestion]" />
+            <Question v-else-if="store.isAdmin" :question="store.getMyCorrectQuestion?.[selectedQuestion]" />
         </div>
 
         <!-- Either stopped or not started yet -->
@@ -62,18 +63,21 @@ const userId = useCookie('userId')
 
 const selectedQuestion = ref(0)
 
-const questions = ref([])
-// const questions = computed(() => store.getMyCorrectQuestion?.length > 0 ?? store.getQuestions?.length > 0 ?? [])
+// const questions = ref([])
+const questions = computed(() => store.getQuestions)
 
-onMounted(() => {
-    if (store.getMyCorrectQuestion?.length > 0) {
-        questions.value = store.getMyCorrectQuestion
-    } else if (store.getQuestions?.length > 0) {
-        questions.value = store.getQuestions
-    } else {
-        questions.value = []
-    }
-})
+// onMounted(() => {
+//     if (store.getMyCorrectQuestion?.length > 0) {
+//         console.log('1', store.getMyCorrectQuestion)
+//         questions.value = store.getMyCorrectQuestion
+//     } else if (store.getQuestions?.length > 0) {
+//         console.log('2', store.getQuestions)
+//         questions.value = store.getQuestions
+//     } else {
+//         console.log('3')
+//         questions.value = []
+//     }
+// })
 
 watch(() => questions.value, () => {
     console.log(questions.value)

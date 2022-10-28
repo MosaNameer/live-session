@@ -172,7 +172,14 @@ export const useSessionStore = defineStore('session-store', {
                         this.code = {...prodcastedData}
                         break;
                     case 'Question':
-                        this.questions = prodcastedData
+                        await this.fetchCorrectQuestions()
+                        const userQuestions = this.getSlideData()
+                        if (userQuestions){
+                            this.questions = [...userQuestions]
+                        }
+                        else {
+                            this.questions = [...this.getCurrentSlide?.questions]
+                        }
                         break;
                 }
             }
@@ -186,14 +193,9 @@ export const useSessionStore = defineStore('session-store', {
                         this.code.javascript = this.getCurrentSlide?.javascript
                         break;
                     case 'Question':
-                        const userQuestions = this.getSlideData()
                         await this.fetchCorrectQuestions()
-                        if (userQuestions){
-                            this.questions = userQuestions
-                        }
-                        else {
-                            this.questions = this.getCurrentSlide?.questions
-                        }
+                        this.questions = [...this.getCurrentSlide?.questions]
+                        
                         break;
                 }
             }

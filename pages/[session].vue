@@ -15,7 +15,7 @@
                         <Users />
                     </div>
 
-                    <div v-show="selectedTab == null" overflow="y-auto" mb="30">
+                    <div v-if="content" v-show="selectedTab == null" overflow="y-auto" mb="30">
                         <ContentRenderer class="nuxt-content" :value="content">
                             <template #empty>
                                 <p>No content found.</p>
@@ -113,7 +113,7 @@ await store.socketConnect()
 
 
 
-const content = computed(() => store.getSlideContent)
+const content = computed(() => store.getSlideContent ?? null)
 
 
 // WATCH SOCKET DATA

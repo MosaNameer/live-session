@@ -6,6 +6,8 @@
 
                 <UiInput v-model="session" label="معرف الجلسة" />
 
+                <UiInput v-model="nameCookie" label="معرف الدخول" />
+
                 <UiDropdown v-model="lesson" placeholder="الدرس" :options="lessons">
                 </UiDropdown>
                 
@@ -27,7 +29,9 @@
 <script setup>
 const router = useRouter()
 const userIdCookie = useCookie('userId')
-const session = ref(null)
+const session = useCookie('session')
+const nameCookie = useCookie('name')
+
 
 const { data: lessonsNavs } = await useAsyncData('navigation', () => fetchContentNavigation())
 const lessons = computed( () => lessonsNavs.value.map(lesson => ({
@@ -40,6 +44,21 @@ const error = ref(null)
 
 
 const create = async () => {
+    if (!lesson.value) {
+        error.value = "الرجاء اختيار الدرس"
+        return
+    }
+
+    if (!nameCookie.value) {
+        error.value = "الرجاء ادخال معرف الدخول"
+        return
+    }
+
+    if (!session.value) {
+        error.value = "الرجاء ادخال معرف الجلسة"
+        return
+    }
+
     try {
         const data = await $fetch('/api/new-session', {
             method: 'POST',

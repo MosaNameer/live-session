@@ -18,11 +18,14 @@ export default defineEventHandler(async (event) => {
   }
 
   let sessions = await useStorage().getItem('db:sessions') as Session[]
-  const session = sessions.find((s: Session) => s.id === session_id)
+  const session = sessions?.find((s: Session) => s.id === session_id)
 
+  if (!session) {
+    return []
+  }
   /******** SLIDES DATA  **********/
   // Which slide to store data for
-  let slide = session.slidesData.find((s) => s.slide === session.slide)
+  let slide = session?.slidesData.find((s) => s.slide === session.slide)
   if (!slide) {
     // Initiate slide data
     session.slidesData.push({
