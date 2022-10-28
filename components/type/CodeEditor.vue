@@ -77,16 +77,16 @@ const sendCode = useDebounceFn(async (e) => {
 
 // Listen for writes in editors
 watch(() => store.getCode, () => updatePreview(), { deep: true })
-console.log(store.getCode)
 
 onMounted(() => {
     setTimeout(() => {
         isLoading.value = false
-        updatePreview()
     }, 1000)
+
+    setTimeout(() => {
+        updatePreview()
+    }, 1250)
 })
-
-
 </script>
 
 <style scoped>
