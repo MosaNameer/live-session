@@ -28,7 +28,7 @@
 
 
                     <div v-if="content" v-show="selectedTab == null" overflow="y-auto" mb="30">
-                        <ContentRenderer class="nuxt-content" :value="content">
+                        <ContentRenderer class="nuxt-content prose" :value="content">
                             <template #empty>
                                 <p>No content found.</p>
                             </template>

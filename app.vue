@@ -292,4 +292,16 @@ body {
 .nuxt-content {
     color:#d4b2f7;
 }
+
+.nuxt-content  ul {list-style: none}
+.nuxt-content  ul li::before {content: "-"; color: rgb(197, 83, 207);
+  display: inline-block; width: 1em;
+  margin-left: -1em}
+
+.nuxt-content ol {list-style: none; counter-reset: li}
+.nuxt-content ol li::before {content: counter(list-item) '.'; color: rgb(197, 83, 207);
+  display: inline-block; width: 1em;
+  margin-left: -1em}
+
+  
 </style>
