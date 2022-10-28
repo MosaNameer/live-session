@@ -9,20 +9,25 @@ export default defineEventHandler(async (event) => {
 
     const filePath = fileURLToPath(new URL(`${contentPath}/${file}`, import.meta.url))
 
+    // Parse Markdown Metadata
+
+
+
     let contents = fs.readFileSync(filePath, 'utf8')
     contents = contents.split('---')
-    const attributes = contents[1].replace(/^\s*[\r\n]/gm, '').match(/[^\r\n]+/g)
-    const newAttributes = attributes.map(a => {
-        const [k, v] = a.split(':')
-        if (k == key) {
-            return `${k}: "${value}"`
-        } else {
-            return a
-        }
-    })
-    
-    const newContents =  `---
-${newAttributes.join('\r\n')}
+    const attributes = contents[1].replace(/^\s*[\r\n]/gm, '')
+    const re = /(\w+):\s*(?:"([^"]*)"|(\S+))/g;
+    let parsedAttributes = {}, m;
+    while (m = re.exec(attributes)) {
+        parsedAttributes[m[1]] = (m[3] || m[2]);
+    }
+
+    parsedAttributes[key] = value
+
+    const parsedToString = Object.entries(parsedAttributes).map(([key, value]) => `${key}: "${value}"`)
+
+    const newContents = `---
+${parsedToString.join('\r\n')}
 ---
 ${contents[2].replace(/^\n|\n$/g, '')}`
 

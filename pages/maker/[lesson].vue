@@ -37,8 +37,11 @@
         <!-- Right -->
         <div flex="basis-1/2" h="full" w="full">
             <MakerMarkdownPreview v-if="store.getSelectedTab == 1" />
-            <div v-if="store.getSelectedTab == 2">
-                Type Preview
+            <div h="full" v-if="store.getSelectedTab == 2">
+                <MakerTypeCodeEditorPreview v-if="store.getSelectedSlide?.type == 'CodeEditor'" />
+                <div v-else>
+                    Type Preview
+                </div>
             </div>
         </div>
     </div>
