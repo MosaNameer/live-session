@@ -173,7 +173,6 @@ export const useSessionStore = defineStore('session-store', {
                         break;
                     case 'Question':
                         this.questions = prodcastedData
-                        await this.fetchCorrectQuestions()
                         break;
                 }
             }
@@ -272,12 +271,12 @@ export const useSessionStore = defineStore('session-store', {
         },
 
 
-        async storeQuestions(){
+        async storeQuestions(qs){
             const { params: { session } } = useRoute()
             await $fetch(`/api/session/${session}/store-question`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    data: this.questions
+                    data: qs
                 })
             })
         },

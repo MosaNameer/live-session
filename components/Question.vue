@@ -32,7 +32,7 @@ const props = defineProps(['question'])
 const userId = useCookie('userId')
 
 onBeforeMount(() => {
-    if (props.question.type === 'multiple') {
+    if (props.question?.type === 'multiple') {
         props.question.choice = props.question.choice || []
     }
 })

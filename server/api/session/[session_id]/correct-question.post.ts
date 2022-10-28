@@ -34,6 +34,7 @@ export default defineEventHandler(async (event) => {
 
   storage?.forEach(user => {
     const questions = user?.data
+    if (!(questions?.length > 0)) return []
     questions?.forEach(question => {
       // Multiple
       if (question.type == "multiple") {
