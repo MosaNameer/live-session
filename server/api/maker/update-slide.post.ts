@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
     parsedAttributes[key] = value
 
-    const parsedToString = Object.entries(parsedAttributes).map(([key, value]) => `${key}: "${value}"`)
+    const parsedToString = Object.entries(parsedAttributes).map(([key, value]) => `${key}: '${value}'`)
 
     const newContents = `---
 ${parsedToString.join('\r\n')}

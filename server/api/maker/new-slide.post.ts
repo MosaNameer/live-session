@@ -32,9 +32,9 @@ export default defineEventHandler(async (event) => {
     const slidePath = fileURLToPath(new URL(`${contentPath}/${lessonPath}/${randomSlideName}`, import.meta.url))
 
     fs.writeFile(slidePath, `---
-title: "Slide ${getSlides?.length + 1}"
-type: "CodeEditor"
-chapter: "Chapter 1"
+title: 'Slide ${getSlides?.length + 1}'
+type: 'CodeEditor'
+chapter: 'Chapter 1'
 ---
 # Slide Title
 Slide Text

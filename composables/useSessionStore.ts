@@ -128,9 +128,14 @@ export const useSessionStore = defineStore('session-store', {
 
 
         async fetchSlides(){
-            this.slides = await queryContent(this.session?.lesson?.value).where({
+            this.slides = (await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
-            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript', 'questions']).find()
+            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript', 'questions']).find()).map(s => {
+                return {
+                    ...s,
+                    questions: s.questions ? JSON.parse(s.questions) : null
+                }
+            })
         },
 
         async nextSlide(){
