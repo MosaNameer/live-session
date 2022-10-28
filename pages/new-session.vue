@@ -69,7 +69,7 @@ const create = async () => {
             })
         })
         
-        router.push(`/${session.value}`)
+        router.push(`/sessions/${session.value}`)
         
     } catch(e) {
         error.value = "حدث خطأ! اما معرف الجلسة موجود او انك لم تدخل جميع المطلوبات."

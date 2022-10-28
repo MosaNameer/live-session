@@ -37,6 +37,6 @@ const join = async () => {
         return
     }
 
-    router.push(`/${sessionCookie.value}`)
+    router.push(`/sessions/${sessionCookie.value}`)
 }
 </script>

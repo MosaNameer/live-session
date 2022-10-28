@@ -1,0 +1,55 @@
+<template>
+    <!-- <div flex="~ col gap-2" text-whitesec>
+        <span>{{ lesson }}</span>
+        <button w="fit" @click="store.newSlide()">New Slide</button>
+        <div v-for="slide in store.getSlides" :key="slide.title">{{slide.title}}</div>
+    </div> -->
+
+    <div flex="~" w="screen" h="screen">
+        <!-- Left -->
+        <div flex="~ basis-1/2 gap-4" p="4">
+            <!-- SLIDES NAVIGATION -->
+            <div h="full" flex="~ col gap-2" items="center" text="white">
+                <div flex="~" items="center" justify="center" bg="hover:secondary" cursor="pointer" border="2 secondary" h="10" w="10"></div>
+                <div v-for="(_, index) in store.getSlides" :key="index" @click="store.selectSlide(_)" :class="{ 'bg-secondary': _._path == store.getSelectedSlide?._path }" flex="~" bg="hover:secondary" cursor="pointer" items="center" justify="center" border="~ secondary" h="10" w="10">
+                    {{ index + 1 }}
+                </div>
+                <div @click="store.newSlide()" flex="~" items="center" justify="center" bg="hover:secondary" cursor="pointer" border="~ secondary" h="10" w="10">
+                    <Icon size="25" name="material-symbols:add" />
+                </div>
+            </div>
+
+            <!-- SLIDE CONTROL -->
+            <div v-if="store.getSelectedSlide" flex="~ col gap-4 grow">
+                <span text="white xl" mt="2">My Lesson</span>
+                <UiTabGroup flex="grow" w="full" :tabs="['TEXT', 'TYPE']" @selected="store.sendSelectedTab($event)">
+                    <template #tab-1>
+                        <MakerMarkdown />
+                    </template>
+    
+                    <template #tab-2>
+                        <MakerType />
+                    </template>
+                </UiTabGroup>
+            </div>
+        </div>
+
+        <!-- Right -->
+        <div flex="basis-1/2" h="full" w="full">
+            <MakerMarkdownPreview v-if="store.getSelectedTab == 1" />
+            <div v-if="store.getSelectedTab == 2">
+                Type Preview
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+const { params: { lesson } } = useRoute()
+const store = useMaker()
+
+await store.fetchSlides()
+
+
+
+</script>
