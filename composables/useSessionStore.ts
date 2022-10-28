@@ -16,7 +16,7 @@ export const useSessionStore = defineStore('session-store', {
         
         /* SLIDE TYPES */
         // CODE
-        code: { html: '<html><body><span>test</span></body></html>', css: 'span{color:red}', javascript: '' },
+        code: { html: '<html><body><span>HELLO </span></body></html>', css: 'span{color:red}', javascript: '' },
         selectedTab: 0,
 
         // QUESTION
@@ -332,7 +332,6 @@ export const useSessionStore = defineStore('session-store', {
                     break
                 case 'admin':
                     this.logs.push(data)
-                    console.log(data)
                     break
                 default:
                     console.log('unknown data type', data)

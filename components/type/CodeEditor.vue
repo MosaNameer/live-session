@@ -4,15 +4,15 @@
         <div flex="grow">
             <UiTabGroup h="full" :tabs="['html', 'css', 'js']" :selected="store.selectedTab" @selected="store.sendSelectedTab($event)">
                 <template #tab-1>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
+                    <MonacoEditor v-if="store.code?.html" w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
                 </template>
 
                 <template #tab-2>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
+                    <MonacoEditor v-if="store.code?.css" w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
                 </template>
 
                 <template #tab-3>
-                    <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
+                    <MonacoEditor v-if="store.code?.javascript" w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
                 </template>
             </UiTabGroup>
         </div>
@@ -55,6 +55,7 @@ const updatePreview = async () => {
 }
 
 const sendCode = useDebounceFn(async (e) => {
+    if (!store.isAdmin && store.isReadOnly) return false
     const prevents = [16, 17, 18, 19, 20, 27, 33, 34, 35, 36, 37, 38, 39, 40, 44, 45, 91, 92, 93, 112, 113, 114, 115, , 116, 117, 118, 119, 120, 121, 122, 123, 144, 145, 173, 174, 175, 181, 182, 183]
     if (prevents.includes(e.which)) {
         console.log('not a letter')

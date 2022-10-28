@@ -17,7 +17,7 @@
 
                     <div class="nuxt-content" v-show="selectedTab === 'log'" flex="~ col gap-2">
                         <!-- {{ store.getLogs }} -->
-                        <div v-for="(log, index) in store.getLogs" :key="index + log" flex="~" justify="between">
+                        <div v-for="(log, index) in store.getLogs" :key="index + log?.timestamp" flex="~" justify="between">
                             <div flex="~ gap-2">
                                 <span>{{ index + 1 }}.</span>
                                 <span>{{ log?.title }}</span>

@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const session_id = useCookie(event, 'session');
   const name = useCookie(event, 'name');
 
-  
+
   if (!session_id) {
     throw createError({
       statusCode: 400,
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
         ws.send(SocketData({
           type: 'admin',
           data: {
-            title: `User ${name} has updated the prodcast.`,
+            title: `User ${name} has updated the read only.`,
             timestamp: new Date().valueOf()
           }
         }))
