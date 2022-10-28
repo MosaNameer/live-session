@@ -16,7 +16,7 @@ export const useSessionStore = defineStore('session-store', {
         
         /* SLIDE TYPES */
         // CODE
-        code: { html: '<html><body><span>HELLO </span></body></html>', css: 'span{color:red}', javascript: '' },
+        code: {},
         selectedTab: 0,
 
         // QUESTION
@@ -194,9 +194,12 @@ export const useSessionStore = defineStore('session-store', {
             else {
                 switch (type) {
                     case 'CodeEditor':
-                        this.code.html = this.getCurrentSlide?.html
-                        this.code.css = this.getCurrentSlide?.css
-                        this.code.javascript = this.getCurrentSlide?.javascript
+                        this.code = {
+                            html: this.getCurrentSlide?.html,
+                            css: this.getCurrentSlide?.css,
+                            javascript: this.getCurrentSlide?.javascript
+                        }
+
                         break;
                     case 'Question':
                         await this.fetchCorrectQuestions()

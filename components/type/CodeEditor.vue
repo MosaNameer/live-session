@@ -1,35 +1,44 @@
 <template>
-    <div h="full" flex="~ col">
-        <!-- Tabs -->
-        <div flex="grow">
-            <UiTabGroup h="full" :tabs="['html', 'css', 'js']" :selected="store.selectedTab" @selected="store.sendSelectedTab($event)">
-                <template #tab-1>
-                    <MonacoEditor v-if="store.code?.html" w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
-                </template>
+    <div h="full" w="full">
+        <Transition>
+            <div v-if="!isLoading" h="full" flex="~ col">
+                <!-- Tabs -->
+                <div flex="grow">
+                    <UiTabGroup h="full" :tabs="['html', 'css', 'js']" :selected="store.selectedTab" @selected="store.sendSelectedTab($event)">
+                        <template #tab-1>
+                            <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
+                        </template>
 
-                <template #tab-2>
-                    <MonacoEditor v-if="store.code?.css" w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
-                </template>
+                        <template #tab-2>
+                            <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.css" lang="css" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
+                        </template>
 
-                <template #tab-3>
-                    <MonacoEditor v-if="store.code?.javascript" w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
-                </template>
-            </UiTabGroup>
-        </div>
+                        <template #tab-3>
+                            <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.javascript" lang="javascript" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
+                        </template>
+                    </UiTabGroup>
+                </div>
 
-        <div position="relative" flex="basis-1/2" bg="primary">
-            <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
-                <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
+                <div position="relative" flex="basis-1/2" bg="primary">
+                    <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
+                        <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
+                    </div>
+
+                    <iframe overflow-scroll h="full" w="full" ref="previewRef" border="0" bg-white></iframe>
+                </div>
             </div>
-
-            <iframe overflow-scroll h="full" w="full" ref="previewRef" border="0" bg-white></iframe>
-        </div>
+            <div v-else h="full" w="full" flex="~" items="center" justify="center" text-whitesec>
+                <Icon size="50" name="line-md:loading-twotone-loop" />
+            </div>
+        </Transition>
     </div>
 </template>
 
 <script setup>
 // Initiate store
 const store = useSessionStore()
+
+const isLoading = ref(true)
 
 // Preview Panel Reference
 const previewRef = ref(null)
@@ -67,11 +76,33 @@ const sendCode = useDebounceFn(async (e) => {
 
 
 // Listen for writes in editors
-watchDebounced(() => store.getCode, () => updatePreview(), { deep: true, immediate: true, flush: true, debounce: 100, maxWait: 1000 })
+watch(() => store.getCode, () => updatePreview(), { deep: true })
+console.log(store.getCode)
 
-// watch(() => selectedTab.value, (index) => {
-//     if (store.isProdcast){
-//         // selectedTab.value = index
-//     }
-// })
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false
+        updatePreview()
+    }, 1000)
+})
+
+
 </script>
+
+<style scoped>
+
+.v-enter-active {
+    transition: all 0.15s ease-in-out;
+}
+
+.v-leave-active {
+    transition: all 0.15s ease-in-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+</style>
