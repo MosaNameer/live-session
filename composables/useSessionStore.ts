@@ -24,6 +24,8 @@ export const useSessionStore = defineStore('session-store', {
         correctQuestions: [],
         questionsUserId: useCookie('userId')?.value,
 
+        logs: [],
+
     }),
     
     getters: {
@@ -63,6 +65,10 @@ export const useSessionStore = defineStore('session-store', {
         getCorrectQuestions: (state) => state.correctQuestions,
         getCorrectQuestionsByUserId: (state) => (userId: string) => state.correctQuestions?.find(q => q.userId === userId)?.data,
         getMyCorrectQuestion: (state) => state.correctQuestions?.find(q => q.userId === state.questionsUserId)?.data,
+
+
+
+        getLogs: (state) => state.logs?.reverse(),
         
     },
 
@@ -325,6 +331,7 @@ export const useSessionStore = defineStore('session-store', {
                     this.selectedTab = data
                     break
                 case 'admin':
+                    this.logs.push(data)
                     console.log(data)
                     break
                 default:

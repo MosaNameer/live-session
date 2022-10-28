@@ -15,6 +15,18 @@
                         <Users />
                     </div>
 
+                    <div class="nuxt-content" v-show="selectedTab === 'log'" flex="~ col gap-2">
+                        <!-- {{ store.getLogs }} -->
+                        <div v-for="(log, index) in store.getLogs" :key="index + log" flex="~" justify="between">
+                            <div flex="~ gap-2">
+                                <span>{{ index + 1 }}.</span>
+                                <span>{{ log?.title }}</span>
+                            </div>
+                            <span>{{ new Date(log?.timestamp)?.toLocaleTimeString("en-US") }}</span>
+                        </div>
+                    </div>
+
+
                     <div v-if="content" v-show="selectedTab == null" overflow="y-auto" mb="30">
                         <ContentRenderer class="nuxt-content" :value="content">
                             <template #empty>
@@ -33,15 +45,28 @@
                         </div>
                         <div v-if="store.isAdmin" flex="~" justify="between" p="4" bg="tertiary" text="white 2xl">
                             <div flex="~ gap-3">
-                                <span text="hover:whitesec" cursor="pointer">
-                                    <Icon name="ic:twotone-fullscreen" />
-                                </span>
-                                <span text="hover:whitesec" @click="selectTab('settings')" cursor="pointer">
-                                    <Icon name="ic:baseline-settings" />
-                                </span>
-                                <span text="hover:whitesec" @click="selectTab('users')" cursor="pointer">
-                                    <Icon name="ic:round-supervisor-account" />
-                                </span>
+                                <UiToolTip text="Full Screen">
+                                    <span text="hover:whitesec" cursor="pointer">
+                                        <Icon name="ic:twotone-fullscreen" />
+                                    </span>
+                                </UiToolTip>
+                                <UiToolTip text="Settings">
+                                    <span :class="{ 'text-whitesec': selectedTab == 'settings'}" text="hover:whitesec" @click="selectTab('settings')" cursor="pointer">
+                                        <Icon name="ic:baseline-settings" />
+                                    </span>
+                                </UiToolTip>
+                                <UiToolTip text="Users">
+                                    <span :class="{ 'text-whitesec': selectedTab == 'users'}" text="hover:whitesec" @click="selectTab('users')" cursor="pointer">
+                                        <Icon name="ic:round-supervisor-account" />
+                                    </span>
+                                </UiToolTip>
+                                <UiToolTip text="Logs">
+                                    <span :class="{ 'text-whitesec': selectedTab == 'log'}" text="hover:whitesec" @click="selectTab('log')" cursor="pointer">
+                                        <Icon name="typcn:document-text" />
+                                    </span>
+                                </UiToolTip>
+
+
                             </div>
                             <div flex="~ gap-6">
                                 <span text="hover:whitesec" :class="{ 'text-error': store.hasNextSlide }" @click="store.nextSlide()" cursor="pointer">

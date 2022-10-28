@@ -4,7 +4,9 @@ import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
   const session_id = useCookie(event, 'session');
+  const name = useCookie(event, 'name');
 
+  
   if (!session_id) {
     throw createError({
       statusCode: 400,
@@ -26,6 +28,15 @@ export default defineEventHandler(async (event) => {
         type: 'read-only',
         data: session.readOnly
       }))
+
+      if (ws.user.id == session.adminId)
+        ws.send(SocketData({
+          type: 'admin',
+          data: {
+            title: `User ${name} has updated the prodcast.`,
+            timestamp: new Date().valueOf()
+          }
+        }))
     }
   })
   

@@ -13,6 +13,18 @@ export const joinUser = async (user: User, ws: WebSocket) => {
     if (!session) {
         ws.send(SocketData({ type: 'statue', data: "Session is not found.", sender: "System" }))
         ws.close()
+
+        state.wss.clients.forEach((_ws) => {
+            if (_ws.user.id == session.adminId)
+            ws.send(SocketData({
+                type: 'admin',
+                data: {
+                    title: `Failed ${user.name} to join to session ${user.session}.`,
+                    timestamp: new Date().valueOf()
+                }
+            }))
+        })
+        
         return `Failed ${user.name} to join to session ${user.session}`
     }
 
@@ -21,8 +33,33 @@ export const joinUser = async (user: User, ws: WebSocket) => {
         session.users.push(user)
         await useStorage().setItem('db:sessions', sessions)
         ws.send(SocketData({ type: 'statue', data: "Joined.", sender: "System" }))
+
+        state.wss.clients.forEach((_ws) => {
+            if (_ws.user.id == session.adminId)
+            ws.send(SocketData({
+                type: 'admin',
+                data: {
+                    title: `Joined ${user.name} to ${session.id}.`,
+                    timestamp: new Date().valueOf()
+                }
+            }))
+        })
+
         return `Joined ${user.name} to ${session.id}`
     }
+
+
+    state.wss.clients.forEach((_ws) => {
+        if (_ws.user.id == session.adminId)
+        ws.send(SocketData({
+            type: 'admin',
+            data: {
+                title: `Reconnected ${user.name} to ${session.id}.`,
+                timestamp: new Date().valueOf()
+            }
+        }))
+    })
+
 
     return `Reconnected ${user.name} to ${session.id}`
 }

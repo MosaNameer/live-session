@@ -34,6 +34,18 @@ export default defineEventHandler(async (event) => {
       }))
     }
   })
+
+  state.wss.clients.forEach((ws) => {
+    if (ws.readyState === ws.OPEN && ws.user.id == session.adminId) {
+      ws.send(SocketData({
+        type: 'admin',
+        data: {
+          title: `User ${name} has changed slide.`,
+          timestamp: new Date().valueOf()
+        }
+      }))
+    }
+  })
   
   console.log('set for all clients')
   return {

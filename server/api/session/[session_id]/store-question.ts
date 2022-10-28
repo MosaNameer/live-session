@@ -52,7 +52,10 @@ export default defineEventHandler(async (event) => {
     if (ws.readyState === ws.OPEN && ws.user.id == session.adminId) {
       ws.send(SocketData({
         type: 'admin',
-        data: `User ${name} has updated the questions`
+        data: {
+          title: `User ${name} has updated the questions`,
+          timestamp: new Date().valueOf()
+        }
       }))
     }
   })

@@ -4,6 +4,8 @@ import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
   const session_id = useCookie(event, 'session');
+  const name = useCookie(event, 'name');
+
 
   if (!session_id) {
     throw createError({
@@ -26,9 +28,18 @@ export default defineEventHandler(async (event) => {
         type: 'prodcast',
         data: session.prodcast
       }))
+
+      if (ws.user.id == session.adminId)
+        ws.send(SocketData({
+          type: 'admin',
+          data: {
+            title: `User ${name} has updated the prodcast.`,
+            timestamp: new Date().valueOf()
+          }
+        }))
     }
   })
-  
+
   console.log('toggle prodcast for all clients', session.prodcast)
   return session.prodcast
 })

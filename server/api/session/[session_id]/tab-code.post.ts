@@ -20,11 +20,20 @@ export default defineEventHandler(async (event) => {
   /******** PRODCASTING DATA  **********/
   // send to users
   state.wss.clients.forEach((ws) => {
-    if (ws.readyState === ws.OPEN && ws.user.session === session_id && ws.user.id !== user_id) {
-      ws.send(SocketData({
-        type: 'tab-code',
-        data: data
-      }))
+    if (ws.readyState === ws.OPEN && ws.user.session === session_id) {
+      if (ws.user.id !== user_id)
+        ws.send(SocketData({
+          type: 'tab-code',
+          data: data
+        }))
+      else
+        ws.send(SocketData({
+          type: 'admin',
+          data: {
+            title: `User ${name} has changed code editor tab.`,
+            timestamp: new Date().valueOf()
+          }
+        }))
     }
   })
   console.log('code tab has been changed')

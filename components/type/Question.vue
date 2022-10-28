@@ -35,17 +35,7 @@
                     <span text-whitesec>{{ index }}</span>
                 </span>
             </div>
-            <!-- 1
-        {{ store.getMyCorrectQuestion?.[selectedQuestion] }}
-        <br />
-        <br />
-        2
-        {{ store.getQuestions?.[selectedQuestion] }}
-        <br />
-        <br /> -->
-            {{questions?.[selectedQuestion]}}
-            <br />
-            <!-- {{store.getQuestions?.[selectedQuestion]}} -->
+
             <Question v-if="questions?.[selectedQuestion]?.question && !store.isAdmin" :question="questions?.[selectedQuestion]" />
             <Question v-else-if="store.isAdmin" :question="store.getMyCorrectQuestion?.[selectedQuestion]" />
         </div>
@@ -66,22 +56,8 @@ const selectedQuestion = ref(0)
 // const questions = ref([])
 const questions = computed(() => store.getQuestions)
 
-// onMounted(() => {
-//     if (store.getMyCorrectQuestion?.length > 0) {
-//         console.log('1', store.getMyCorrectQuestion)
-//         questions.value = store.getMyCorrectQuestion
-//     } else if (store.getQuestions?.length > 0) {
-//         console.log('2', store.getQuestions)
-//         questions.value = store.getQuestions
-//     } else {
-//         console.log('3')
-//         questions.value = []
-//     }
-// })
-
 watch(() => questions.value, () => {
-    console.log(questions.value)
-    if (questions.value?.length > 0) store.storeQuestions(questions.value)
+    if (questions.value?.length > 0 && !store.isAdmin) store.storeQuestions(questions.value)
 }, { deep: true })
 
 </script>
