@@ -31,6 +31,12 @@ const store = useSessionStore()
 const props = defineProps(['question'])
 const userId = useCookie('userId')
 
+onBeforeMount(() => {
+    if (props.question.type === 'multiple') {
+        props.question.choice = props.question.choice || []
+    }
+})
+
 // Initiate data for checkbox
-if (!props.question?.choice && props.question?.type == "multiple") props.question.choice = []
+// if (!props.question?.choice && props.question?.type == "multiple") props.question.choice = []
 </script>

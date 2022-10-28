@@ -188,13 +188,13 @@ export const useSessionStore = defineStore('session-store', {
                         break;
                     case 'Question':
                         const userQuestions = this.getSlideData()
+                        await this.fetchCorrectQuestions()
                         if (userQuestions){
                             this.questions = userQuestions
                         }
                         else {
                             this.questions = this.getCurrentSlide?.questions
                         }
-                        await this.fetchCorrectQuestions()
                         break;
                 }
             }
@@ -286,14 +286,13 @@ export const useSessionStore = defineStore('session-store', {
             if (this.getCurrentSlide?.type !== 'Question') return false
 
             const { params: { session } } = useRoute()
-            const corrects = await $fetch(`/api/session/${session}/correct-question`, {
+            this.correctQuestions = await $fetch(`/api/session/${session}/correct-question`, {
                 method: 'POST',
                 body: JSON.stringify({
                     slide: this.getCurrentSlide._path,
                 })
             })
 
-            this.correctQuestions = corrects
         },
 
 

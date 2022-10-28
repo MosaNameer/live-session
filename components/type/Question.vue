@@ -41,6 +41,9 @@
         {{ store.getQuestions?.[selectedQuestion] }}
         <br />
         <br /> -->
+        {{store.getMyCorrectQuestion?.[selectedQuestion]}}
+        <br />
+        {{store.getQuestions?.[selectedQuestion]}}
         <Question v-if="store.getMyCorrectQuestion?.[selectedQuestion]" :question="store.getMyCorrectQuestion?.[selectedQuestion]" />
 
         <Question v-else-if="store.getQuestions?.[selectedQuestion]" :question="store.getQuestions?.[selectedQuestion]" />
