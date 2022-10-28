@@ -14,6 +14,10 @@
 const store = useMaker()
 await store.fetchSlideMarkdown()
 
+watch (() => store.getSelectedSlide, () => {
+    store.fetchSlideMarkdown()
+}, {deep: true})
+
 const saving = ref(false)
 
 const saveMarkdown = useDebounceFn(async (e) => {

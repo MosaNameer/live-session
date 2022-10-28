@@ -81,6 +81,13 @@ export const useMaker = defineStore('maker-store', {
             })
         },
 
+        async updateSlideAttribute(key, value){
+            await $fetch('/api/maker/update-slide', {
+                method: 'POST',
+                body: JSON.stringify({ file: this.selectedSlide?._file, key, value })       
+            })  
+            // await this.fetchSlides()
+        },
 
         selectSlide(slide) {
             this.selectedSlide = slide

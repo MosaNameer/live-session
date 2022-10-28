@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
 
     fs.writeFile(slidePath, `---
 title: "Slide ${getSlides?.length + 1}"
-type: "multiple"
+type: "CodeEditor"
 chapter: "Chapter 1"
 ---
 # Slide Title
