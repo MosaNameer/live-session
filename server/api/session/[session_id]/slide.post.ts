@@ -4,6 +4,7 @@ import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
   const session_id = useCookie(event, 'session');
+  const name = useCookie(event, 'name');
   const { slide } = await useBody(event)
 
   if (!session_id || !slide) {

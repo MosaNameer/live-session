@@ -202,8 +202,14 @@ export const useSessionStore = defineStore('session-store', {
 
                         break;
                     case 'Question':
-                        await this.fetchCorrectQuestions()
-                        this.questions = [...this.getCurrentSlide?.questions]
+                        // await this.fetchCorrectQuestions()
+                        const userQuestions = this.getSlideData()
+                        if (userQuestions){
+                            this.questions = [...userQuestions]
+                        }
+                        else {
+                            this.questions = [...this.getCurrentSlide?.questions]
+                        }
                         
                         break;
                 }
