@@ -42,7 +42,12 @@ export const useMaker = defineStore('maker-store', {
             if (!lesson) return false
             this.slides = (await queryContent(lesson?.split('.')?.pop()).where({
                 _type: "markdown"
-            }).find())
+            }).find()).map(slide => {
+                return {
+                    ...slide,
+                    questions: slide.questions ? JSON.parse(slide.questions) : null
+                }
+            })
             if (this.slides?.length <= 0) {
                 await this.newSlide()
             }

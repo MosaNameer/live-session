@@ -14,6 +14,7 @@
         </div>
 
         <MakerTypeCodeEditor flex="grow" v-if="store.getSelectedSlide?.type == 'CodeEditor'" />
+        <MakerTypeQuestion flex="grow" v-if="store.getSelectedSlide?.type == 'Question'" />
     </div>
 </template>
 
