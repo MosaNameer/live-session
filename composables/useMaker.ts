@@ -25,6 +25,7 @@ export const useMaker = defineStore('maker-store', {
         async fetchLessons() {
             this.lessons = await $fetch('/api/maker/lessons')
         },
+        
         async newLesson(lessonName) {
             try {
                 await $fetch('/api/maker/new-lesson', {
@@ -54,7 +55,6 @@ export const useMaker = defineStore('maker-store', {
 
             if (this.selectedSlide == null) {
                 this.selectedSlide = this.slides?.[0]
-                console.log(this.slides?.[0])
             }
         },
 

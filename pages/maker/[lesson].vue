@@ -1,16 +1,10 @@
 <template>
-    <!-- <div flex="~ col gap-2" text-whitesec>
-        <span>{{ lesson }}</span>
-        <button w="fit" @click="store.newSlide()">New Slide</button>
-        <div v-for="slide in store.getSlides" :key="slide.title">{{slide.title}}</div>
-    </div> -->
-
     <div flex="~" w="screen" h="screen">
         <!-- Left -->
         <div flex="~ basis-1/2 gap-4" p="4">
             <!-- SLIDES NAVIGATION -->
             <div h="full" flex="~ col gap-2" items="center" text="white">
-                <div flex="~" items="center" justify="center" bg="hover:secondary" cursor="pointer" border="2 secondary" h="10" w="10"></div>
+                <a href="/maker" flex="~" items="center" justify="center" bg="hover:secondary" cursor="pointer" border="2 secondary" h="10" w="10"></a>
                 <div v-for="(_, index) in store.getSlides" :key="index" @click="store.selectSlide(_)" :class="{ 'bg-secondary': _._path == store.getSelectedSlide?._path }" flex="~" bg="hover:secondary" cursor="pointer" items="center" justify="center" border="~ secondary" h="10" w="10">
                     {{ index + 1 }}
                 </div>
@@ -21,7 +15,7 @@
 
             <!-- SLIDE CONTROL -->
             <div v-if="store.getSelectedSlide" flex="~ col gap-4 grow">
-                <span text="white xl" mt="2">My Lesson</span>
+                <span text="white xl" mt="2">{{ store.getSelectedSlide?.title }}</span>
                 <UiTabGroup flex="grow" w="full" :tabs="['TEXT', 'TYPE']" @selected="store.sendSelectedTab($event)">
                     <template #tab-1>
                         <MakerMarkdown />
@@ -53,6 +47,6 @@ const store = useMaker()
 
 await store.fetchSlides()
 
-
+console.log(store.selectedTab)
 
 </script>

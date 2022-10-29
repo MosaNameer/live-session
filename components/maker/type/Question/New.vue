@@ -40,7 +40,7 @@
                         <Icon name="material-symbols:delete" />
                     </UiButton>
             </div>
-            <UiButton @click="newQuestion.answers.push({ title: 'Title', correct: false })" w="50px" mt="4">
+            <UiButton @click="newQuestion.answers.push({ title: 'Title', correct: false })" w="50px" mt="2">
                 <Icon size="20" name="fa6-solid:plus" />
             </UiButton>
         </div>

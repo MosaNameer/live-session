@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <MakerTypeQuestionNew v-if="newState || selectedQuestion" :stateFunction="() => {newState = false, selectedQuestion = null}" :question="selectedQuestion" />
+        <MakerTypeQuestionNew v-if="newState || selectedQuestion || store.getSelectedSlide?.questions?.length < 1" :stateFunction="() => {newState = false, selectedQuestion = null}" :question="selectedQuestion" />
 
         <br /><br />
     </div>

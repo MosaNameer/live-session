@@ -42,7 +42,7 @@ export default defineNuxtConfig({
     },
 
     content: {
-        documentDriven: true
+        // documentDriven: true
     },
     unocss: {
         autoImport: true,

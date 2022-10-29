@@ -1,22 +1,28 @@
 <template>
     <div h="[calc(100%-2rem)]" position="relative">
         <Transition>
-            <div v-if="saving" z="10"  position="absolute" text="whitesec" bottom="7" right="7" flex="~ gap-1" items="center">
+            <div v-if="saving" z="10" position="absolute" text="whitesec" bottom="7" right="7" flex="~ gap-1" items="center">
                 <Icon size="20" name="line-md:loading-twotone-loop" />
                 <span text="sm">Saving...</span>
             </div>
         </Transition>
-        <MonacoEditor w="full" h="full" @keyup="saveMarkdown($event)" v-model="store.slideMarkdown" lang="markdown" :options="{ fontSize: '20px', minimap: { enabled: false } }" />
+        <Transition>
+            <MonacoEditor v-if="store.slideMarkdown && !isLoading" w="full" h="full" @keyup="saveMarkdown($event)" v-model="store.slideMarkdown" lang="markdown" :options="{ fontSize: '20px', minimap: { enabled: false } }" />
+
+            <div v-else h="full" w="full" flex="~" items="center" justify="center" text-whitesec>
+                <Icon size="50" name="line-md:loading-twotone-loop" />
+            </div>
+        </Transition>
     </div>
 </template>
 
 <script setup>
 const store = useMaker()
-await store.fetchSlideMarkdown()
+const isLoading = ref(true)
 
-watch (() => store.getSelectedSlide, () => {
+watch(() => store.getSelectedSlide, () => {
     store.fetchSlideMarkdown()
-}, {deep: true})
+}, { deep: true, immediate: true })
 
 const saving = ref(false)
 
@@ -29,6 +35,12 @@ const saveMarkdown = useDebounceFn(async (e) => {
     setTimeout(() => saving.value = false, 2500)
 }, 1000, { maxWait: 5000 })
 
+
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false
+    }, 250)
+})
 </script>
 
 
