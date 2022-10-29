@@ -1,8 +1,11 @@
 <template>
     <div flex="~ col gap-2" border="~ secondary" w="md" p="4" text="whitesec">
         <div flex justify-between>
-            <h4 text="white">New Question</h4>
-            <UiButton w="10" @click="stateFunction()"><Icon name="material-symbols:close" size="20" /></UiButton>
+            <h4 v-if="isEdit" text="white">Edit Question</h4>
+            <h4 v-else text="white">New Question</h4>
+            <UiButton w="10" @click="stateFunction()">
+                <Icon name="material-symbols:close" size="20" />
+            </UiButton>
         </div>
         <div flex="~ gap-6">
             <div v-for="_type in types" :key="_type">
@@ -26,9 +29,9 @@
                         <span>{{ index + 1 }}. {{ answer.title }}</span>
                         <Icon :name="Boolean(answer.correct) ? 'ion:checkmark-round' : 'fa6-solid:xmark'" :text="Boolean(answer.correct) ? 'success' : 'error'" />
                     </div>
-                    <UiButton @click="newQuestion.answers = newQuestion.answers.filter(x=>x.title !== answer.title)" w="50px">
-                            <Icon size="20" name="material-symbols:delete" />
-                        </UiButton>
+                    <UiButton @click="newQuestion.answers = newQuestion.answers.filter(x => x.title !== answer.title)" w="50px">
+                        <Icon size="20" name="material-symbols:delete" />
+                    </UiButton>
                 </label>
             </div>
             <UiButton @click="newQuestion.answers.push({ title: 'Title', correct: false })" w="50px" mt="4">
@@ -37,16 +40,25 @@
 
         </div>
 
-        <UiButton mt="4" @click="() => {insertQuestion(), stateFunction()}">Insert Question</UiButton>
+        <div flex items-center w="full" gap-4 mt="4">
+            <UiButton @click="deleteQuestion()" v-if="isEdit" w="50px">
+                <Icon size="18" name="material-symbols:delete" />
+            </UiButton>
+            <UiButton grow @click="() => { insertQuestion(), stateFunction() }">
+                <span v-if="isEdit">Edit Question</span>
+                <span v-else>Add Question</span>
+            </UiButton>
+        </div>
     </div>
 </template>
 
 
 <script setup>
-const props = defineProps(['stateFunction'])
+const props = defineProps(['stateFunction', 'question'])
 const store = useMaker()
 const types = ['multiple', 'one', 'text']
-const newQuestion = ref({
+
+const newQuestion = props.question ?? ref({
     question: '',
     type: 'multiple',
     answers: [
@@ -56,12 +68,20 @@ const newQuestion = ref({
     ]
 })
 
+const isEdit = computed(() => Boolean(props.question))
+
 const insertQuestion = () => {
-    if (store.getSelectedSlide?.questions)
+    if (store.getSelectedSlide?.questions && !isEdit.value)
         store.getSelectedSlide.questions.push(newQuestion.value)
-    else
+    else if (!store.getSelectedSlide?.questions)
         store.getSelectedSlide.questions = [newQuestion.value]
-    
+
     store.updateSlideAttribute('questions', JSON.stringify(store.getSelectedSlide.questions))
+}
+
+const deleteQuestion = () => {
+    store.selectedSlide.questions = store.selectedSlide.questions.filter(x => x.question !== newQuestion.question)
+    store.updateSlideAttribute('questions', JSON.stringify(store.getSelectedSlide.questions))
+    props.stateFunction()
 }
 </script>
