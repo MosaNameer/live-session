@@ -39,4 +39,6 @@ const join = async () => {
 
     router.push(`/sessions/${sessionCookie.value}`)
 }
+
+$fetch('/api/compile/')
 </script>

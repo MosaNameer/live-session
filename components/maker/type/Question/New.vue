@@ -1,6 +1,5 @@
 <template>
     <div flex="~ col gap-2" border="~ secondary" w="md" p="4" text="whitesec">
-        {{backupQuestion}}
 
         <div flex justify-between>
             <h4 v-if="isEdit" text="white">Edit Question</h4>
@@ -26,51 +25,32 @@
 
 
         <!-- Multiple -->
-        <div v-if="newQuestion?.type == 'multiple'">
-            <span text="sm white">Multiple Answers</span>
-            <div v-for="(answer, index) in newQuestion?.answers" :key="`${answer.title}-${index}`" flex gap-2 items-center justify-between cursor-pointer my-1>
-                <UiInput grow v-model="answer.title" />
+        <div v-if="newQuestion?.type == 'multiple' || newQuestion?.type == 'one'">
+            <span text="sm white" v-if="newQuestion?.type == 'one'">One Answer</span>
+            <span text="sm white" v-else>Multiple Answers</span>
 
-                <input class="hidden" :id="`input-${answer.title}-${index}`" v-model="answer.correct" :value="answer.title" type="checkbox">
-                <label cursor="pointer" bg="secondary hover:secondary/75s focus:secondary/75s" py="12px" w="50px" text-center :for="`input-${answer.title}-${index}`" text-sm>
-                    <Icon :name="Boolean(answer.correct) ? 'ion:checkmark-round' : 'fa6-solid:xmark'" :text="Boolean(answer.correct) ? 'success' : 'error'" />
-                </label>
-                
-                <UiButton @click="newQuestion.answers = newQuestion.answers.filter(x => x.title !== answer.title)" w="50px">
-                        <Icon name="material-symbols:delete" />
-                    </UiButton>
-            </div>
-            <UiButton @click="newQuestion.answers.push({ title: 'Title', correct: false })" w="50px" mt="2">
-                <Icon size="20" name="fa6-solid:plus" />
-            </UiButton>
-        </div>
-
-        <!-- One -->
-        <div v-if="newQuestion?.type == 'one'">
-            <span text="sm white">One Answer</span>
-            <div v-for="(answer, index) in newQuestion?.answers" :key="`one-${answer.title}-${index}`">
+            <div v-for="(answer, index) in newQuestion?.answers" :key="`${answer.title}-${index}`">
                 <div text-center flex gap-2 justify-between items-center cursor-pointer my-1>
                     <UiInput grow v-model="answer.title" />
-                    
-                    <UiButton @click.stop="oneSelect(answer)" w="50px">
+
+                    <UiButton @click.stop="() => newQuestion?.type == 'one' ? oneSelect(answer) : multipleSelect(answer)" w="50px">
                         <Icon :name="Boolean(answer.correct) ? 'ion:checkmark-round' : 'fa6-solid:xmark'" :text="Boolean(answer.correct) ? 'success' : 'error'" />
                     </UiButton>
 
-                    <UiButton @click.stop="newQuestion.answers = newQuestion.answers.filter(x => x.title !== answer.title)" w="50px">
+                    <UiButton @click.stop="newQuestion.answers = newQuestion.answers.filter(x => x !== answer)" w="50px">
                         <Icon name="material-symbols:delete" />
                     </UiButton>
                 </div>
             </div>
 
-            
-            <UiButton @click="newQuestion.answers.push({ title: `Title ${newQuestion.answers?.length+1}`, correct: false })" w="50px" mt="2">
+            <UiButton @click="newQuestion.answers.push({ title: 'Title', correct: false })" w="50px" mt="2">
                 <Icon size="20" name="fa6-solid:plus" />
             </UiButton>
         </div>
 
 
         <!-- Text -->
-        <div v-if="newQuestion?.type =='text'" flex>
+        <div v-if="newQuestion?.type == 'text'" flex>
             <textarea text="sm whitesec" bg="primary focus:secondary/50" class="focus:outline-none focus:ring-2 focus:ring-secondary" w-full rows="4" p-2 border="secondary" placeholder="Example of text" disabled="true"></textarea>
         </div>
 
@@ -112,7 +92,7 @@ const newQuestion = ref(props.question ?? {
     ]
 })
 
-watch (() => props.question, (q) => {
+watch(() => props.question, (q) => {
     if (props.question) newQuestion.value = q
 }, { deep: true })
 
@@ -134,14 +114,14 @@ const insertQuestion = () => {
     }
 
     if (newQuestion.value.type == 'multiple') {
-        if (newQuestion.value.answers.filter(x => x.correct).length != 1) {
+        if (newQuestion.value.answers.filter(x => x.correct).length <= 0) {
             error.value = 'Multiple answers must have at least 1 correct answers'
             return
         }
     }
 
     if (newQuestion.value.type == 'one') {
-        if (newQuestion.value.answers.filter(x => x.correct).length != 1) {
+        if (newQuestion.value.answers.filter(x => x.correct).length <= 0) {
             error.value = 'One answer must have 1 correct answer'
             return
         }
@@ -175,6 +155,13 @@ const oneSelect = (answer) => {
     newQuestion.value.answers = newQuestion.value.answers.map((a, i) => {
         if (a == answer) return { ...a, correct: true }
         else return { ...a, correct: false }
+    })
+}
+
+const multipleSelect = (answer) => {
+    newQuestion.value.answers = newQuestion.value.answers.map((a, i) => {
+        if (a == answer) return { ...a, correct: !a.correct }
+        else return a
     })
 }
 
