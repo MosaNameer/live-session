@@ -1,15 +1,17 @@
 <template>
-    <div flex="~ col gap-2" h="full" text="whitesec">
-        <MakerTypeQuestionNew v-if="selectedQuestion || newState" :stateFunction="() => {newState = false, selectedQuestion = null}" :question="selectedQuestion" />
-        <div flex="~ gap-2" v-else>
+    <div flex="~ col" pr="4" h="0" overflow-y="auto" text="whitesec">
+        <div flex="~ gap-2" mb="4">
             <div v-for="(_, index) in store.getSelectedSlide?.questions" :key="index" @click="selectedQuestion = _" :class="{ 'bg-secondary': _ == selectedQuestion }" flex="~" bg="hover:secondary" cursor="pointer" items="center" justify="center" border="~ secondary" h="10" w="10">
                 {{ index + 1 }}
             </div>
-            <div @click="newState = true" flex="~" bg="hover:secondary" cursor="pointer" items="center" justify="center" border="~ secondary" h="10" w="10">
+            <div @click="() => { newState = true, selectedQuestion = null}" flex="~" bg="hover:secondary" cursor="pointer" items="center" justify="center" border="~ secondary" h="10" w="10">
                 <Icon name="material-symbols:add" size="25" />
             </div>
         </div>
 
+        <MakerTypeQuestionNew v-if="newState || selectedQuestion" :stateFunction="() => {newState = false, selectedQuestion = null}" :question="selectedQuestion" />
+
+        <br /><br />
     </div>
 </template>
 
