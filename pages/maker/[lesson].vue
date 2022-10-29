@@ -15,7 +15,10 @@
 
             <!-- SLIDE CONTROL -->
             <div v-if="store.getSelectedSlide" flex="~ col gap-4 grow">
-                <span text="white xl" mt="2">{{ store.getSelectedSlide?.title }}</span>
+                <UiInput v-if="editTitle" @keyup.enter="() => { store.updateSlideAttribute('title', store.selectedSlide.title), editTitle = false}" v-model="store.selectedSlide.title" />
+                <span @click="editTitle = true" v-else text="white xl" mt="2">
+                    {{ store.getSelectedSlide?.title }}
+                </span>
                 <UiTabGroup flex="grow" w="full" :tabs="['TEXT', 'TYPE']" @selected="store.sendSelectedTab($event)">
                     <template #tab-1>
                         <MakerMarkdown />
@@ -47,6 +50,5 @@ const store = useMaker()
 
 await store.fetchSlides()
 
-console.log(store.selectedTab)
-
+const editTitle = ref(false)
 </script>

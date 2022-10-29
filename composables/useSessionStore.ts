@@ -63,8 +63,8 @@ export const useSessionStore = defineStore('session-store', {
         // QUESTION
         getQuestions: (state) => state.questions,
         getCorrectQuestions: (state) => state.correctQuestions,
-        getCorrectQuestionsByUserId: (state) => (userId: string) => state.correctQuestions?.find(q => q.userId === userId)?.data,
-        getMyCorrectQuestion: (state) => state.correctQuestions?.find(q => q.userId === state.questionsUserId)?.data,
+        getCorrectQuestionsByUserId: (state) => (userId: string) => state?.correctQuestions?.find(q => q?.userId === userId)?.data,
+        getMyCorrectQuestion: (state) => state.correctQuestions?.find(q => q?.userId === state?.questionsUserId)?.data,
 
 
 
@@ -207,14 +207,16 @@ export const useSessionStore = defineStore('session-store', {
 
                         break;
                     case 'Question':
-                        // await this.fetchCorrectQuestions()
                         const userQuestions = this.getSlideData()
                         if (userQuestions){
                             this.questions = [...userQuestions]
                         }
                         else {
+                            // console.log(this.getCurrentSlide?.questions)
                             this.questions = [...this.getCurrentSlide?.questions]
                         }
+                        await this.fetchCorrectQuestions()
+
                         
                         break;
                 }

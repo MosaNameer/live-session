@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div v-else text="white lg">
-                No One Connected
+                No Solution Yet.
             </div>
 
             <!-- <div v-for="question in store.getCorrectQuestions" :key="`admin-questions-${store?.questionsUserId}-${question.question}-${index}`">
