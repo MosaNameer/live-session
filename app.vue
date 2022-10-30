@@ -314,28 +314,28 @@ body {
 
   /*! Firefox */    
 html{
-    scrollbar-color: #128612 #004E00;
+    scrollbar-color: #171624 #68155d;
     scrollbar-width: 11px;
 }
 
 /*! Other Browser */
 html {
-  --scrollbarBG: #128612;
-  --thumbBG: #004E00;
+  --scrollbarBG: #171624;
+  --thumbBG: #68155d;
 }
 *::-webkit-scrollbar {
   width: 11px;
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: #128612;
+  scrollbar-color: #171624;
 }
 *::-webkit-scrollbar-track {
-  background: #0c3b0c;
+  background: #68155d;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #125812 ;
+  background-color: #68155d ;
   border-radius: 6px;
-  border: 3px solid #128612;
+  border: 3px solid #171624;
 }
 </style>
