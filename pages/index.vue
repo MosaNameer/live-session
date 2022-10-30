@@ -2,6 +2,7 @@
     <NuxtLayout>
         <div flex="~" w="screen" h="screen" items="center" text="white" justify="center" dir="rtl">
             <div w="md" flex="~ col gap-6">
+                <Logo />
                 <span text="center 5xl white dark:white" mb="6">ElitesLiveSessions</span>
                 <UiInput v-model="sessionCookie" label="معرف الجلسة" />
                 <UiInput v-model="nameCookie" label="معرف الدخول" />
