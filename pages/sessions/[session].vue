@@ -15,9 +15,9 @@
                         <Users />
                     </div>
 
-                    <div class="nuxt-content" v-show="selectedTab === 'log'" flex="~ col gap-2">
+                    <div class="nuxt-content" v-show="selectedTab === 'log'" pr="4" h="[calc(100vh-14rem)]" overflow-y="auto" flex="~ col gap-2">
                         <!-- {{ store.getLogs }} -->
-                        <div v-for="(log, index) in store.getLogs" :key="index + log?.timestamp" flex="~" justify="between">
+                        <div v-for="(log, index) in store.getLogs" :key="log?.timestamp" flex="~" justify="between">
                             <div flex="~ gap-2">
                                 <span>{{ index + 1 }}.</span>
                                 <span>{{ log?.title }}</span>
@@ -27,7 +27,7 @@
                     </div>
 
 
-                    <div v-if="content" v-show="selectedTab == null" overflow="y-auto" mb="30">
+                    <div v-if="content" v-show="selectedTab == null" overflow="y-auto" pr="2" mb="30">
                         <ContentRenderer class="nuxt-content prose" :value="content">
                             <template #empty>
                                 <p>No content found.</p>
@@ -46,7 +46,7 @@
                         <div v-if="store.isAdmin" flex="~" justify="between" p="4" bg="tertiary" text="white 2xl">
                             <div flex="~ gap-3">
                                 <UiToolTip text="Full Screen">
-                                    <span text="hover:whitesec" cursor="pointer">
+                                    <span @click="toggleFullscreen()" text="hover:whitesec" cursor="pointer">
                                         <Icon name="ic:twotone-fullscreen" />
                                     </span>
                                 </UiToolTip>
@@ -119,6 +119,8 @@
 </template>
 
 <script setup>
+const { isFullscreen, enter, exit, toggle: toggleFullscreen } = useFullscreen()
+
 // Initalize store
 const store = useSessionStore()
 

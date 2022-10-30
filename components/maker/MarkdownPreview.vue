@@ -1,7 +1,7 @@
 <template>
-    <div flex="~ col" p="x-8 y-4" border="l secondary" h="full" w="full">
+    <div flex="~ col" p="x-8 y-4" border="l secondary" h="full">
         <span mb="6" text-white>Markdown Preview</span>
-        <div class="nuxt-content" v-html="html"></div>
+        <div class="nuxt-content" h="[calc(100vh-5rem)]" v-html="html" overflow-y="scroll"></div>
     </div>
 </template>
 

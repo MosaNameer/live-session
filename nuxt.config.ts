@@ -43,6 +43,7 @@ export default defineNuxtConfig({
 
     content: {
         // documentDriven: true
+        //watch: false
     },
     unocss: {
         autoImport: true,

@@ -303,5 +303,39 @@ body {
   display: inline-block; width: 1em;
   margin-left: -1em}
 
+.nuxt-content code {
+    color:#d4b2f7;
+    background-color: #1e1b32;
+    border-radius: 5px;
+    padding: 0 5px;
+    /* font-size: 0.8rem; */
+}
   
+
+  /*! Firefox */    
+html{
+    scrollbar-color: #128612 #004E00;
+    scrollbar-width: 11px;
+}
+
+/*! Other Browser */
+html {
+  --scrollbarBG: #128612;
+  --thumbBG: #004E00;
+}
+*::-webkit-scrollbar {
+  width: 11px;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #128612;
+}
+*::-webkit-scrollbar-track {
+  background: #0c3b0c;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #125812 ;
+  border-radius: 6px;
+  border: 3px solid #128612;
+}
 </style>

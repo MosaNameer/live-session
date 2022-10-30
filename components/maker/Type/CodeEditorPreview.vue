@@ -19,7 +19,7 @@ const updatePreview = async () => {
     const scriptEl = document.createElement('script');
     const newContent = document.createRange().createContextualFragment(store.getSelectedSlide?.javascript ?? '');
     scriptEl.append(newContent)
-    preview.body.appendChild(scriptEl);
+    preview?.body?.appendChild(scriptEl);
     preview.close();
 
 }

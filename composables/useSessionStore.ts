@@ -68,7 +68,7 @@ export const useSessionStore = defineStore('session-store', {
 
 
 
-        getLogs: (state) => state.logs?.reverse(),
+        getLogs: (state) => state.logs,
         
     },
 
@@ -347,7 +347,7 @@ export const useSessionStore = defineStore('session-store', {
                     this.selectedTab = data
                     break
                 case 'admin':
-                    this.logs.push(data)
+                    this.logs.unshift(data)
                     break
                 default:
                     console.log('unknown data type', data)
