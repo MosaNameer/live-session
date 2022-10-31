@@ -56,8 +56,8 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 
 
 // WORLD Light
-// const color = 0xFFFFFF;
-// const intensity = 1;
+// const color = 0xd4b2f7;
+// const intensity = 0.25;
 // const light = new THREE.AmbientLight(color, intensity);
 // scene.add(light);
 
@@ -84,9 +84,9 @@ const loader = new SVGLoader();
 loader.load(url, function (data) {
     // const paths = data.paths;
 
-    group.scale.multiplyScalar(0.06);
-    group.position.x = -5;
-    group.position.y = 2;
+    group.scale.multiplyScalar(0.05);
+    group.position.x = -4;
+    group.position.y = 4;
     group.scale.y *= - 1;
 
     // console.log(paths)
@@ -246,6 +246,11 @@ scene.add(sl4);
 const controls = new OrbitControls(camera, renderer.domElement);
 // controls.target.copy(meshKnot.position);
 // controls.enabled = false
+controls.enableZoom = false
+controls.minPolarAngle = Math.PI/2;
+controls.maxPolarAngle = Math.PI/2;
+// controls.enableRotate = false
+controls.enablePan = false
 controls.update();
 
 // const stats = new Stats();
@@ -268,7 +273,7 @@ function animation(time) {
     // group.rotation.z = time / 1000;
 
     // console.log(group.rotation.y % 1.8)
-    
+
     // if (camera.position.z <= 15){
     //     camera.position.z += 0.1;
     //     // camera.rotation.y += 0.01;
