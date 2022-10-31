@@ -1,17 +1,17 @@
 <template>
     <NuxtLayout>
         <div flex="~" w="screen" h="screen" items="center" text="white" justify="center" dir="rtl">
-            <div w="md" flex="~ col gap-6">
+            <div w="md" items-center flex="~ col gap-6">
                 <Logo />
-                <span text="center 5xl white dark:white" mb="6">ElitesLiveSessions</span>
-                <UiInput v-model="sessionCookie" label="معرف الجلسة" />
-                <UiInput v-model="nameCookie" label="معرف الدخول" />
-                <UiButton @click="join()" mt="4">دخول</UiButton>
-                <span v-if="error" text="center sm errorOp dark:error" mt="4">{{ error }}</span>
+                <!-- <span text="center 5xl white dark:white" mb="6">ElitesLiveSessions</span> -->
+                <UiInput w="full" v-model="sessionCookie" label="معرف الجلسة" />
+                <UiInput w="full" v-model="nameCookie" label="معرف الدخول" />
+                <UiButton w="full" @click="join()" mt="4">دخول</UiButton>
+                <span w="full" v-if="error" text="center sm errorOp dark:error" mt="4">{{ error }}</span>
 
                 <div h="1px" w="full" bg="secondary dark:secondaryOp" my="4"></div>
 
-                <UiButton to="/new-session" mt="4">انشاء جلسة جديدة</UiButton>
+                <UiButton w="full" to="/new-session" mt="4">انشاء جلسة جديدة</UiButton>
             </div>
         </div>
     </NuxtLayout>
