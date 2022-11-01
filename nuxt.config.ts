@@ -3,6 +3,16 @@ export default defineNuxtConfig({
 
     ssr: false,
 
+    content: {
+        watch: {
+          ws: {
+            hostname: process.env.SOCKET_URL,
+            port: 4000,
+            showUrl: true
+          }
+        }
+    },
+
     modules: [
         'nuxt-icon',
         '@unocss/nuxt',
