@@ -43,6 +43,7 @@ import mermaid from 'mermaid'
 
 onMounted(() => {
     mermaid.init({
+        background: "#333",
         darkMode: true
     }, '.mermaid');
 })
