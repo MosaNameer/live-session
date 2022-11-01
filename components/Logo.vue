@@ -9,6 +9,7 @@ import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 import Stats from 'three/addons/libs/stats.module.js';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 
 const sceneRef = ref(null);
@@ -89,70 +90,6 @@ loader.load(url, function (data) {
     group.position.y = 4;
     group.scale.y *= - 1;
 
-    // console.log(paths)
-    // for (let i = 0; i < paths.length; i++) {
-    //     const path = paths[i];
-
-    //     // const fillColor = path.userData.style.fill;
-    //     if (guiData.drawFillShapes) {
-
-    //         const material = new THREE.MeshBasicMaterial({
-    //             color: new THREE.Color(0x2C2657),
-    //             opacity: path.userData.style.fillOpacity,
-    //             transparent: true,
-    //             side: THREE.DoubleSide,
-    //             depthWrite: false,
-    //             wireframe: guiData.fillShapesWireframe
-    //         });
-
-    //         const shapes = SVGLoader.createShapes(path);
-
-    //         for (let j = 0; j < shapes.length; j++) {
-
-    //             const shape = shapes[j];
-
-    //             const geometry = new THREE.ShapeGeometry(shape);
-    //             const mesh = new THREE.Mesh(geometry, material);
-
-    //             group.add(mesh);
-
-    //         }
-
-    //     }
-
-    //     const strokeColor = path.userData.style.stroke;
-
-    //     if (guiData.drawStrokes && strokeColor !== undefined && strokeColor !== 'none') {
-
-    //         const material = new THREE.MeshBasicMaterial({
-    //             color: new THREE.Color().setStyle(strokeColor).convertSRGBToLinear(),
-    //             opacity: path.userData.style.strokeOpacity,
-    //             transparent: true,
-    //             side: THREE.DoubleSide,
-    //             depthWrite: false,
-    //             wireframe: guiData.strokesWireframe
-    //         });
-
-    //         for (let j = 0, jl = path.subPaths.length; j < jl; j++) {
-
-    //             const subPath = path.subPaths[j];
-
-    //             const geometry = SVGLoader.pointsToStroke(subPath.getPoints(), path.userData.style);
-
-    //             if (geometry) {
-
-    //                 const mesh = new THREE.Mesh(geometry, material);
-
-    //                 group.add(mesh);
-
-    //             }
-
-    //         }
-
-    //     }
-
-    // }
-
 
     // const material = new THREE.MeshNormalMaterial();
     const material = new THREE.MeshStandardMaterial({
@@ -176,8 +113,11 @@ loader.load(url, function (data) {
                 bevelSegments: 1
             });
 
+            const geometry2 = new BufferGeometryUtils.mergeVertices(geometry);
+            geometry2.computeVertexNormals();
+            
             // Create a mesh and add it to the group
-            const mesh = new THREE.Mesh(geometry, material);
+            const mesh = new THREE.Mesh(geometry2, material);
 
             group.add(mesh);
         });
@@ -247,8 +187,8 @@ const controls = new OrbitControls(camera, renderer.domElement);
 // controls.target.copy(meshKnot.position);
 // controls.enabled = false
 controls.enableZoom = false
-controls.minPolarAngle = Math.PI/2;
-controls.maxPolarAngle = Math.PI/2;
+controls.minPolarAngle = Math.PI / 2;
+controls.maxPolarAngle = Math.PI / 2;
 // controls.enableRotate = false
 controls.enablePan = false
 controls.update();
