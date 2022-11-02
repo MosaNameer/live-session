@@ -9,15 +9,15 @@
       }"
       >
         <!-- Header -->
-        <div flex="~ gap-4" place="items-center" justify="between" bg="white dark:black opacity-80 dark:opacity-80" h="50px" p="y-3 x-8" text="lg" font="medium" class="backdrop-blur-[5px] opacity-90 border-rounded-t-[10px]">
+        <!-- <div flex="~ gap-4" place="items-center" justify="between" bg="white dark:black opacity-80 dark:opacity-80" h="50px" p="y-3 x-8" text="lg" font="medium" class="backdrop-blur-[5px] opacity-90 border-rounded-t-[10px]">
           <IconClose @click="$emit('cancel')" w="4" h="4" cursor="pointer" rounded="full" text="primaryOp dark:primary"></IconClose>
           <div flex="grow" text="xl primaryOp dark:primary right">
             <slot name="title"></slot>
           </div>
-        </div>
+        </div> -->
 
         <!-- Content -->
-        <div flex="grow" p="t-6 b-8 x-8" text="primaryOp dark:primary" overflow="y-auto" rounded="b-lg" bg="white dark:black">
+        <div flex="grow" p="t-6 b-8 x-8" text="whitesec" overflow="y-auto" bg="primary" border="4 secondary">
           <slot></slot>
         </div>
 

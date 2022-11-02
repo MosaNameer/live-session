@@ -262,6 +262,7 @@ monaco.editor.defineTheme("custom-theme", {
   }
 })
 monaco.editor.setTheme("custom-theme")
+
 </script>
 
 <style>
