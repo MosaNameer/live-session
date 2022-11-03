@@ -56,6 +56,7 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 
 
 
+
 // WORLD Light
 // const color = 0xd4b2f7;
 // const intensity = 0.25;
@@ -93,7 +94,7 @@ loader.load(url, function (data) {
 
     // const material = new THREE.MeshNormalMaterial();
     const material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0xFFFFFF),
+        color: new THREE.Color(0x404040),
     });
 
     // Loop through all of the parsed paths
@@ -115,7 +116,7 @@ loader.load(url, function (data) {
 
             const geometry2 = new BufferGeometryUtils.mergeVertices(geometry);
             geometry2.computeVertexNormals();
-            
+
             // Create a mesh and add it to the group
             const mesh = new THREE.Mesh(geometry2, material);
 
@@ -137,6 +138,9 @@ loader.load(url, function (data) {
     });
 
     scene.add(group);
+
+
+
 
     animation();
 
@@ -165,22 +169,16 @@ const API = {
 };
 
 
-const spotLight = new THREE.SpotLight(0xffffff);
-spotLight.position.set(-20, -5, 10);
+const spotLight = new THREE.SpotLight(0x1e1d24);
+spotLight.position.set(-20, -10, 5);
 scene.add(spotLight);
 
-const sl2 = new THREE.SpotLight(0x2C2657);
-sl2.position.set(20, -5, 10);
-scene.add(sl2);
-
-const sl3 = new THREE.SpotLight(0xFFFFFF);
-sl3.position.set(0, 10, 0);
-scene.add(sl3);
 
 
-const sl4 = new THREE.SpotLight(0x0F0E17);
-sl4.position.set(0, 10, -10);
+const sl4 = new THREE.PointLight(0x1e1d24, 0.70, 70);
+sl4.position.set(0, -10, -50);
 scene.add(sl4);
+
 
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -200,7 +198,7 @@ controls.update();
 
 
 
-
+var mouse = new THREE.Vector2();
 // camera.position.set(0, 0, 5);
 function animation(time) {
 
@@ -214,12 +212,35 @@ function animation(time) {
 
     // console.log(group.rotation.y % 1.8)
 
-    // if (camera.position.z <= 15){
-    //     camera.position.z += 0.1;
-    //     // camera.rotation.y += 0.01;
+    // if (spotLight.position.x <= 25){
+    //     spotLight.position.x += 0.5;
     // }
 
 
+
+    // spotLight2.position.x = Math.cos(time / 1000) * 25;
+    // console.log(spotLight.position.x, spotLight.position.y)
+    
+    
+    
+    spotLight.position.x = mouse.x * 0.040
+    
+    // const far = 100
+    // const near = 20
+    // if (mouse.x <= far && mouse.x >= near) {
+    //     spotLight.position.x =  mouse.x * 0.1;
+    // } else if (mouse.x > far) {
+    //     spotLight.position.x = far - 5;
+    // } else if (mouse.x < near) {
+    //     spotLight.position.x = -near;
+    // }
+    // spotLight.position.x = mouse.x
+    // spotLight.position.y = -5 + (mouse.y * 5)
+    // console.log(spotLight.position.x, spotLight.position.y)
+
+
+    // console.log(mouse.x, mouse.y)
+    window.requestAnimationFrame(render);
 
 
     renderer.render(scene, camera);
@@ -237,10 +258,69 @@ function animation(time) {
 
 onMounted(() => {
     sceneRef.value.appendChild(renderer.domElement)
+    // sceneRef.value.addEventListener('mousemove', onMouseMove, false);
+    window.addEventListener('mousemove', onMouseMove, false);
+
     // sceneRef.value.appendChild(stats.dom)
 
 
 
+    window.onresize = function () {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth / 4, window.innerHeight / 4);
+    }
+
 });
+
+
+var raycaster = new THREE.Raycaster();
+
+function offset(el) {
+  const box = el.getBoundingClientRect();
+  const docElem = document.documentElement;
+  return {
+    top: box.top + window.pageYOffset - docElem.clientTop,
+    left: box.left + window.pageXOffset - docElem.clientLeft
+  };
+}
+function calculateDistance(elem, mouseX, mouseY) {
+    return Math.floor(Math.sqrt(Math.pow(mouseX - (offset(elem).left + (elem.getBoundingClientRect().width / 2)), 2) - elem.getBoundingClientRect().width / 2 + Math.pow(mouseY - (offset(elem).top + (elem.getBoundingClientRect().height / 2)), 2)) - elem.getBoundingClientRect().height / 2);
+}
+
+function onMouseMove(event) {
+    // calculate mouse position in normalized device coordinates 
+    // (-1 to +1) for both components 
+
+    // mouse.x = (event.clientX / (window.innerWidth));
+    // mouse.y = - (event.clientY / (window.innerHeight));
+    const mX = event.pageX;
+    const mY = event.pageY;
+    let distance = calculateDistance(sceneRef.value, mX, mY);
+    if (distance > 15)
+        mouse.x = distance
+        // mouse.x = (mX / (window.innerWidth)) * distance;
+        // mouse.y = - (mY / (window.innerHeight)) * distance;
+    else {
+        distance = 15
+    }
+
+}
+
+function render() {
+    // update the picking ray with the camera and mouse position
+    raycaster.setFromCamera(mouse, camera);
+    // calculate objects intersecting the picking ray 
+    var intersects = raycaster.intersectObjects(scene.children);
+    // console.log(scene.children)
+
+    for (var i = 0; i < intersects.length; i++) {
+        // objects
+
+        // intersects[i].object.material.color.set(0xff0000);
+    }
+
+    renderer.render(scene, camera);
+}
 
 </script>
