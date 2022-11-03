@@ -13,7 +13,9 @@ export default defineNuxtConfig({
         }
     },
 
+
     modules: [
+        '@nuxtjs/strapi',
         'nuxt-icon',
         '@unocss/nuxt',
         '@vueuse/nuxt',
@@ -48,7 +50,7 @@ export default defineNuxtConfig({
                 driver: 'fs',
                 base: './data'
             }
-        }
+        },
     },
 
     content: {

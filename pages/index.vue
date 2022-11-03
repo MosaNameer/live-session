@@ -42,4 +42,8 @@ const join = async () => {
 }
 
 $fetch('/api/compile/')
+
+
+const socket = useSocket()
+console.log(socket.emit('session:join', '123'))
 </script>
