@@ -1,5 +1,5 @@
 <template>
-    <div h="screen" w="screen" flex="~ col gap-4" justify-center items-center>
+    <div h="screen" w="screen" flex="~ col gap-4" bg-primary justify-center items-center>
         <div flex justify-between w-4xl items-end>
             <span text-white text-6xl font-bold>Lesson Maker</span>
             <div flex gap-2 items-end>

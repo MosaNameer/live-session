@@ -1,5 +1,5 @@
 <template>
-    <div flex="~" w="screen" h="screen">
+    <div flex="~" w="screen" h="screen" bg-primary>
         <!-- Left -->
         <div flex="~ basis-1/2 gap-4" p="4">
             <!-- SLIDES NAVIGATION -->
