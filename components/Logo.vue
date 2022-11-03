@@ -94,7 +94,7 @@ loader.load(url, function (data) {
 
     // const material = new THREE.MeshNormalMaterial();
     const material = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0x404040),
+        color: new THREE.Color(0x6e6e6e),
     });
 
     // Loop through all of the parsed paths
