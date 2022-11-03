@@ -3,7 +3,9 @@
         <Transition>
             <div v-if="!isLoading" h="full" flex="~ col">
                 <!-- Tabs -->
-                <div flex="grow">
+                <div :style="{
+                    height: `${dividerPosition}%`
+                }">
                     <UiTabGroup h="full" :tabs="['html', 'css', 'js']" :selected="store.selectedTab" @selected="store.sendSelectedTab($event)">
                         <template #tab-1>
                             <MonacoEditor w="full" h="full" @keyup="sendCode($event)" v-model="store.code.html" lang="html" :options="{ fontSize: '20px', readOnly: !store.isAdmin && store.isReadOnly, minimap: { enabled: false } }" />
@@ -18,12 +20,12 @@
                         </template>
                     </UiTabGroup>
                 </div>
-
-                <div position="relative" flex="basis-1/2" bg="primary">
-                    <div class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" top="-1.5" left="0" position="absolute">
-                        <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
-                    </div>
-
+                <div position="relative" bg="primary" :style="{
+                                                                            height: `${100 - dividerPosition}%`
+                                                                        }">
+                                                                                        <div @mousedown="startDragging()" class="opacity-0 hover:opacity-100" transition="~ duration-100 ease-in-out" flex="~" items="center" justify="center" h="3" bg="secondaryOp dark:secondary" cursor="n-resize" w="full" :top="dividerPosition" absolute left="0">
+                    <span rounded="full" w="2" h="2" bg="tertiary dark:tertiaryOp"></span>
+                </div>
                     <iframe overflow-scroll h="full" w="full" ref="previewRef" border="0" bg-white></iframe>
                 </div>
             </div>
@@ -39,7 +41,9 @@
 const store = useSessionStore()
 
 const isLoading = ref(true)
-
+const dividerPosition = ref(50)
+const { x, y, sourceType } = useMouse()
+const { width, height } = useWindowSize()
 // Preview Panel Reference
 const previewRef = ref(null)
 
@@ -87,6 +91,23 @@ onMounted(() => {
         updatePreview()
     }, 1250)
 })
+
+function handleDragging () {
+    let percentage = (y.value / height.value) * 100
+    if (percentage >= 10 && percentage <= 90) {
+        dividerPosition.value = percentage.toFixed(2)
+    }
+    document.addEventListener.call(window, "mouseup", ()=> {
+        document.removeEventListener.call(window, "mousemove", handleDragging)
+        document.removeEventListener.call(window, "mouseup", handleDragging)
+    });
+}
+
+function startDragging () {
+    document.addEventListener.call(window, "mousemove", handleDragging);
+}
+
+
 </script>
 
 <style scoped>

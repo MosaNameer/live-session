@@ -254,9 +254,9 @@ monaco.editor.defineTheme("custom-theme", {
   ],
   "colors": {
     "editor.foreground": "#FFFFFF",
-    "editor.background": "#0F0E17",
-    "editor.selectionBackground": "#211429",
-    "editor.lineHighlightBackground": "#211429",
+    "editor.background": "#0E0E0E",
+    "editor.selectionBackground": "#1E1D24",
+    "editor.lineHighlightBackground": "#1E1D24",
     "editorCursor.foreground": "#FFFFFF",
     "editorWhitespace.foreground": "#404F7D"
   }
@@ -267,7 +267,7 @@ monaco.editor.setTheme("custom-theme")
 <style>
 
 body {
-  background: #0F0E17;
+  background: #1E1D24;
 }
 .page-enter-active,
 .page-leave-active {
@@ -294,12 +294,12 @@ body {
 }
 
 .nuxt-content  ul {list-style: none}
-.nuxt-content  ul li::before {content: "-"; color: rgb(197, 83, 207);
+.nuxt-content  ul li::before {content: "-"; color: rgb(175, 175, 175);
   display: inline-block; width: 1em;
   margin-left: -1em}
 
 .nuxt-content ol {list-style: none; counter-reset: list-item}
-.nuxt-content ol li::before {content: counter(list-item) '.'; color: rgb(197, 83, 207);
+.nuxt-content ol li::before {content: counter(list-item) '.'; color: rgb(175, 175, 175);
   display: inline-block; width: 1em;
   margin-left: -1em}
 
@@ -314,28 +314,28 @@ body {
 
   /*! Firefox */    
 html{
-    scrollbar-color: #171624 #68155d;
+    scrollbar-color: #292929 rgb(175, 175, 175);
     scrollbar-width: 11px;
 }
 
 /*! Other Browser */
 html {
-  --scrollbarBG: #171624;
-  --thumbBG: #68155d;
+  --scrollbarBG: #292929;
+  --thumbBG: rgb(175, 175, 175);
 }
 *::-webkit-scrollbar {
   width: 11px;
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: #171624;
+  scrollbar-color: #292929;
 }
 *::-webkit-scrollbar-track {
-  background: #68155d;
+  background: rgb(175, 175, 175);
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #68155d ;
+  background-color: rgb(175, 175, 175) ;
   border-radius: 6px;
-  border: 3px solid #171624;
+  border: 3px solid #292929;
 }
 </style>

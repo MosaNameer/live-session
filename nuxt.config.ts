@@ -89,25 +89,25 @@ export default defineNuxtConfig({
         theme: {
             colors: {
                 "whitesec": {
-                    "DEFAULT": "#d4b2f7"
+                    "DEFAULT": "#fdfdfd"
                 },
                 "primary": {
-                    "DEFAULT": "#0F0E17"
+                    "DEFAULT": "#0E0E0E"
                 },
                 "primaryOp": {
-                    "DEFAULT": "#0F0E17"
+                    "DEFAULT": "#0E0E0E"
                 },
                 "secondary": {
-                    "DEFAULT": "#2C2657"
+                    "DEFAULT": "#1E1D24"
                 },
                 "secondaryOp": {
-                    "DEFAULT": "#2C2657"
+                    "DEFAULT": "#1E1D24"
                 },
                 "tertiary": {
-                    "DEFAULT": "#120B16"
+                    "DEFAULT": "#0C0C0C"
                 },
                 "tertiaryOp": {
-                    "DEFAULT": "#120B16"
+                    "DEFAULT": "#0C0C0C"
                 },
                 "success": {
                     "DEFAULT": "#43F580"
