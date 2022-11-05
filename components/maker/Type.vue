@@ -20,7 +20,7 @@
 
 <script setup>
 const store = useMaker()
-const types = ['CodeEditor', 'Question']
+const types = ['CodeEditor', 'Question', 'JustSlide']
 
 watch(() => store.getSelectedSlide?.type, (_type) => {
     store.updateSlideAttribute('type', _type)
