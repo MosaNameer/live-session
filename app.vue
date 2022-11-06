@@ -382,7 +382,7 @@ html {
 
   code {
     background: #1f1f1f;
-    color: rgb(235, 233, 166);
+    color: rgb(163, 163, 163);
     padding: 2.5px 5px;
     border-radius: 6px;
     font-size: 1em;
@@ -401,7 +401,7 @@ html {
 
   a {
     text-decoration: none;
-    color: #5a81a0;
+    color: #3f5a70;
   }
 
   blockquote {
@@ -418,5 +418,56 @@ html {
   blockquote cite {
     font-style: normal;
   }
+  details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color:#8d8d8d;
+    background-color: #313131;
+    padding: 10px 10px 0;
+    margin: 1em 0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+
+  details[open] {
+    padding: 10px;
+  }
+
+  details > :last-child {
+    margin-bottom: 0;
+  }
+
+  details[open] summary {
+    margin-bottom: 10px;
+  }
+  summary {
+    display: list-item;
+    background-color: #8d8d8d;
+    color:#313131;
+    padding: 10px;
+    margin: -10px -10px 0;
+    cursor: pointer;
+    outline: none;
+  }
+
+  summary:hover{
+    text-decoration: underline;
+  }
+
+  details > :not(summary) {
+    margin-top: 0;
+  }
+
+  summary::-webkit-details-marker {
+    color: #363636;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #dbdbdb;
+  }
+
 }
 </style>
