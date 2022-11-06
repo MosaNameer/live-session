@@ -382,7 +382,7 @@ html {
 
   code {
     background: #1f1f1f;
-    color: rgb(226, 226, 226);
+    color: rgb(235, 233, 166);
     padding: 2.5px 5px;
     border-radius: 6px;
     font-size: 1em;
