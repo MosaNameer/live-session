@@ -324,9 +324,8 @@ html {
   background: rgb(65, 65, 65);
 }
 *::-webkit-scrollbar-thumb {
-  background-color: rgb(65, 65, 65) ;
-  border-radius: 6px;
-  border: 3px solid #292929;
+  background-color: #292929;
+  // border: 3px solid #292929;
 }
 
 .nuxt-content {
