@@ -403,5 +403,20 @@ html {
     text-decoration: none;
     color: #5a81a0;
   }
+
+  blockquote {
+    border-left: 4px solid #1f1f1f;
+    margin: 1.5em 0;
+    padding: 0.5em 1em;
+    font-style: italic;
+  }
+  blockquote > footer {
+    font-style: normal;
+    border: 0;
+  }
+
+  blockquote cite {
+    font-style: normal;
+  }
 }
 </style>
