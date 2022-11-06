@@ -7,7 +7,10 @@ export default defineEventHandler(async (event) => {
     const contentPath = '../../content'
     const { file } = await useBody(event)
 
-    var contents = fs.readFileSync(fileURLToPath(new URL(`${contentPath}/${file}`, import.meta.url)), 'utf8')
-    
-    return contents.split('---').pop()
+    var contents: string[] | string = fs.readFileSync(fileURLToPath(new URL(`${contentPath}/${file}`, import.meta.url)), 'utf8')
+    contents = contents.split('---')
+    contents.shift()
+    contents.shift()
+
+    return contents.join('---')
 })
