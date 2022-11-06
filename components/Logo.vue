@@ -224,6 +224,9 @@ function animation(time) {
     
     
     spotLight.position.x = mouse.x * 0.040
+    sl4.position.x = mouse.x * 0.040
+
+    
     
     // const far = 100
     // const near = 20
