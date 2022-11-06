@@ -10,6 +10,9 @@ export default defineNuxtConfig({
             port: 4000,
             showUrl: true
           }
+        },
+        highlight: {      // Theme used in all color schemes
+            theme: 'github-dark'
         }
     },
 
