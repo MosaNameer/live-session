@@ -304,14 +304,14 @@ body {
 
   /*! Firefox */    
 html{
-    scrollbar-color: #292929 rgb(175, 175, 175);
+    scrollbar-color: #292929 rgb(65, 65, 65);
     scrollbar-width: 11px;
 }
 
 /*! Other Browser */
 html {
   --scrollbarBG: #292929;
-  --thumbBG: rgb(175, 175, 175);
+  --thumbBG: rgb(65, 65, 65);
 }
 *::-webkit-scrollbar {
   width: 11px;
@@ -321,10 +321,10 @@ html {
   scrollbar-color: #292929;
 }
 *::-webkit-scrollbar-track {
-  background: rgb(175, 175, 175);
+  background: rgb(65, 65, 65);
 }
 *::-webkit-scrollbar-thumb {
-  background-color: rgb(175, 175, 175) ;
+  background-color: rgb(65, 65, 65) ;
   border-radius: 6px;
   border: 3px solid #292929;
 }
@@ -335,9 +335,10 @@ html {
     color:white;
   }
   span, p {
-    color:#d4b2f7;
+    color:#cecece;
   }
   table {
+    color:#cecece;
     border-collapse: collapse;
     margin-bottom: 10px;
     width: 100%;
