@@ -1,7 +1,7 @@
 <template>
     <div flex="~ col" p="x-8 y-4" border="l secondary" h="full">
         <span mb="6" text-white>Markdown Preview</span>
-        <div class="nuxt-content prose" max-w="90ch" h="[calc(100vh-5rem)]" overflow-y="auto">
+        <div class="nuxt-content prose" max-w="89ch" pr="8" h="[calc(100vh-5rem)]" overflow-y="auto">
             <RenderHtml :html="html" />
         </div>
     </div>
@@ -11,6 +11,8 @@
 import { marked } from 'marked';
 const store = useMaker()
 const html = ref(null)
+
+
 
 watch(() => store.getSlideMarkdown, (markdown) => {
     html.value = markdown ? marked.parse(markdown) : '<div></div>';
