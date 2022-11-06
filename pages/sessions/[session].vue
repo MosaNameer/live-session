@@ -1,7 +1,87 @@
 <template>
     <div>
         <Suspense>
-            <NuxtLayout name="two-sections">
+            <NuxtLayout v-if="store.getCurrentSlide?.type == 'JustSlide'">
+                <div flex="~ col" w="full" p="4">
+                    <span text="lg whitesec dark:whitesec">{{ store.getCurrentSlide?.chapter }}</span>
+                    <span text="xl white dark:white" mb="6">{{ store.getCurrentSlide?.title }}</span>
+
+                    <!-- CONTENT -->
+                    <div class="nuxt-content" v-show="selectedTab === 'settings'">
+                        Settings
+                    </div>
+
+                    <div class="nuxt-content" v-show="selectedTab === 'users'">
+                        <Users />
+                    </div>
+
+                    <div class="nuxt-content" v-show="selectedTab === 'log'" pr="4" h="[calc(100vh-14rem)]" overflow-y="auto" flex="~ col gap-2">
+                        <!-- {{ store.getLogs }} -->
+                        <div v-for="(log, index) in store.getLogs" :key="log?.timestamp" flex="~" justify="between">
+                            <div flex="~ gap-2">
+                                <span>{{ index + 1 }}.</span>
+                                <span>{{ log?.title }}</span>
+                            </div>
+                            <span>{{ new Date(log?.timestamp)?.toLocaleTimeString("en-US") }}</span>
+                        </div>
+                    </div>
+
+
+                    <div v-if="content" v-show="selectedTab == null" overflow="y-auto" pr="2" mb="30">
+                        <ContentRenderer class="nuxt-content prose" :value="content">
+                            <template #empty>
+                                <p>No content found.</p>
+                            </template>
+                        </ContentRenderer>
+                    </div>
+
+                    <div flex="~ col" position="absolute" left="0" bottom="0" w="full">
+                        <div flex="~" justify="between" text="white" bg="secondary dark:secondaryOp" p="y-2 x-4">
+                            <span>{{ store.getSession?.id }}</span>
+                            <div flex="~ gap-2">
+                                <span>{{ store.getUsers?.length }}</span>
+                                <Icon name="ic:round-people-alt" />
+                            </div>
+                        </div>
+                        <div v-if="store.isAdmin" flex="~" justify="between" p="4" bg="tertiary" text="white 2xl">
+                            <div flex="~ gap-3">
+                                <UiToolTip text="Full Screen">
+                                    <span @click="toggleFullscreen()" text="hover:whitesec" cursor="pointer">
+                                        <Icon name="ic:twotone-fullscreen" />
+                                    </span>
+                                </UiToolTip>
+                                <UiToolTip text="Settings">
+                                    <span :class="{ 'text-whitesec': selectedTab == 'settings'}" text="hover:whitesec" @click="selectTab('settings')" cursor="pointer">
+                                        <Icon name="ic:baseline-settings" />
+                                    </span>
+                                </UiToolTip>
+                                <UiToolTip text="Users">
+                                    <span :class="{ 'text-whitesec': selectedTab == 'users'}" text="hover:whitesec" @click="selectTab('users')" cursor="pointer">
+                                        <Icon name="ic:round-supervisor-account" />
+                                    </span>
+                                </UiToolTip>
+                                <UiToolTip text="Logs">
+                                    <span :class="{ 'text-whitesec': selectedTab == 'log'}" text="hover:whitesec" @click="selectTab('log')" cursor="pointer">
+                                        <Icon name="typcn:document-text" />
+                                    </span>
+                                </UiToolTip>
+
+
+                            </div>
+                            <div flex="~ gap-6">
+                                <span text="hover:whitesec" :class="{ 'text-error': store.hasNextSlide }" @click="store.nextSlide()" cursor="pointer">
+                                    <Icon name="ic:baseline-arrow-circle-left" />
+                                </span>
+                                <span text="hover:whitesec" :class="{ 'text-error': store.hasPrevSlide }" @click="store.prevSlide()" cursor="pointer">
+                                    <Icon name="ic:baseline-arrow-circle-right" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </NuxtLayout>
+
+            <NuxtLayout v-else name="two-sections">
                 <div flex="~ col" w="full" p="4" position="relative">
                     <span text="lg whitesec dark:whitesec">{{ store.getCurrentSlide?.chapter }}</span>
                     <span text="xl white dark:white" mb="6">{{ store.getCurrentSlide?.title }}</span>
@@ -153,6 +233,16 @@ const selectTab = (tab) => {
     if (selectedTab.value == tab) selectedTab.value = null
     else selectedTab.value = tab
 }
+
+onKeyStroke('ArrowLeft', (e) => {
+  e.preventDefault()
+  store.nextSlide()
+})
+
+onKeyStroke('ArrowRight', (e) => {
+  e.preventDefault()
+  store.prevSlide()
+})
 </script>
 
 <style scoped>

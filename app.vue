@@ -305,8 +305,8 @@ body {
   margin-left: -1em}
 
 .nuxt-content code {
-    color:#d4b2f7;
-    background-color: #1e1b32;
+    color:#292929;
+    background-color: rgb(175, 175, 175);
     border-radius: 5px;
     padding: 0 5px;
     /* font-size: 0.8rem; */
