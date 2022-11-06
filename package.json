@@ -18,7 +18,9 @@
     "monaco-editor": "^0.34.1",
     "nuxt": "npm:nuxt3@latest",
     "nuxt-icon": "^0.1.7",
-    "nuxt-monaco-editor": "^1.0.6"
+    "nuxt-monaco-editor": "^1.0.6",
+    "sass": "^1.56.0",
+    "sass-loader": "10"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.3",

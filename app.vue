@@ -265,7 +265,8 @@ monaco.editor.setTheme("custom-theme")
 
 </script>
 
-<style>
+
+<style lang="scss">
 
 body {
   background: #1E1D24;
@@ -281,18 +282,6 @@ body {
   transform: translateY(-50px);
 }
 
-.nuxt-content h1 { 
-    color:white;
-}
-.nuxt-content p {
-    color:#d4b2f7;
-}
-.nuxt-content span {
-    color:#d4b2f7;
-}
-.nuxt-content {
-    color:#d4b2f7;
-}
 
 .nuxt-content  ul {list-style: none}
 .nuxt-content  ul li::before {content: "-"; color: rgb(175, 175, 175);
@@ -338,5 +327,81 @@ html {
   background-color: rgb(175, 175, 175) ;
   border-radius: 6px;
   border: 3px solid #292929;
+}
+
+.nuxt-content {
+
+  h1, h2, h3, h4, h5, h6 { 
+    color:white;
+  }
+  span, p {
+    color:#d4b2f7;
+  }
+  table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  table caption {
+    text-align: left;
+  }
+
+  td,
+  th {
+    padding: 6px;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+
+  thead {
+    border-bottom: 1px solid #dbdbdb;
+  }
+
+
+  tfoot {
+    border-top: 1px solid #dbdbdb;
+  }
+
+
+  tbody tr:nth-child(even) {
+    background-color: #1f1f1f;
+  }
+
+
+  tbody tr:nth-child(even) button {
+    background-color: #1f1f1f;
+  }
+
+
+  tbody tr:nth-child(even) button:hover {
+    background-color: #1f1f1f;
+  }
+
+  code {
+    background: #1f1f1f;
+    color: rgb(226, 226, 226);
+    padding: 2.5px 5px;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+
+  a > code,
+  a > strong {
+    color: inherit;
+  }
+
+  pre > code {
+    padding: 10px;
+    display: block;
+    overflow-x: auto;
+  }
+
+  a {
+    text-decoration: none;
+    color: #5a81a0;
+  }
 }
 </style>
