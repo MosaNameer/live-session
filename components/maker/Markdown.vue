@@ -153,7 +153,7 @@
                 </div>
             </UiModal>
         </Teleport>
-        <div z="10" @click="toggleModal()" cursor="pointer" position="absolute" text="whitesec" bottom="7" left="7" flex="~ gap-1" items="center">
+        <div z="10" @click="toggleModal()" cursor="pointer" position="absolute" text="whitesec" bottom="10" left="7" flex="~ gap-1" items="center">
             <Icon size="30" name="ant-design:question-circle-twotone" />
         </div>
     </div>
