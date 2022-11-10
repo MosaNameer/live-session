@@ -1,10 +1,7 @@
-# Lessons
-Is a markdown files (content). Each lesson is a directory which has file for each slide.
+# Live Sessions
+Collaborative Editor
 
+![image](https://user-images.githubusercontent.com/5357529/201081204-c4942253-cb88-41d0-9587-9c13712e8a4f.png)
 
+![image](https://user-images.githubusercontent.com/5357529/201081145-70e3812d-f232-48c3-a86f-8fbb86295e07.png)
 
-# Sessions
-Is a storage file for storing session data which contains:
-1. lesson
-2. slide
-3. adminId
