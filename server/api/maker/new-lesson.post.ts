@@ -6,7 +6,7 @@ import { kebabCase } from 'unkit/string'
 
 export default defineEventHandler(async (event) => {
     const contentPath = '../../content'
-      const { name } = await useBody(event)
+    const { name } = await readBody(event)
     if (!name) {
         throw createError({
             statusCode: 400,

@@ -24,6 +24,9 @@ export const useSessionStore = defineStore('session-store', {
         correctQuestions: [],
         questionsUserId: useCookie('userId')?.value,
 
+        // CANVAS
+        canvas: null,
+
         logs: [],
 
     }),
@@ -66,7 +69,8 @@ export const useSessionStore = defineStore('session-store', {
         getCorrectQuestionsByUserId: (state) => (userId: string) => state?.correctQuestions?.find(q => q?.userId === userId)?.data,
         getMyCorrectQuestion: (state) => state.correctQuestions?.find(q => q?.userId === state?.questionsUserId)?.data,
 
-
+        // CANVAS
+        getCanvas: (state) => state.canvas,
 
         getLogs: (state) => state.logs,
         
@@ -130,7 +134,7 @@ export const useSessionStore = defineStore('session-store', {
         async fetchSlides(){
             this.slides = (await queryContent(this.session?.lesson?.value).where({
                 _type: "markdown"
-            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript', 'questions']).find()).map(s => {
+            }).only(['_path', 'title', 'type', 'chapter', '_dir', 'html', 'css', 'javascript', 'questions', 'canvas']).find()).map(s => {
                 return {
                     ...s,
                     questions: s.questions ? JSON.parse(s.questions) : null
@@ -192,6 +196,9 @@ export const useSessionStore = defineStore('session-store', {
                             this.questions = [...this.getCurrentSlide?.questions]
                         }
                         break;
+                    case 'Canvas':
+                        this.canvas = prodcastedData
+                        break;
                 }
             }
             
@@ -216,8 +223,11 @@ export const useSessionStore = defineStore('session-store', {
                             this.questions = [...this.getCurrentSlide?.questions]
                         }
                         await this.fetchCorrectQuestions()
-
                         
+                        break;
+                    case 'Canvas':
+                        this.canvas = this.getCurrentSlide?.canvas
+                        console.log(this.getCurrentSlide)
                         break;
                 }
             }
@@ -318,6 +328,21 @@ export const useSessionStore = defineStore('session-store', {
 
         },
 
+        // CANVAS
+        async storeCanvas(){
+            const { params: { session } } = useRoute()
+            await $fetch(`/api/session/${session}/store-canvas`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    data: this.canvas
+                })
+            })
+
+            if (this.isProdcast){
+                this.session.prodcastedData = this.canvas
+            }
+        },
+
 
 
         // DATA RECEIVED TRANSLATOR
@@ -346,6 +371,10 @@ export const useSessionStore = defineStore('session-store', {
                 case 'tab-code':
                     this.selectedTab = data
                     break
+                case 'canvas':
+                        this.canvas = data
+                        this.session.prodcastedData = data
+                        break
                 case 'admin':
                     this.logs.unshift(data)
                     break

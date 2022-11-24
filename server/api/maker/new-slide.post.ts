@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default defineEventHandler(async (event) => {
     const contentPath = '../../content'
-    const { lessonPath } = await useBody(event)
+    const { lessonPath } = await readBody(event)
     if (!lessonPath) {
         throw createError({
             statusCode: 400,

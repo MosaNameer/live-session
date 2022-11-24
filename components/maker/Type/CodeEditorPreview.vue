@@ -7,6 +7,7 @@ const store = useMaker()
 
 const previewRef = ref(null)
 
+
 const updatePreview = async () => {
     // Get element of iframe
     const preview = previewRef.value?.contentDocument || previewRef.value?.contentWindow?.document;
@@ -14,13 +15,18 @@ const updatePreview = async () => {
     if (!preview) return false
 
     preview.open();
-    preview.write(`<style>${store.getSelectedSlide?.css ?? ''}</style>${store.getSelectedSlide?.html ?? ''}`);
 
     const scriptEl = document.createElement('script');
     const newContent = document.createRange().createContextualFragment(store.getSelectedSlide?.javascript ?? '');
     scriptEl.append(newContent)
-    preview?.body?.appendChild(scriptEl);
+    // scriptEl.defer = true;
+    preview?.body?.insertBefore(scriptEl, preview?.body?.firstChild);
+
+
+    preview.write(`<style>${store.getSelectedSlide?.css ?? ''}</style>${store.getSelectedSlide?.html ?? ''}`);
     preview.close();
+
+    
 
 }
 

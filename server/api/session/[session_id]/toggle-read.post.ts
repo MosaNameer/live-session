@@ -3,8 +3,8 @@ import { Session } from '../../../../types/session'
 import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
-  const session_id = useCookie(event, 'session');
-  const name = useCookie(event, 'name');
+  const session_id = getCookie(event, 'session');
+  const name = getCookie(event, 'name');
 
 
   if (!session_id) {

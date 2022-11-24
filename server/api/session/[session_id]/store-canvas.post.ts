@@ -18,14 +18,28 @@ export default defineEventHandler(async (event) => {
   }
 
   let sessions = await useStorage().getItem('db:sessions') as Session[]
-  const session = sessions?.find((s: Session) => s.id === session_id)
+  const session = sessions.find((s: Session) => s.id === session_id)
 
-  if (!session) {
-    return []
+  /******** PRODCASTING DATA  **********/
+  const isProdcasting = session.prodcast
+
+  if (isProdcasting) {
+    session.prodcastedData = data
+
+    // send to users
+    state.wss.clients.forEach((ws) => {
+      if (ws.readyState === ws.OPEN && ws.user.session === session_id && ws.user.id !== user_id) {
+        ws.send(SocketData({
+          type: 'canvas',
+          data: data
+        }))
+      }
+    })
   }
+
   /******** SLIDES DATA  **********/
   // Which slide to store data for
-  let slide = session?.slidesData.find((s) => s.slide === session.slide)
+  let slide = session.slidesData.find((s) => s.slide === session.slide)
   if (!slide) {
     // Initiate slide data
     session.slidesData.push({
@@ -53,7 +67,7 @@ export default defineEventHandler(async (event) => {
       ws.send(SocketData({
         type: 'admin',
         data: {
-          title: `User ${name} has updated the questions`,
+          title: `User ${name} has updated the canvas.`,
           timestamp: new Date().valueOf()
         }
       }))
@@ -64,6 +78,6 @@ export default defineEventHandler(async (event) => {
 
 
 
-  console.log('code has been updated')
+  console.log('canvas has been updated')
   return data
 })

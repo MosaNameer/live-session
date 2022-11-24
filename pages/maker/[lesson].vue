@@ -36,6 +36,7 @@
             <MakerMarkdownPreview v-if="store.getSelectedTab == 1" />
             <div h="full" v-if="store.getSelectedTab == 2">
                 <MakerTypeCodeEditorPreview v-if="store.getSelectedSlide?.type == 'CodeEditor'" />
+                <MakerTypeCanvasEditorPreview v-else-if="store.getSelectedSlide?.type == 'Canvas'" />
                 <div v-else>
                     Type Preview
                 </div>

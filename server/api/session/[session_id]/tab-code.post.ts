@@ -3,11 +3,11 @@ import { Session } from '../../../../types/session'
 import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
-  const session_id = useCookie(event, 'session');
-  const user_id = useCookie(event, 'userId');
-  const name = useCookie(event, 'name');
+  const session_id = getCookie(event, 'session');
+  const user_id = getCookie(event, 'userId');
+  const name = getCookie(event, 'name');
 
-  const { data } = await useBody(event)
+  const { data } = await readBody(event)
 
   if (!session_id || !data) {
     throw createError({
