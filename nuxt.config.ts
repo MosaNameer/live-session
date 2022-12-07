@@ -7,7 +7,7 @@ export default defineNuxtConfig({
         watch: {
           ws: {
             hostname: process.env.SOCKET_URL,
-            port: 4000,
+            port: 33333,
             showUrl: true
           }
         },
