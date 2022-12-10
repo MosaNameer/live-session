@@ -185,6 +185,7 @@
                             <Transition>
                                 <TypeCodeEditor v-if="store.getCurrentSlide?.type == 'CodeEditor'" />
                                 <TypeQuestion v-else-if="store.getCurrentSlide?.type == 'Question'" />
+                                <TypeCanvas v-else-if="store.getCurrentSlide?.type == 'Canvas'" />
                             </Transition>
                         </div>
                     </div>

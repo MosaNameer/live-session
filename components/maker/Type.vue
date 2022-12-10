@@ -15,12 +15,13 @@
 
         <MakerTypeCodeEditor flex="grow" v-if="store.getSelectedSlide?.type == 'CodeEditor'" />
         <MakerTypeQuestion flex="grow" v-if="store.getSelectedSlide?.type == 'Question'" />
+        <MakerTypeCanvasEditor flex="grow" v-if="store.getSelectedSlide?.type == 'Canvas'" />
     </div>
 </template>
 
 <script setup>
 const store = useMaker()
-const types = ['CodeEditor', 'Question', 'JustSlide']
+const types = ['CodeEditor', 'Question', 'JustSlide', 'Canvas']
 
 watch(() => store.getSelectedSlide?.type, (_type) => {
     store.updateSlideAttribute('type', _type)

@@ -3,7 +3,7 @@ import { User } from '../../types/user'
 import { H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
-  const { id, adminId, lesson } = await useBody(event)
+  const { id, adminId, lesson } = await readBody(event)
   if (!id || !adminId || !lesson) {
     throw createError({
       statusCode: 400,

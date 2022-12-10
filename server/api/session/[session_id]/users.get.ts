@@ -4,7 +4,7 @@ import { User } from '../../../../types/user'
 import { state } from '../../../shared/api'
 
 export default defineEventHandler(async (event) => {
-  const session_id = useCookie(event, 'session');
+  const session_id = getCookie(event, 'session');
 
   let sessions = await useStorage().getItem('db:sessions') as Session[]
   const session: Session = sessions.find((s: Session) => s.id === session_id)

@@ -5,7 +5,7 @@ import { readdir } from 'fs/promises'
 
 export default defineEventHandler(async (event) => {
     const contentPath = '../../content'
-    const { file, key, value } = await useBody(event)
+    const { file, key, value } = await readBody(event)
 
     const filePath = fileURLToPath(new URL(`${contentPath}/${file}`, import.meta.url))
 
