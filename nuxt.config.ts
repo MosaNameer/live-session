@@ -3,18 +3,18 @@ export default defineNuxtConfig({
 
     ssr: false,
 
-    content: {
-        watch: {
-          ws: {
-            hostname: process.env.SOCKET_URL,
-            port: 33333,
-            showUrl: true
-          }
-        },
-        highlight: {      // Theme used in all color schemes
-            theme: 'github-dark'
-        }
-    },
+    // content: {
+    //     watch: {
+    //       ws: {
+    //         hostname: process.env.SOCKET_URL,
+    //         port: 33333,
+    //         showUrl: true
+    //       }
+    //     },
+    //     highlight: {      // Theme used in all color schemes
+    //         theme: 'github-dark'
+    //     }
+    // },
 
     modules: [
         'nuxt-icon',
@@ -54,10 +54,10 @@ export default defineNuxtConfig({
         }
     },
 
-    content: {
-        // documentDriven: true
-        //watch: false
-    },
+    // content: {
+    //     // documentDriven: true
+    //     //watch: false
+    // },
     unocss: {
         autoImport: true,
         uno: true,
