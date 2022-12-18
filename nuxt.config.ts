@@ -68,16 +68,16 @@ export default defineNuxtConfig({
         webFonts: {
             provider: "google",
             fonts: {
-            sansSerif: ["Tajawal:300,400,500,700"]
+                sansSerif: ["Tajawal:300,400,500,700"]
             }
         },
-    
+
         shortcuts: [],
         rules: [],
 
         preflights: [
             {
-              getCSS: ({ theme }) => `
+                getCSS: ({ theme }) => `
                     * {
                       padding: 0;
                       margin: 0;
@@ -88,7 +88,7 @@ export default defineNuxtConfig({
                     }
                   `
             }
-          ],
+        ],
         theme: {
             colors: {
                 "whitesec": {
@@ -137,6 +137,6 @@ export default defineNuxtConfig({
                     "DEFAULT": "#3393FF"
                 }
             },
-          }
-      },
+        }
+    },
 })

@@ -2,7 +2,7 @@
     <div>
         <div flex justify-between items-center>
             <div flex gap-2 items-center>
-                <Icon height="24" icon="mdi:menu"/>
+                <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#888888" d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
                 <span text="md" font-light>Session Header</span>
             </div>
             <span>sadfsdfs</span>
@@ -12,7 +12,4 @@
 </template>
 
 <script setup>
-import { Icon } from '@iconify/vue';
-
-
 </script>

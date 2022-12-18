@@ -9,7 +9,7 @@
                     {{ index + 1 }}
                 </div>
                 <div @click="store.newSlide()" flex="~" items="center" justify="center" bg="hover:secondary" cursor="pointer" border="~ secondary" h="10" w="10">
-                    <Icon size="25" name="material-symbols:add" />
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#888888" d="M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z"/></svg>
                 </div>
             </div>
 

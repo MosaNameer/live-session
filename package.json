@@ -17,7 +17,6 @@
     "jiti": "^1.16.0",
     "monaco-editor": "^0.34.1",
     "nuxt": "^3.0.0",
-    "nuxt-icon": "^0.1.7",
     "nuxt-monaco-editor": "^1.0.6",
     "sass": "^1.56.0",
     "sass-loader": "10"
